@@ -1,0 +1,111 @@
+
+/* ====== קורא הספר - דפדוף אמיתי בתלת-ממד ====== */
+body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;overflow:hidden;
+ background:radial-gradient(ellipse at 50% 28%,#4a5059,#14161b 74%)}
+.rd-stage{position:relative;width:min(1180px,calc((100vh - 96px)*1.5),calc(100vw - 40px));
+ aspect-ratio:3/2;perspective:2400px;perspective-origin:50% 42%}
+.rd-book{position:absolute;inset:0;transform-style:preserve-3d}
+
+/* הכריכות/הדפים הסטטיים */
+.rd-stage .sheet{position:absolute;top:0;height:100%;width:50%;margin:0;display:none;
+ box-shadow:none;border-radius:0;overflow:hidden;background:#FBF9F5}
+.rd-stage .sheet.rd-r{display:flex;right:0;box-shadow:inset 22px 0 30px -26px rgba(40,30,18,.75)}
+.rd-stage .sheet.rd-l{display:flex;left:0;box-shadow:inset -22px 0 30px -26px rgba(40,30,18,.75)}
+.rd-stage .sheet.rd-cover{display:flex;left:25%;right:25%;width:50%;
+ box-shadow:0 30px 60px rgba(0,0,0,.55)}
+
+/* עובי הספר + השדרה */
+.rd-spine{position:absolute;top:0;bottom:0;left:calc(50% - 5px);width:10px;z-index:24;pointer-events:none;
+ background:linear-gradient(90deg,rgba(30,22,14,.42),rgba(0,0,0,.16) 26%,rgba(255,252,246,.30) 50%,
+ rgba(0,0,0,.16) 74%,rgba(30,22,14,.42))}
+.rd-edge{position:absolute;top:6px;bottom:6px;width:8px;z-index:5;pointer-events:none;border-radius:2px;
+ background:repeating-linear-gradient(180deg,#efe9dd 0 1px,#d9d1c2 1px 2px)}
+.rd-edge.r{right:-8px;box-shadow:3px 0 9px rgba(0,0,0,.4)}
+.rd-edge.l{left:-8px;box-shadow:-3px 0 9px rgba(0,0,0,.4)}
+.rd-stage.is-cover .rd-spine,.rd-stage.is-cover .rd-edge{display:none}
+
+/* הדף המתהפך - שני צדדים אמיתיים */
+.rd-leaf{position:absolute;top:0;height:100%;width:50%;z-index:30;
+ transform-style:preserve-3d;will-change:transform}
+.rd-leaf.next{left:0;transform-origin:100% 50%}
+.rd-leaf.prev{right:0;transform-origin:0% 50%}
+.rd-leaf .fc{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;
+ background:#FBF9F5;display:flex}
+.rd-leaf .fc.b{transform:rotateY(180deg)}
+.rd-leaf .fc>.sheet{position:static;display:flex;width:100%;height:100%;box-shadow:none}
+/* ההצללה שנעה על הדף בזמן ההיפוך */
+.rd-leaf .sh{position:absolute;inset:0;pointer-events:none;opacity:0}
+.rd-leaf.next .fc.f .sh{background:linear-gradient(270deg,rgba(0,0,0,.44),rgba(0,0,0,0) 62%)}
+.rd-leaf.next .fc.b .sh{background:linear-gradient(270deg,rgba(0,0,0,.40),rgba(0,0,0,0) 62%)}
+.rd-leaf.prev .fc.f .sh{background:linear-gradient(90deg,rgba(0,0,0,.44),rgba(0,0,0,0) 62%)}
+.rd-leaf.prev .fc.b .sh{background:linear-gradient(90deg,rgba(0,0,0,.40),rgba(0,0,0,0) 62%)}
+/* הצל שהדף מטיל על העמוד שמתחתיו */
+.rd-cast{position:absolute;top:0;height:100%;width:50%;z-index:20;pointer-events:none;opacity:0}
+.rd-cast.next{right:0;background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,0) 70%)}
+.rd-cast.prev{left:0;background:linear-gradient(270deg,rgba(0,0,0,.5),rgba(0,0,0,0) 70%)}
+
+.rd-ui{position:fixed;bottom:0;right:0;left:0;display:flex;gap:13px;align-items:center;justify-content:center;
+ padding:11px 18px;background:linear-gradient(0deg,rgba(10,12,16,.92),rgba(10,12,16,0));
+ font-family:"Segoe UI",Arial;color:#b9bfcc;font-size:13px;z-index:80}
+.rd-ui button{background:rgba(255,255,255,.07);color:#e6e9f0;border:1px solid rgba(255,255,255,.16);
+ border-radius:9px;padding:8px 17px;font-size:13.5px;cursor:pointer;font-family:inherit;
+ backdrop-filter:blur(6px)}
+.rd-ui button:hover:not(:disabled){background:rgba(255,255,255,.14)}
+.rd-ui button:disabled{opacity:.3;cursor:default}
+.rd-ui .jump{display:flex;gap:6px;align-items:center}
+.rd-ui input[type=number]{width:76px;background:rgba(255,255,255,.06);color:#e6e9f0;
+ border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:8px 10px;font-size:13.5px;
+ font-family:inherit;text-align:center;-moz-appearance:textfield}
+.rd-ui input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.rd-ui input[type=number]::placeholder{color:#7b8296}
+.rd-ui input[type=number]:focus{outline:none;border-color:#7fa6d8;background:rgba(255,255,255,.11)}
+.rd-ui .cnt{min-width:190px;text-align:center;letter-spacing:.4px}
+.rd-hint{position:fixed;top:14px;right:0;left:0;text-align:center;color:#8a90a0;font-size:12.5px;
+ font-family:"Segoe UI",Arial;pointer-events:none;transition:opacity .6s;z-index:80}
+.rd-stage{cursor:grab}.rd-stage.dragging{cursor:grabbing}
+/* מצב מדידה: העמוד נפרס בגודל האמיתי שלו בקורא, אבל בלי להיראות */
+.rd-stage .sheet.rd-measure{display:flex!important;visibility:hidden;left:0;right:auto;z-index:-1}
+/* עמוד ריק שנוסף כדי שכל פרק יתחיל בכפולה חדשה */
+.rd-stage .sheet.blank{background:#FBF9F5}
+
+/* דחיסה נקודתית: פרק שגלש בשורה-שתיים מתכווץ מעט ונכנס בעמוד אחד פחות.
+   רק הפרק הזה, ורק כמה אחוזים - העין לא מבחינה, העמוד הריק נעלם. */
+.sheet.tight .p{line-height:1.58;margin-bottom:7px}
+.sheet.tight .q{margin:12px 0;padding:11px 16px 10px 10px}
+.sheet.tight .box{margin:12px 0;padding:11px 0}
+.sheet.tight .stop{margin:12px 0;line-height:1.5}
+.sheet.tight .close{margin-top:13px;padding-top:13px}
+.sheet.tight .ornament{height:26px;margin:10px 12% 12px}
+.sheet.tight h2{margin-bottom:8px}
+.sheet.tight .deco{margin-bottom:15px}
+
+/* פסקה שנחתכה בין שני עמודים - בלי רווח מיותר בנקודת החיתוך */
+.split-head{margin-bottom:0!important}
+.split-tail{margin-top:0!important;text-indent:0!important}
+
+/* ====== הכריכה ====== */
+.sheet.cover{padding:0;background:
+  radial-gradient(ellipse at 50% 30%,rgba(183,146,87,.16),transparent 62%),
+  linear-gradient(165deg,#36424b 0%,#232c33 46%,#161c21 100%);
+  color:#f4ece0;align-items:stretch;justify-content:stretch;text-align:center}
+.cover .cv-frame{flex:1;margin:26px;border:1px solid rgba(183,146,87,.34);
+  display:flex;align-items:center;justify-content:center;position:relative}
+.cover .cv-frame::before,.cover .cv-frame::after{content:"";position:absolute;
+  left:10px;right:10px;height:1px;background:rgba(183,146,87,.18)}
+.cover .cv-frame::before{top:10px}.cover .cv-frame::after{bottom:10px}
+.cover .cv-in{padding:0 34px;width:100%}
+.cover .cv-kick{font-size:11px;letter-spacing:6px;color:rgba(183,146,87,.85);
+  margin-bottom:26px;font-family:"Segoe UI",Arial}
+.cover h1{font:500 40px/1.28 "Frank Ruhl Libre","Noto Serif Hebrew",David,Georgia,serif;
+  margin:0;letter-spacing:-.5px;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.cover .ornament{margin:20px 18% 18px;height:26px}
+.cover .ornament span{background:linear-gradient(90deg,transparent,rgba(183,146,87,.75))}
+.cover .ornament span:last-child{background:linear-gradient(90deg,rgba(183,146,87,.75),transparent)}
+.cover .ornament i{border-color:rgba(183,146,87,.9)}
+.cover .cv-sub{font:400 17px/1.7 Georgia,serif;color:#d6c8b2;margin:0}
+.cover .cv-tag{font-size:12.5px;line-height:1.85;color:rgba(214,200,178,.62);
+  margin:22px 0 0;font-family:"Segoe UI",Arial;letter-spacing:.6px}
+.cover .cv-foot{margin-top:46px}
+.cover .cv-rule{display:block;width:44px;height:1px;background:rgba(183,146,87,.6);margin:0 auto 14px}
+.cover small{font-size:12.5px;letter-spacing:5px;color:rgba(183,146,87,.92);
+  font-family:"Segoe UI",Arial}
