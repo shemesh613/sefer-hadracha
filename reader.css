@@ -112,17 +112,17 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 
 /* ====== מסך צר: עמוד אחד ברוחב המסך ====== */
 @media (max-width:820px){
-  body.rd{padding:5px 0 46px}
-  .rd-stage{touch-action:manipulation;width:97vw;height:calc(100vh - 58px);height:calc(100dvh - 58px);aspect-ratio:auto;perspective:none}
-  .rd-stage .sheet.txt{padding:14px 13px 8px;--fit:.92}
-  .rd-stage .sheet.txt .p{line-height:1.55;margin-bottom:7px}
-  .rd-stage .sheet.txt h2{font-size:20px;margin-bottom:6px}
-  .rd-stage .sheet.txt .head{margin-bottom:8px}
+  /* עמוד קבוע שמוקטן למסך - בדיוק כמו PDF. */
+  /* הטיפוגרפיה נשארת כשל המחשב, ולכן העימוד זהה. */
+  body.rd{padding:0;overflow:hidden}
+  .rd-stage{touch-action:manipulation;width:520px;height:693px;
+    aspect-ratio:auto;perspective:none;transform-origin:50% 50%}
+  .rd-stage .sheet{width:100%;left:0;right:0}   /* גם הגיליונות הנמדדים - אחרת העימוד נמדד בחצי רוחב */
   .rd-stage .sheet.rd-r{left:0;right:0;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.45)}
   .rd-stage .sheet.rd-cover{left:0;right:0;width:100%}
   .rd-spine,.rd-edge{display:none}
-  .rd-ui{gap:7px;padding:8px 6px;font-size:12px;flex-wrap:wrap}
-  .rd-ui .cnt{min-width:0;font-size:11px;order:-1;width:100%}
+  .rd-ui{gap:7px;padding:7px 6px;font-size:12px;flex-wrap:wrap}
+  .rd-ui .cnt{min-width:0;font-size:11px;order:-1;width:100%;text-align:center}
   .rd-ui .jump{display:none}
-  .rd-ui button{padding:8px 13px;font-size:12.5px}
+  .rd-ui button{padding:7px 12px;font-size:12.5px}
 }

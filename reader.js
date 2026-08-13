@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   const book=document.createElement('div'); book.className='rd-book';
   const ONE=matchMedia('(max-width:820px)').matches;
   if(ONE) document.body.classList.add('one');
+  // מקטינים את העמוד הקבוע כך שייכנס למסך, כמו מציג PDF.
+  function fitPage(){
+    if(!ONE) return;
+    const k=Math.min(innerWidth/528, (innerHeight-64)/701);
+    stage.style.transform='scale('+k.toFixed(4)+')';
+  }
+  if(ONE){
+    fitPage();
+    addEventListener('resize',fitPage);
+    addEventListener('orientationchange',fitPage);
+  }
   pages[0].before(stage); stage.appendChild(book); pages.forEach(p=>book.appendChild(p));
   for(const c of ['rd-edge r','rd-edge l','rd-spine']){
     const d=document.createElement('div'); d.className=c; stage.appendChild(d); }
@@ -161,7 +172,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         let nx=head.nextElementSibling;
         while(nx && nx.classList.contains('continued')){ pages.push(nx); nx=nx.nextElementSibling; }
         if(pages.length<2) continue;
-        if(fillOf(pages[pages.length-1])>=0.62) continue;
+        if(fillOf(pages[pages.length-1])>=0.55) continue;
         const fills=pages.map(fillOf);
         const target=fills.reduce((a,b)=>a+b,0)/pages.length;
         if(target>0.97) continue;              // אין מה לאזן
