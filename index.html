@@ -450,6 +450,12 @@ window.addEventListener('load',()=>{
         seq.splice(at,0,a);
       });
       const s=out.length, T=seq.length;      // s = האינדקס שבו הפרק מתחיל
+      // האיור המפוזר לא יישב צמוד לאיור האחרון של הפרק:
+      // אם הוא נחת בדיוק בעמוד שלפניו, הוא זז עמוד אחורה.
+      const pre=((s+T)%2===0)? T-1 : (T>=2? T-2 : -1);
+      if(pre>=1 && seq[pre] && seq[pre].classList.contains("art")){
+        const a=seq.splice(pre,1)[0]; seq.splice(pre-1,0,a);
+      }
       if((s+T)%2===0)      out.push(...seq,last);                // האיור האחרון בסוף
       else if(T>=2)        out.push(...seq.slice(0,T-1),last,seq[T-1]);
       else               { out.push(blank(),...seq,last); }      // נדיר: פרק בעמוד אחד
