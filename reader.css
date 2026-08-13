@@ -109,3 +109,16 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 .cover .cv-rule{display:block;width:44px;height:1px;background:rgba(183,146,87,.6);margin:0 auto 14px}
 .cover small{font-size:12.5px;letter-spacing:5px;color:rgba(183,146,87,.92);
   font-family:"Segoe UI",Arial}
+
+/* ====== מסך צר: עמוד אחד ברוחב המסך ====== */
+@media (max-width:820px){
+  body.rd{padding:8px 0 58px}
+  .rd-stage{width:min(96vw, calc((100vh - 96px)*0.75));aspect-ratio:3/4;perspective:none}
+  .rd-stage .sheet.rd-r{left:0;right:0;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .rd-stage .sheet.rd-cover{left:0;right:0;width:100%}
+  .rd-spine,.rd-edge{display:none}
+  .rd-ui{gap:7px;padding:8px 6px;font-size:12px;flex-wrap:wrap}
+  .rd-ui .cnt{min-width:0;font-size:11px;order:-1;width:100%}
+  .rd-ui .jump{display:none}
+  .rd-ui button{padding:8px 13px;font-size:12.5px}
+}

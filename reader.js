@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const pages=[...document.querySelectorAll('.sheet')];
   const stage=document.createElement('div'); stage.className='rd-stage';
   const book=document.createElement('div'); book.className='rd-book';
+  const ONE=matchMedia('(max-width:820px)').matches;
+  if(ONE) document.body.classList.add('one');
   pages[0].before(stage); stage.appendChild(book); pages.forEach(p=>book.appendChild(p));
   for(const c of ['rd-edge r','rd-edge l','rd-spine']){
     const d=document.createElement('div'); d.className=c; stage.appendChild(d); }
@@ -204,7 +206,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     PG.forEach(p=>p.classList.remove('rd-r','rd-l','rd-cover','rd-measure'));
     stage.classList.toggle('is-cover',cur===0);
     if(cur===0) PG[0].classList.add('rd-cover');
-    else{ PG[cur].classList.add('rd-r'); if(PG[cur+1]) PG[cur+1].classList.add('rd-l'); }
+    else{ PG[cur].classList.add('rd-r'); if(!ONE && PG[cur+1]) PG[cur+1].classList.add('rd-l'); }
     const N=PG.length, end=cur===0?1:Math.min(cur+2,N);
     ui.querySelector('.cnt').textContent = cur===0 ? 'כריכה · '+N+' עמודים' : 'עמודים '+(cur+1)+'-'+end+' מתוך '+N;
     ui.querySelector('[data-p]').disabled=cur===0||busy;
@@ -255,8 +257,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   function go(dir){
     if(busy) return;
-    const target = dir>0 ? (cur===0?1:cur+2) : (cur<=1?0:cur-2);
+    const st = ONE ? 1 : 2;
+    const target = dir>0 ? (cur===0?1:cur+st) : (cur<=1?0:cur-st);
     if(target===cur) return;
+    if(ONE){ cur=norm(target); render(); return; }   // מעבר מיידי, בלי סיבוב דף
     busy=true; render();
     const leaf=makeLeaf(dir); underlay(dir);
     setAngle(leaf,dir,0);
@@ -278,6 +282,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const r=stage.getBoundingClientRect();
     const left = e.clientX < r.left + r.width/2;
     const dir = left ? 1 : -1;                      // עברית: הדף השמאלי הולך ימינה
+    if(ONE){ go(dir); return; }
     const target = dir>0 ? (cur===0?1:cur+2) : (cur<=1?0:cur-2);
     if(target===cur) return;
     stage.setPointerCapture(e.pointerId); stage.classList.add('dragging');
