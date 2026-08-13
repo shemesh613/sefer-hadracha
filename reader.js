@@ -283,10 +283,19 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---- גרירה: הדף עוקב אחרי העכבר ----
   let drag=null;
-  if(ONE) stage.addEventListener('click',e=>{
-    const r=stage.getBoundingClientRect();
-    go(e.clientX < r.left + r.width/2 ? 1 : -1);
-  });
+  // נגיעה בטלפון: מאזינים על המסמך כולו, כך ששום שכבה שמעל הבמה
+  // לא יכולה לבלוע את הנגיעה. מתעלמים רק מהכפתורים שלמטה.
+  if(ONE){
+    const tap=e=>{
+      if(e.target.closest && e.target.closest('.rd-ui')) return;
+      const r=stage.getBoundingClientRect();
+      const x=(e.clientX!=null)?e.clientX:(e.changedTouches&&e.changedTouches[0].clientX);
+      if(x==null) return;
+      go(x < r.left + r.width/2 ? 1 : -1);
+    };
+    document.addEventListener('click',tap);
+    document.addEventListener('touchend',e=>{ if(e.cancelable){ e.preventDefault(); tap(e); } },{passive:false});
+  }
   stage.addEventListener('pointerdown',e=>{
     if(busy||e.button!==0) return;
     const r=stage.getBoundingClientRect();

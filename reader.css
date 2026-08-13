@@ -112,9 +112,9 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 
 /* ====== מסך צר: עמוד אחד ברוחב המסך ====== */
 @media (max-width:820px){
-  body.rd{padding:8px 0 58px}
-  .rd-stage{touch-action:manipulation;width:97vw;height:calc(100vh - 72px);height:calc(100dvh - 72px);aspect-ratio:auto;perspective:none}
-  .rd-stage .sheet.txt{padding:18px 16px 10px}
+  body.rd{padding:5px 0 46px}
+  .rd-stage{touch-action:manipulation;width:97vw;height:calc(100vh - 58px);height:calc(100dvh - 58px);aspect-ratio:auto;perspective:none}
+  .rd-stage .sheet.txt{padding:14px 13px 8px;--fit:.92}
   .rd-stage .sheet.txt .p{line-height:1.55;margin-bottom:7px}
   .rd-stage .sheet.txt h2{font-size:20px;margin-bottom:6px}
   .rd-stage .sheet.txt .head{margin-bottom:8px}
