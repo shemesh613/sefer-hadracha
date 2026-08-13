@@ -218,30 +218,6 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 .cover .cv-rule{display:block;width:44px;height:1px;background:rgba(183,146,87,.6);margin:0 auto 14px}
 .cover small{font-size:12.5px;letter-spacing:5px;color:rgba(183,146,87,.92);
   font-family:"Segoe UI",Arial}
-
-/* ====== מסך צר: גלילה רציפה ======
-   רשת ביטחון ב-CSS בלבד. עובדת גם אם מנוע הדפדוף לא נטען. */
-@media (max-width:820px) and (pointer:coarse){
-  html{background:#FBF9F5}
-  body,body.rd{display:block!important;overflow:auto!important;height:auto!important;
-    background:#FBF9F5!important;padding:0 0 30px!important;place-items:initial!important}
-  .rd-stage{position:static!important;width:100%!important;height:auto!important;
-    aspect-ratio:auto!important;perspective:none!important;filter:none!important;cursor:auto!important}
-  .rd-book{position:static!important;transform-style:flat!important}
-  .rd-stage .sheet,.sheet{position:static!important;display:block!important;
-    width:100%!important;max-width:100%!important;height:auto!important;min-height:0!important;
-    aspect-ratio:auto!important;margin:0 0 2px!important;box-shadow:none!important;
-    overflow:visible!important;visibility:visible!important}
-  .sheet .fit,.sheet .body,.sheet .head{overflow:visible!important;display:block!important}
-  .txt{padding:26px 20px 14px!important}
-  .fol{display:none!important}
-  .sheet.art{padding:14px 0 22px!important;background:#FBF9F5!important}
-  .sheet.art img{width:100%!important;height:auto!important;object-fit:contain!important}
-  .sheet.cover{min-height:86vh!important}
-  .sheet.section{min-height:34vh!important}
-  .rd-spine,.rd-edge,.rd-leaf,.rd-cast,.rd-hint,.rd-ui{display:none!important}
-  h2{font-size:23px!important}
-}
 </style>
 <script>
 window.addEventListener('load',()=>{
@@ -369,13 +345,6 @@ window.addEventListener('load',()=>{
   let tightened=0;
   function reflow(){
     tightened=0;
-    // איור מפוזר חוזר לסוף הפרק לפני האיחוד, אחרת mergeAfter נעצר בו
-    // והעמודים שאחריו מתייתמים ונמחקים. זה היה הבאג.
-    for(const a of [...book.querySelectorAll(".sheet.art[data-mid]")]){
-      let n=a.nextElementSibling, last=a;
-      while(n && n.classList.contains("continued")){ last=n; n=n.nextElementSibling; }
-      if(last!==a) last.after(a);
-    }
     // א. כל פרק חוזר להיות עמוד אחד ארוך
     for(const s of [...book.querySelectorAll('.sheet.txt')])
       if(!s.classList.contains('continued')) mergeAfter(s);
@@ -395,15 +364,6 @@ window.addEventListener('load',()=>{
         } else tightened++;
       }
     }
-    // פרק ארוך עם שני איורים: השני עובר לאמצע, אחרי שהעימוד כבר נקבע
-    for(const a of [...book.querySelectorAll(".sheet.art[data-mid]")]){
-      let p=a.previousElementSibling;
-      while(p && p.classList.contains("art")) p=p.previousElementSibling;
-      const pg=[];
-      while(p && p.classList.contains("txt")){ pg.unshift(p); p=p.previousElementSibling; }
-      if(pg.length>=4) pg[Math.floor(pg.length/2)].after(a);
-    }
-
     spreads();
     let n=0; PG.forEach(s=>{ if(!s.classList.contains('cover'))n++;
       const f=s.querySelector('.fol'); if(f)f.textContent=n; });
@@ -450,12 +410,6 @@ window.addEventListener('load',()=>{
         seq.splice(at,0,a);
       });
       const s=out.length, T=seq.length;      // s = האינדקס שבו הפרק מתחיל
-      // האיור המפוזר לא יישב צמוד לאיור האחרון של הפרק:
-      // אם הוא נחת בדיוק בעמוד שלפניו, הוא זז עמוד אחורה.
-      const pre=((s+T)%2===0)? T-1 : (T>=2? T-2 : -1);
-      if(pre>=1 && seq[pre] && seq[pre].classList.contains("art")){
-        const a=seq.splice(pre,1)[0]; seq.splice(pre-1,0,a);
-      }
       if((s+T)%2===0)      out.push(...seq,last);                // האיור האחרון בסוף
       else if(T>=2)        out.push(...seq.slice(0,T-1),last,seq[T-1]);
       else               { out.push(blank(),...seq,last); }      // נדיר: פרק בעמוד אחד
