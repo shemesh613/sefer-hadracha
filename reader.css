@@ -115,8 +115,7 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
   /* עמוד קבוע שמוקטן למסך - בדיוק כמו PDF. */
   /* הטיפוגרפיה נשארת כשל המחשב, ולכן העימוד זהה. */
   body.rd{padding:0;overflow:hidden}
-  .rd-stage{touch-action:manipulation;width:520px;height:693px;
-    aspect-ratio:auto;perspective:none;transform-origin:50% 50%}
+  .rd-stage{touch-action:manipulation;position:fixed;top:calc(50% - 22px);left:50%;width:520px;height:693px;aspect-ratio:auto;perspective:none;transform-origin:50% 50%;margin:0}
   .rd-stage .sheet{width:100%;left:0;right:0}   /* גם הגיליונות הנמדדים - אחרת העימוד נמדד בחצי רוחב */
   .rd-stage .sheet.rd-r{left:0;right:0;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.45)}
   .rd-stage .sheet.rd-cover{left:0;right:0;width:100%}

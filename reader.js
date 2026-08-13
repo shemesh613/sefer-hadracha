@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function fitPage(){
     if(!ONE) return;
     const k=Math.min(innerWidth/528, (innerHeight-64)/701);
-    stage.style.transform='scale('+k.toFixed(4)+')';
+    stage.style.transform='translate(-50%,-50%) scale('+k.toFixed(4)+')';
   }
   if(ONE){
     fitPage();
