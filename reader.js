@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>hint.style.opacity=0,5200);
 
   let cur=0, busy=false, PG=pages;
+  if(location.search.indexOf('size')>=0) setTimeout(function(){
+    var st=document.querySelector('.rd-stage').getBoundingClientRect();
+    alert('מסך: '+innerWidth+' x '+innerHeight+'\n'+
+          'עמוד: '+Math.round(st.width)+' x '+Math.round(st.height)+'\n'+
+          'סה"כ עמודים: '+PG.length);
+  },1200);
   const norm=i=>{ i=Math.max(0,Math.min(PG.length-1,i)); return (!ONE&&i>1&&i%2===0)?i-1:i; };
 
   // ===== עימוד אמיתי: נמדד בגודל שהעמוד באמת מקבל בקורא =====
@@ -277,12 +283,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---- גרירה: הדף עוקב אחרי העכבר ----
   let drag=null;
+  if(ONE) stage.addEventListener('click',e=>{
+    const r=stage.getBoundingClientRect();
+    go(e.clientX < r.left + r.width/2 ? 1 : -1);
+  });
   stage.addEventListener('pointerdown',e=>{
     if(busy||e.button!==0) return;
     const r=stage.getBoundingClientRect();
     const left = e.clientX < r.left + r.width/2;
     const dir = left ? 1 : -1;                      // עברית: הדף השמאלי הולך ימינה
-    if(ONE){ go(dir); return; }
+    if(ONE) return;
     const target = dir>0 ? (cur===0?1:cur+2) : (cur<=1?0:cur-2);
     if(target===cur) return;
     stage.setPointerCapture(e.pointerId); stage.classList.add('dragging');
