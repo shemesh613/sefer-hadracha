@@ -179,6 +179,30 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 .cover .cv-rule{display:block;width:44px;height:1px;background:rgba(183,146,87,.6);margin:0 auto 14px}
 .cover small{font-size:12.5px;letter-spacing:5px;color:rgba(183,146,87,.92);
   font-family:"Segoe UI",Arial}
+
+/* ====== מסך צר: גלילה רציפה ======
+   רשת ביטחון ב-CSS בלבד. עובדת גם אם מנוע הדפדוף לא נטען. */
+@media (max-width:820px){
+  html{background:#FBF9F5}
+  body,body.rd{display:block!important;overflow:auto!important;height:auto!important;
+    background:#FBF9F5!important;padding:0 0 30px!important;place-items:initial!important}
+  .rd-stage{position:static!important;width:100%!important;height:auto!important;
+    aspect-ratio:auto!important;perspective:none!important;filter:none!important;cursor:auto!important}
+  .rd-book{position:static!important;transform-style:flat!important}
+  .rd-stage .sheet,.sheet{position:static!important;display:block!important;
+    width:100%!important;max-width:100%!important;height:auto!important;min-height:0!important;
+    aspect-ratio:auto!important;margin:0 0 2px!important;box-shadow:none!important;
+    overflow:visible!important;visibility:visible!important}
+  .sheet .fit,.sheet .body,.sheet .head{overflow:visible!important;display:block!important}
+  .txt{padding:26px 20px 14px!important}
+  .fol{display:none!important}
+  .sheet.art{padding:14px 0 22px!important;background:#FBF9F5!important}
+  .sheet.art img{width:100%!important;height:auto!important;object-fit:contain!important}
+  .sheet.cover{min-height:86vh!important}
+  .sheet.section{min-height:34vh!important}
+  .rd-spine,.rd-edge,.rd-leaf,.rd-cast,.rd-hint,.rd-ui{display:none!important}
+  h2{font-size:23px!important}
+}
 </style>
 <script>
 window.addEventListener('load',()=>{
