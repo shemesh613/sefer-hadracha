@@ -151,6 +151,34 @@ document.addEventListener('DOMContentLoaded',()=>{
         } else tightened++;
       }
     }
+
+    // ג. טלפון בלבד: מאזנים את עמודי הפרק כדי שלא יישאר עמוד זנב כמעט ריק.
+    //    מזיזים תוכן קדימה עד שכל העמודים בפרק מתמלאים בערך אותו דבר.
+    if(ONE){
+      for(const head of [...book.querySelectorAll('.sheet.txt')]){
+        if(head.classList.contains('continued')) continue;
+        const pages=[head];
+        let nx=head.nextElementSibling;
+        while(nx && nx.classList.contains('continued')){ pages.push(nx); nx=nx.nextElementSibling; }
+        if(pages.length<2) continue;
+        if(fillOf(pages[pages.length-1])>=0.62) continue;
+        const fills=pages.map(fillOf);
+        const target=fills.reduce((a,b)=>a+b,0)/pages.length;
+        if(target>0.97) continue;              // אין מה לאזן
+        for(let i=0;i<pages.length-1;i++){
+          const from=pages[i].querySelector('.body');
+          const to=pages[i+1].querySelector('.body');
+          let guard=0;
+          while(from.children.length>1 && fillOf(pages[i])>target+0.05 && guard++<40){
+            to.insertBefore(from.lastElementChild,to.firstChild);
+            if(over(pages[i+1])){              // הגלישה אסורה - מחזירים ועוצרים
+              from.appendChild(to.firstElementChild);
+              break;
+            }
+          }
+        }
+      }
+    }
     spreads();
     let n=0; PG.forEach(s=>{ if(!s.classList.contains('cover'))n++;
       const f=s.querySelector('.fol'); if(f)f.textContent=n; });
