@@ -285,16 +285,39 @@ document.addEventListener('DOMContentLoaded',()=>{
   let drag=null;
   // נגיעה בטלפון: מאזינים על המסמך כולו, כך ששום שכבה שמעל הבמה
   // לא יכולה לבלוע את הנגיעה. מתעלמים רק מהכפתורים שלמטה.
+  // נגיעה בטלפון. שום preventDefault - הוא שיתק את הכפתורים.
+  // שתי האזנות, ונעילה קצרה שמונעת דפדוף כפול על אותה נגיעה.
+  // טלפון: נגיעה ומשיכה. בלי preventDefault - הוא שיתק את הכפתורים.
   if(ONE){
-    const tap=e=>{
-      if(e.target.closest && e.target.closest('.rd-ui')) return;
-      const r=stage.getBoundingClientRect();
-      const x=(e.clientX!=null)?e.clientX:(e.changedTouches&&e.changedTouches[0].clientX);
-      if(x==null) return;
-      go(x < r.left + r.width/2 ? 1 : -1);
+    let lastTap=0, sx=null, sy=null;
+    const inUI=t=>t && t.closest && t.closest('.rd-ui');
+    const page=(dir)=>{
+      const now=Date.now();
+      if(now-lastTap<400) return;
+      lastTap=now;
+      go(dir);
     };
-    document.addEventListener('click',tap);
-    document.addEventListener('touchend',e=>{ if(e.cancelable){ e.preventDefault(); tap(e); } },{passive:false});
+    const tap=(x,target)=>{
+      if(inUI(target) || x==null) return;
+      const r=stage.getBoundingClientRect();
+      page(x < r.left + r.width/2 ? 1 : -1);
+    };
+    document.addEventListener('click',e=>tap(e.clientX,e.target));
+    document.addEventListener('pointerup',e=>{ if(e.pointerType!=='touch') tap(e.clientX,e.target); });
+    document.addEventListener('touchstart',e=>{
+      const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY;
+    },{passive:true});
+    document.addEventListener('touchend',e=>{
+      const t=e.changedTouches[0];
+      if(sx==null || inUI(e.target)) { sx=null; return; }
+      const dx=t.clientX-sx, dy=t.clientY-sy;
+      sx=null;
+      if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){
+        page(dx>0 ? 1 : -1);   // עברית: מושכים ימינה כדי להתקדם
+        return;
+      }
+      tap(t.clientX, e.target);
+    },{passive:true});
   }
   stage.addEventListener('pointerdown',e=>{
     if(busy||e.button!==0) return;
