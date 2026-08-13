@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>hint.style.opacity=0,5200);
 
   let cur=0, busy=false, PG=pages;
-  const norm=i=>{ i=Math.max(0,Math.min(PG.length-1,i)); return (i>1&&i%2===0)?i-1:i; };
+  const norm=i=>{ i=Math.max(0,Math.min(PG.length-1,i)); return (!ONE&&i>1&&i%2===0)?i-1:i; };
 
   // ===== עימוד אמיתי: נמדד בגודל שהעמוד באמת מקבל בקורא =====
   const over=sh=>{ const b=sh.querySelector('.body'); return b && b.scrollHeight>b.clientHeight+1; };
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(cur===0) PG[0].classList.add('rd-cover');
     else{ PG[cur].classList.add('rd-r'); if(!ONE && PG[cur+1]) PG[cur+1].classList.add('rd-l'); }
     const N=PG.length, end=cur===0?1:Math.min(cur+2,N);
-    ui.querySelector('.cnt').textContent = cur===0 ? 'כריכה · '+N+' עמודים' : 'עמודים '+(cur+1)+'-'+end+' מתוך '+N;
+    ui.querySelector('.cnt').textContent = cur===0 ? 'כריכה · '+N+' עמודים' : (ONE ? 'עמוד '+(cur+1)+' מתוך '+N : 'עמודים '+(cur+1)+'-'+end+' מתוך '+N);
     ui.querySelector('[data-p]').disabled=cur===0||busy;
     ui.querySelector('[data-n]').disabled=end>=N||busy;
     history.replaceState(null,'','#page-'+(cur+1));
