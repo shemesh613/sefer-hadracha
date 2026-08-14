@@ -227,13 +227,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     console.log('עמודים: '+out.length+' · ריקים: '+nb+' · איורים בצד הלא נכון: '+bad);
   }
 
+  // המספר שמודפס בתחתית העמוד - הוא האמת היחידה שהקורא רואה
+  const folio = i => {
+    const sh = PG[i];
+    if(!sh) return "";
+    const f = sh.querySelector('.fol');
+    return (f && f.textContent) ? f.textContent : String(i);
+  };
+
   function render(){
     PG.forEach(p=>p.classList.remove('rd-r','rd-l','rd-cover','rd-measure'));
     stage.classList.toggle('is-cover',cur===0);
     if(cur===0) PG[0].classList.add('rd-cover');
     else{ PG[cur].classList.add('rd-r'); if(!ONE && PG[cur+1]) PG[cur+1].classList.add('rd-l'); }
-    const N=PG.length, end=cur===0?1:Math.min(cur+2,N);
-    ui.querySelector('.cnt').textContent = cur===0 ? 'כריכה · '+N+' עמודים' : (ONE ? 'עמוד '+(cur+1)+' מתוך '+N : 'עמודים '+(cur+1)+'-'+end+' מתוך '+N);
+    const N=PG.length, LAST=N-1;
+    ui.querySelector('.cnt').textContent = cur===0
+      ? 'כריכה · '+LAST+' עמודים'
+      : (ONE ? 'עמוד '+folio(cur)+' מתוך '+LAST
+             : 'עמודים '+folio(cur)+'-'+folio(Math.min(cur+1,LAST))+' מתוך '+LAST);
     ui.querySelector('[data-p]').disabled=cur===0||busy;
     ui.querySelector('[data-n]').disabled=end>=N||busy;
     history.replaceState(null,'','#page-'+(cur+1));
@@ -381,7 +392,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const v=parseInt(inp.value,10);
     if(!Number.isFinite(v)) return;
     stopPlay();
-    cur=norm(Math.max(0,Math.min(PG.length-1,v-1)));
+    cur=norm(Math.max(0,Math.min(PG.length-1,v)));
     render(); inp.blur();
   }
   ui.querySelector('[data-jump]').onclick=jump;
@@ -417,7 +428,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // אחרת נמדד גודל אחר לגמרי והטקסט נחתך.
   reflow();
   const want=parseInt((location.hash.match(/page-(\d+)/)||[])[1],10);
-  cur=norm(Number.isFinite(want)?want-1:0);
+  cur=norm(Number.isFinite(want)?want:0);
   render();
 
   // שינוי גודל חלון = גודל עמוד אחר = צריך לעמד מחדש
