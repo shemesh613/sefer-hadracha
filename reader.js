@@ -132,6 +132,12 @@ document.addEventListener('DOMContentLoaded',()=>{
         const only=from.firstElementChild; let s2=100;
         while(over(sh) && s2>72){ s2-=2; only.style.fontSize=s2+'%'; }
       } else pullBack(sh,from,to);
+      // כותרת משנה לא נשארת לבדה בתחתית העמוד - היא פותחת קטע חדש
+      while(from.lastElementChild &&
+            from.lastElementChild.classList.contains('sub') &&
+            from.children.length>1){
+        to.insertBefore(from.lastElementChild,to.firstChild);
+      }
       sh.classList.remove('rd-measure');
       pages.push(nx); sh=nx;
     }
