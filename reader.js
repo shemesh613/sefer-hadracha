@@ -240,14 +240,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     stage.classList.toggle('is-cover',cur===0);
     if(cur===0) PG[0].classList.add('rd-cover');
     else{ PG[cur].classList.add('rd-r'); if(!ONE && PG[cur+1]) PG[cur+1].classList.add('rd-l'); }
-    const N=PG.length, LAST=N-1;
+    const N=PG.length, LAST=N-1, end=cur===0?1:Math.min(cur+2,N);
     ui.querySelector('.cnt').textContent = cur===0
       ? 'כריכה · '+LAST+' עמודים'
       : (ONE ? 'עמוד '+folio(cur)+' מתוך '+LAST
              : 'עמודים '+folio(cur)+'-'+folio(Math.min(cur+1,LAST))+' מתוך '+LAST);
     ui.querySelector('[data-p]').disabled=cur===0||busy;
     ui.querySelector('[data-n]').disabled=end>=N||busy;
-    history.replaceState(null,'','#page-'+(cur+1));
+    history.replaceState(null,'','#page-'+cur);
   }
 
   // בונה דף מתהפך עם שני צדדים אמיתיים
