@@ -319,40 +319,26 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---- גרירה: הדף עוקב אחרי העכבר ----
   let drag=null;
-  // נגיעה בטלפון: מאזינים על המסמך כולו, כך ששום שכבה שמעל הבמה
-  // לא יכולה לבלוע את הנגיעה. מתעלמים רק מהכפתורים שלמטה.
-  // נגיעה בטלפון. שום preventDefault - הוא שיתק את הכפתורים.
-  // שתי האזנות, ונעילה קצרה שמונעת דפדוף כפול על אותה נגיעה.
-  // טלפון: נגיעה ומשיכה. בלי preventDefault - הוא שיתק את הכפתורים.
+  // בטלפון מדפדפים במשיכת אצבע בלבד.
+  // נגיעה רגילה לא מדפדפת - היא הפריעה בקריאה.
   if(ONE){
-    let lastTap=0, sx=null, sy=null;
-    const inUI=t=>t && t.closest && t.closest('.rd-ui');
-    const page=(dir)=>{
-      const now=Date.now();
-      if(now-lastTap<400) return;
-      lastTap=now;
-      go(dir);
-    };
-    const tap=(x,target)=>{
-      if(inUI(target) || x==null) return;
-      const r=stage.getBoundingClientRect();
-      page(x < r.left + r.width/2 ? 1 : -1);
-    };
-    document.addEventListener('click',e=>tap(e.clientX,e.target));
-    document.addEventListener('pointerup',e=>{ if(e.pointerType!=='touch') tap(e.clientX,e.target); });
+    let sx=null, sy=null, last=0;
+    const inUI=t=>t && t.closest && t.closest(".rd-ui");
     document.addEventListener('touchstart',e=>{
       const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY;
     },{passive:true});
     document.addEventListener('touchend',e=>{
+      if(sx==null) return;
       const t=e.changedTouches[0];
-      if(sx==null || inUI(e.target)) { sx=null; return; }
       const dx=t.clientX-sx, dy=t.clientY-sy;
       sx=null;
-      if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){
-        page(dx>0 ? 1 : -1);   // עברית: מושכים ימינה כדי להתקדם
-        return;
-      }
-      tap(t.clientX, e.target);
+      if(inUI(e.target)) return;
+      // רק תנועה אופקית ברורה נחשבת דפדוף
+      if(Math.abs(dx)<55 || Math.abs(dx)<Math.abs(dy)*1.5) return;
+      const now=Date.now();
+      if(now-last<400) return;
+      last=now;
+      go(dx>0 ? 1 : -1);        // עברית: מושכים ימינה כדי להתקדם
     },{passive:true});
   }
   stage.addEventListener('pointerdown',e=>{
