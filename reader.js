@@ -132,12 +132,19 @@ document.addEventListener('DOMContentLoaded',()=>{
         const only=from.firstElementChild; let s2=100;
         while(over(sh) && s2>72){ s2-=2; only.style.fontSize=s2+'%'; }
       } else pullBack(sh,from,to);
-      // כותרת משנה לא נשארת לבדה בתחתית העמוד - היא פותחת קטע חדש
-      while(from.lastElementChild &&
-            from.lastElementChild.classList.contains('sub') &&
-            from.children.length>1){
+      // שורה שפותחת את מה שבא אחריה לא נשארת לבדה בתחתית העמוד:
+      // כותרת משנה, שורת פתיחה שנגמרת בנקודתיים, וריצת ציטוטים שנקטעה.
+      const opener=el=>{
+        if(!el||from.children.length<2) return false;
+        if(el.classList.contains('split-head')) return false;   // חצי פסקה - תקין
+        if(el.classList.contains('sub')) return true;
+        if(el.classList.contains('p') && /:$/.test(el.textContent.trim())) return true;
+        // ציטוט אחרון בעמוד שהמשכו נפתח בראש הבא = רשימה שנחתכה באמצע
+        return el.classList.contains('q') && !!to.firstElementChild &&
+               to.firstElementChild.classList.contains('q');
+      };
+      for(let moved=0; moved<4 && opener(from.lastElementChild); moved++)
         to.insertBefore(from.lastElementChild,to.firstChild);
-      }
       sh.classList.remove('rd-measure');
       pages.push(nx); sh=nx;
     }
