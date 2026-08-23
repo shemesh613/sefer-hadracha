@@ -18,7 +18,12 @@
     <button id="larger" aria-label="הגדלת הכתב">א+</button>
     <button id="focusToggle" aria-pressed="true">מיקוד ✓</button>
     <button id="scrollToggle" class="primary">התחל גלילה</button>
-    <label>מהירות <input id="speed" type="range" min="1" max="8" value="3"></label>
+    <div class="speed-buttons" aria-label="מהירות גלילה">
+      <button id="slower" aria-label="גלילה איטית יותר">−</button>
+      <span id="speedValue">5</span>
+      <button id="faster" aria-label="גלילה מהירה יותר">+</button>
+    </div>
+    <label>מהירות <input id="speed" type="range" min="1" max="10" value="5"></label>
   </header>
 
   <nav id="chapters" class="chapters" aria-label="פרקי הנאום">
@@ -121,6 +126,9 @@
         <ul>
           <li>הבעיה שלי עם פרצופים.</li>
           <li>עזרת הורים ביציאות לפארקים.</li>
+          <li>חולצת תלבושת.</li>
+          <li>קופת כיתה.</li>
+          <li>משחקים.</li>
         </ul>
       </div>
     </section>
