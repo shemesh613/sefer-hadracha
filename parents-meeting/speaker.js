@@ -25,7 +25,7 @@ document.getElementById('faster').onclick=()=>setSpeed(Number(speed.value)+1);
 speed.oninput=()=>setSpeed(speed.value);
 focusToggle.onclick=()=>{focusMode=!focusMode;document.body.classList.toggle('focus-mode',focusMode);focusToggle.textContent=focusMode?'מיקוד ✓':'מיקוד';focusToggle.setAttribute('aria-pressed',String(focusMode));localStorage.setItem('speakerFocus',focusMode?'on':'off');updateFocus()};
 menu.querySelectorAll('button').forEach(button=>button.onclick=()=>{document.getElementById(button.dataset.target).scrollIntoView();menu.classList.remove('open')});
-function startScrolling(){clearInterval(scrollTimer);scrollTimer=setInterval(()=>window.scrollBy(0,Number(speed.value)*.55),50)}
+function startScrolling(){clearInterval(scrollTimer);scrollTimer=window.setInterval(()=>window.scrollBy({top:Number(speed.value),left:0,behavior:'auto'}),55)}
 function stopScrolling(){clearInterval(scrollTimer);scrollTimer=null}
 toggle.onclick=()=>{scrolling=!scrolling;toggle.textContent=scrolling?'עצור גלילה':'התחל גלילה';toggle.classList.toggle('active',scrolling);if(scrolling)startScrolling();else stopScrolling()};
 const speechParagraphs=[...document.querySelectorAll('main section>p:not(.cue)')];
