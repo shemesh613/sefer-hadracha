@@ -54,8 +54,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(identifyLine) identifyLine.textContent='לעצור פירושו להפנות לרגע את המבט מן הילד אל עצמנו ולשאול: מה אני מרגיש עכשיו?';
   if(nameLine) nameLine.textContent='לזהות את הרגש ולקרוא לו בשם:';
   const resistLine=ch1Nodes.find(n=>n.textContent.startsWith('לא לנסות לשכנע את עצמנו שאין סיבה להרגיש כך'));
-  if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. זה גם לא באמת יעזור. עליי רק להסכים לפגוש את הרגש ולהיות איתו לרגע.';
+  if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. הניסיונות האלה אינם מעלימים את הרגש. עליי רק להסכים לפגוש אותו ולתת לו להיות לרגע.';
   ch1Nodes.find(n=>n.textContent.trim()==='רק להסכים לכך שזה מה שאני מרגיש עכשיו.')?.remove();
+  ch1Nodes.find(n=>n.textContent.trim()==='זה לא נעים לי. אבל אני מסוגל להיות עם זה לרגע.')?.remove();
+  const normalLine=ch1Nodes.find(n=>n.textContent.trim()==='זה אנושי. מותר לי להרגיש כך. הרגש הזה מובן.');
+  if(normalLine) normalLine.textContent='זה נורמלי להרגיש כך. הרגש הזה מובן.';
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
