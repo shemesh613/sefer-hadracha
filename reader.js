@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const feelingLine=ch1Nodes.find(n=>n.textContent.trim()==='ההתנהגות שלו מעוררת בתוכנו רגש לא נעים.');
   if(feelingLine) feelingLine.textContent='כל אחת מן ההתנהגויות האלה מעוררת בתוכנו רגשות לא נעימים, ולעיתים אף כואבים.';
   const avoidanceExamples=ch1Nodes.find(n=>n.textContent.startsWith('אם הוא יקשיב, הדאגה תירגע'));
-  if(avoidanceExamples) avoidanceExamples.textContent='אם הוא יקשיב, לא נצטרך לפגוש את חוסר האונים שמתעורר בנו כשאיננו מצליחים להוביל אותו. אם הוא יפסיק להציק, לא נצטרך לפגוש את הדאגה מה יהיה איתו. ואם הוא רק יפסיק להתבייש, לא נצטרך לפגוש את חוסר הנוחות שהביישנות שלו מעוררת בנו.';
+  if(avoidanceExamples) avoidanceExamples.textContent='אם הוא יקשיב, לא נצטרך לפגוש את חוסר האונים שמתעורר בנו כשאיננו מצליחים להוביל אותו. אם הוא יפסיק להציק, לא נצטרך לפגוש את הדאגה שמתעוררת בנו: ״מה יהיה איתו?״ ואם הוא רק יפסיק להתבייש, לא נצטרך לפגוש את חוסר הנוחות שהביישנות שלו מעוררת בנו.';
   const alternativeLine=ch1Nodes.find(n=>n.textContent.trim()==='אבל יש אפשרות אחרת.');
   const pauseLine=ch1Nodes.find(n=>n.textContent.trim()==='לפני שאנחנו ממהרים לפעול, אפשר לעצור לרגע ולפגוש את מה שמתרחש בתוכנו.');
   if(alternativeLine) alternativeLine.textContent='אבל לפני שאנו ניגשים לחנך את הילד, עלינו לעצור לרגע ולהסכים לפגוש את מה שמתחולל בתוכנו.';
