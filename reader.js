@@ -33,6 +33,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   for(const start of ['הספר הזה מוקדש לכם','לילדיי, שמכריחים','לתלמידיי היקרים','ולעצמי, שהולך'])
     introNodes.find(n=>n.textContent.trim().startsWith(start))?.remove();
 
+  // דיוק הכותרת והפתיחה של פרק 1.
+  const ch1Pages=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='פרק 1');
+  const ch1Head=ch1Pages.find(s=>!s.classList.contains('continued'));
+  if(ch1Head) ch1Head.querySelector('h2').textContent='חינוך או בריחה מהרגש?';
+  const ch1Nodes=ch1Pages.flatMap(s=>[...s.querySelectorAll('.body > .p')]);
+  const shyLine=ch1Nodes.find(n=>n.textContent.startsWith('ולפעמים הוא בכלל לא עושה שום דבר רע'));
+  if(shyLine) shyLine.textContent='ולפעמים הוא בכלל לא עושה שום דבר רע. הוא פשוט נבוך, מתבייש או נמנע - אבל קשה לנו לראות אותו כך.';
+  const feelingLine=ch1Nodes.find(n=>n.textContent.trim()==='ההתנהגות שלו מעוררת בתוכנו רגש לא נעים.');
+  if(feelingLine) feelingLine.textContent='כל אחת מן ההתנהגויות האלה מעוררת בתוכנו רגשות לא נעימים, ולעיתים אף כואבים.';
+
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
   const ch32=[...document.querySelectorAll('.sheet.txt')].find(s=>
