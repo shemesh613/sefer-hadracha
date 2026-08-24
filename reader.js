@@ -59,6 +59,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   ch1Nodes.find(n=>n.textContent.trim()==='זה לא נעים לי. אבל אני מסוגל להיות עם זה לרגע.')?.remove();
   const normalLine=ch1Nodes.find(n=>n.textContent.trim()==='זה אנושי. מותר לי להרגיש כך. הרגש הזה מובן.');
   if(normalLine) normalLine.textContent='זה נורמלי להרגיש כך. הרגש הזה מובן.';
+  const reactionList=ch1Nodes.find(n=>n.textContent.trim().startsWith('אנחנו ממהרים להשתיק.'));
+  if(reactionList) reactionList.innerHTML='אנחנו ממהרים:<br>לדרוש שיקשיב.<br>לעצור את ההצקה.<br>לשכנע אותו שאין לו סיבה להתבייש.<br>לכעוס.<br>לאיים.<br>לפתור.';
+  const urgencyLine=ch1Nodes.find(n=>n.textContent.trim()==='העיקר שההתנהגות תיפסק, ואיתה גם הרגש שהתעורר בנו.');
+  if(urgencyLine) urgencyLine.textContent='העיקר שההתנהגות תיפסק, ואיתה גם חוסר האונים, הדאגה או חוסר הנוחות שהתעוררו בנו.';
+  const choiceLine=ch1Nodes.find(n=>n.textContent.trim()==='היא מאפשרת לנו לבחור את התגובה שלנו, במקום שהבריחה מן הרגש תבחר אותה עבורנו.');
+  if(choiceLine){
+    choiceLine.textContent='היא מאפשרת לנו לפעול מתוך בחירה ולא מתוך הדחף לברוח מן הרגש.';
+    choiceLine.insertAdjacentHTML('afterend','<div class="stop">ושם, בעיניי, מתחיל החינוך.</div>');
+  }
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
