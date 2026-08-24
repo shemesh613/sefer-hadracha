@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(shyLine) shyLine.textContent='ולפעמים הוא בכלל לא עושה שום דבר רע. הוא פשוט נבוך, מתבייש או נמנע - אבל קשה לנו לראות אותו כך.';
   const feelingLine=ch1Nodes.find(n=>n.textContent.trim()==='ההתנהגות שלו מעוררת בתוכנו רגש לא נעים.');
   if(feelingLine) feelingLine.textContent='כל אחת מן ההתנהגויות האלה מעוררת בתוכנו רגשות לא נעימים, ולעיתים אף כואבים.';
+  const avoidanceExamples=ch1Nodes.find(n=>n.textContent.startsWith('אם הוא יקשיב, הדאגה תירגע'));
+  if(avoidanceExamples) avoidanceExamples.textContent='אם הוא יקשיב, לא נצטרך לפגוש את הדאגה שמתעוררת בנו כשהוא אינו מקשיב. אם הוא יפסיק להתחצף, לא נצטרך לפגוש את העלבון ואת חוסר האונים שהחוצפה שלו מעוררת בנו. ואם הוא רק יפסיק להתבייש, לא נצטרך לפגוש את חוסר הנוחות שהביישנות שלו מעוררת בנו.';
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
