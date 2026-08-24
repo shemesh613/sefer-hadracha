@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   pauseLine?.remove();
   const identifyLine=ch1Nodes.find(n=>n.textContent.trim()==='לזהות את הרגש.');
   const nameLine=ch1Nodes.find(n=>n.textContent.trim()==='לקרוא לו בשם:');
-  if(identifyLine) identifyLine.textContent='לעצור פירושו להפנות לרגע את המבט מן הילד אל עצמנו ולשאול: מה אני מרגיש עכשיו?';
-  if(nameLine) nameLine.textContent='ואז לתת לרגש שם:';
+  if(identifyLine) identifyLine.outerHTML='<div class="p">לעצור פירושו להפנות לרגע את המבט מן הילד אל עצמנו ולשאול:</div><div class="q">״מה אני מרגיש עכשיו?״</div>';
+  if(nameLine) nameLine.textContent='אני מנסה לתת לרגש שם:';
   const resistLine=ch1Nodes.find(n=>n.textContent.startsWith('לא לנסות לשכנע את עצמנו שאין סיבה להרגיש כך'));
   if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. הרגש כבר כאן, ועליי רק להסכים לפגוש אותו ולהיות איתו לרגע.';
   ch1Nodes.find(n=>n.textContent.trim()==='רק להסכים לכך שזה מה שאני מרגיש עכשיו.')?.remove();
