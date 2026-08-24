@@ -465,8 +465,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   // העימוד חייב לרוץ אחרי שהעמוד קיבל את גודלו האמיתי בקורא,
   // אחרת נמדד גודל אחר לגמרי והטקסט נחתך.
   reflow();
+  const chapterWant=(location.hash.match(/chapter-(\d+)/)||[])[1];
+  const chapterIndex=chapterWant ? PG.findIndex(p=>
+    p.querySelector('.knum')?.textContent.trim()===`פרק ${chapterWant}` && !p.classList.contains('continued')) : -1;
   const want=parseInt((location.hash.match(/page-(\d+)/)||[])[1],10);
-  cur=norm(Number.isFinite(want)?want:0);
+  cur=norm(chapterIndex>=0 ? chapterIndex : (Number.isFinite(want)?want:0));
   render();
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add('reader-ready')));
 
