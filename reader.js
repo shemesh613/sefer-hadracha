@@ -429,6 +429,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const want=parseInt((location.hash.match(/page-(\d+)/)||[])[1],10);
   cur=norm(Number.isFinite(want)?want:0);
   render();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add('reader-ready')));
 
   // שינוי גודל חלון = גודל עמוד אחר = צריך לעמד מחדש
   let rt;

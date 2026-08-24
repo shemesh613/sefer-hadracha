@@ -9,13 +9,18 @@ h2{font-family:"Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif;
 .txt.tight .p{font-size:13.4px;line-height:1.62;margin-bottom:9px}.txt.tight .stop{font-size:17px;line-height:1.5;margin:14px 0}.txt.extra-tight .p{font-size:12.8px;line-height:1.52;margin-bottom:7px}.txt.extra-tight .stop{font-size:16px;line-height:1.42;margin:11px 0}
 .q{position:relative;padding:12px 18px 11px 11px;margin:13px 0;background:linear-gradient(90deg,rgba(125,139,106,.04),rgba(125,139,106,.13));color:#59634d}.q:before{content:'“';position:absolute;right:-3px;top:-19px;font-family:Georgia,serif;font-size:56px;color:rgba(125,139,106,.34)}
 .ornament{height:48px;display:flex;align-items:center;justify-content:center;gap:12px;margin:22px 8% 26px}.ornament span{height:1.5px;flex:1;background:linear-gradient(90deg,transparent,var(--gold))}.ornament span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}.ornament i{width:9px;height:9px;border:1.5px solid var(--gold);background:rgba(183,146,87,.08);transform:rotate(45deg)}
-.fol{flex:0 0 auto;text-align:center;font-size:10px;letter-spacing:2px;color:#9b9286;padding-top:8px}.art{padding:0;background:#fff}.art img{width:100%;height:100%;object-fit:cover}.cover{background:linear-gradient(160deg,#303b43,#1c2227);align-items:center;justify-content:center;text-align:center;padding:60px;color:#f5eee2}.cover h1{font:500 35px/1.35 "Frank Ruhl Libre","Noto Serif Hebrew",David,serif;margin:0}.cover .rule{width:70px;height:2px;background:var(--gold);margin:24px auto}.cover p{font:20px/1.6 "Frank Ruhl Libre","Noto Serif Hebrew",David,serif;color:#d1c3ae}.section{background:#f2ebdf;align-items:center;justify-content:center;text-align:center;padding:70px}.section h2{margin:auto;color:var(--accent);font-size:32px}.section .deco{margin:20px auto}.continued .head{margin-bottom:10px}.continued .head h2,.continued .head .deco{display:none}.continued .knum{font-size:9px;color:var(--soft);margin-bottom:0}
+.fol{flex:0 0 auto;text-align:center;font-size:10px;letter-spacing:2px;color:#9b9286;padding-top:8px}.art{padding:0;background:#fff}.art img{width:100%;height:100%;object-fit:cover}.cover{background:linear-gradient(160deg,#f7f1e7,#d9cbb6);align-items:center;justify-content:center;text-align:center;padding:60px;color:#3b3731}.cover h1{font:500 35px/1.35 "Frank Ruhl Libre","Noto Serif Hebrew",David,serif;margin:0}.cover .rule{width:70px;height:2px;background:var(--gold);margin:24px auto}.cover p{font:20px/1.6 "Frank Ruhl Libre","Noto Serif Hebrew",David,serif;color:#685f52}.section{background:#f2ebdf;align-items:center;justify-content:center;text-align:center;padding:70px}.section h2{margin:auto;color:var(--accent);font-size:32px}.section .deco{margin:20px auto}.continued .head{margin-bottom:10px}.continued .head h2,.continued .head .deco{display:none}.continued .knum{font-size:9px;color:var(--soft);margin-bottom:0}
 .motto{background:#fff;align-items:center;justify-content:center;text-align:center;padding:82px;color:var(--ink)}
 .motto>div{width:100%}.motto .deco{width:54px;margin:0 auto 30px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 .motto p{font:500 27px/1.75 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif;margin:0;color:#3b3731}
+#book-loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#f4ede2;color:#685f52;transition:opacity .35s ease,visibility .35s ease}
+#book-loader span{width:44px;height:44px;border:3px solid rgba(151,112,57,.22);border-top-color:#977039;border-radius:50%;animation:book-spin .85s linear infinite}
+#book-loader b{font:500 17px/1.4 "Noto Sans Hebrew","Segoe UI",Arial,sans-serif;letter-spacing:.2px}
+body.reader-ready #book-loader{opacity:0;visibility:hidden;pointer-events:none}
+@keyframes book-spin{to{transform:rotate(360deg)}}
 @media print{body{background:#fff;padding:0}.sheet{margin:0;box-shadow:none;break-after:page}}
 </style><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="לפני שמתקנים את הילד - שמשון ג׳יקוב"></head><body><div class="sheet cover"><div class="cv-frame"><div class="cv-in">
+<meta name="description" content="לפני שמתקנים את הילד - שמשון ג׳יקוב"></head><body><div id="book-loader" role="status" aria-live="polite"><span aria-hidden="true"></span><b>הספר נטען…</b></div><div class="sheet cover"><div class="cv-frame"><div class="cv-in">
   <h1>לפני שמתקנים<br>את הילד</h1>
   <div class="ornament"><span></span><i></i><span></span></div>
   <p class="cv-sub">הורות מתוך סמכות,<br>קבלה והתבוננות פנימית</p>
@@ -107,7 +112,7 @@ let n=0;document.querySelectorAll('.sheet').forEach(s=>{if(!s.classList.contains
 };
 window.repairBookPages();
 </script>
-<link rel="stylesheet" href="reader.css?v=23">
-<script src="reader.js?v=23" defer></script>
+<link rel="stylesheet" href="reader.css?v=24">
+<script src="reader.js?v=24" defer></script>
 
 </body></html>
