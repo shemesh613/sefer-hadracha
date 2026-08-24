@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // פתיחת ההקדמה והסדר החדש של שני הדימויים.
   const introPages=[...document.querySelectorAll('.sheet.txt')].filter(s=>
     s.querySelector('.knum')?.textContent.trim()==='הקדמה');
-  const introNodes=introPages.flatMap(s=>[...s.querySelectorAll('.body > .p,.body > .q')]);
+  const introNodes=introPages.flatMap(s=>[...s.querySelectorAll('.body > .p,.body > .q,.body > .stop')]);
   const introOpening=introNodes.find(n=>n.textContent.startsWith('עולם החינוך הוא עולם מופלא'));
   if(introOpening){
     introOpening.textContent='עולם החינוך הוא עולם מופלא, והוא מרתק אותי מכמה זוויות: כאבא לילדים, כמורה וכמחנך, וגם כאדם שמבקש להבין את עצמו.';
@@ -19,6 +19,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   const authorityClose=introNodes.find(n=>n.textContent.includes('ככל שאנחנו בטוחים יותר בסמכות שלנו'));
   if(authorityClose && !authorityClose.nextElementSibling?.textContent.includes('זהו סוד הסמכות'))
     authorityClose.insertAdjacentHTML('afterend','<div class="stop">זהו סוד הסמכות.</div>');
+  const compassion=introNodes.find(n=>n.textContent.startsWith('חשוב לי להדגיש שלצד הדיוקים'));
+  if(compassion) compassion.textContent='לצד הדיוקים והעבודה הפנימית שמיכל מביאה לעולם החינוך, יש בתורתה גם יסוד חשוב שאני עצמי נוטה לעיתים להדגיש פחות: חמלה עצמית.';
+  const compassionMeaning=introNodes.find(n=>n.textContent.startsWith('להבין שלכל הורה יש זמנים מוצלחים פחות'));
+  if(compassionMeaning) compassionMeaning.textContent='חמלה עצמית פירושה להבין שלכל הורה יש זמנים מוצלחים יותר ומוצלחים פחות, ושגם אם טעינו - זה בסדר. אנחנו משתדלים, מנסים וטועים, מתקנים ולעיתים טועים שוב. המטרה אינה להיות הורה מושלם, אלא הורה שמנסה, לומד ומתקן.';
+  introNodes.find(n=>n.textContent.startsWith('בספר הזה איגדתי את הסטטוסים'))?.remove();
+  const oldThanks=introNodes.find(n=>n.textContent.startsWith('אני מודה להורים שהגיבו'));
+  if(oldThanks) oldThanks.outerHTML=`
+    <div class="p">אני מודה להורים שקראו את הדברים לאורך הדרך והגיבו להם. דרך התגובות שלכם הבנתי שהמחשבות האישיות שאני משתף פוגשות גם הורים אחרים. ההבנה הזאת נתנה לי את הרצון לאסוף אותן לספר. תודתי נתונה לכם.</div>
+    <div class="p">ילדיי האהובים ותלמידיי היקרים, אתם המאמנים הטובים ביותר שלי. אתם מכריחים אותי יום־יום לדייק את עצמי, לבחון את הדברים מחדש ולנסות לחיות אותם באמת.</div>
+    <div class="p">ובינינו, אתם יודעים טוב מכולם שגם כשאני משתדל לחיות את הדברים האלה, לא תמיד אני מצליח ליישם אותם לגמרי. גם אני טועה, מתקן ומנסה שוב.</div>
+    <div class="stop">כל מה שנכתב כאן נולד מתוך המפגש איתכם.</div>`;
+  for(const start of ['הספר הזה מוקדש לכם','לילדיי, שמכריחים','לתלמידיי היקרים','ולעצמי, שהולך'])
+    introNodes.find(n=>n.textContent.trim().startsWith(start))?.remove();
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
