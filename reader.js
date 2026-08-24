@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const feelingLine=ch1Nodes.find(n=>n.textContent.trim()==='ההתנהגות שלו מעוררת בתוכנו רגש לא נעים.');
   if(feelingLine) feelingLine.textContent='כל אחת מן ההתנהגויות האלה מעוררת בתוכנו רגשות לא נעימים, ולעיתים אף כואבים.';
   const avoidanceExamples=ch1Nodes.find(n=>n.textContent.startsWith('אם הוא יקשיב, הדאגה תירגע'));
-  if(avoidanceExamples) avoidanceExamples.textContent='אם הוא יקשיב, לא נצטרך לפגוש את חוסר האונים שמתעורר בנו כשאיננו מצליחים להוביל אותו. אם הוא יפסיק להציק, לא נצטרך לפגוש את הדאגה שמתעוררת בנו: ״מה יהיה איתו?״ ואם הוא רק יפסיק להתבייש, לא נצטרך לפגוש את חוסר הנוחות שהביישנות שלו מעוררת בנו.';
+  if(avoidanceExamples) avoidanceExamples.textContent='אם הוא יקשיב, לא נצטרך לפגוש את חוסר האונים שמתעורר בנו כשאיננו מצליחים להוביל אותו. אם הוא יפסיק להציק, לא נצטרך לפגוש את הדאגה שמתעוררת בנו: ״מה יהיה איתו?״ ואם הוא רק יפסיק להתבייש, לא נצטרך לפגוש את הקושי שלנו לראות אותו כך.';
   const alternativeLine=ch1Nodes.find(n=>n.textContent.trim()==='אבל יש אפשרות אחרת.');
   const pauseLine=ch1Nodes.find(n=>n.textContent.trim()==='לפני שאנחנו ממהרים לפעול, אפשר לעצור לרגע ולפגוש את מה שמתרחש בתוכנו.');
   if(alternativeLine) alternativeLine.textContent='אבל לפני שאנו ניגשים לחנך את הילד, עלינו לעצור לרגע ולהסכים לפגוש את מה שמתחולל בתוכנו.';
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(identifyLine) identifyLine.textContent='לעצור פירושו להפנות לרגע את המבט מן הילד אל עצמנו ולשאול: מה אני מרגיש עכשיו?';
   if(nameLine) nameLine.textContent='לזהות את הרגש ולקרוא לו בשם:';
   const resistLine=ch1Nodes.find(n=>n.textContent.startsWith('לא לנסות לשכנע את עצמנו שאין סיבה להרגיש כך'));
-  if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. הניסיונות האלה אינם מעלימים את הרגש. עליי רק להסכים לפגוש אותו ולתת לו להיות לרגע.';
+  if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. הרגש כבר כאן, ועליי רק להסכים לפגוש אותו ולהיות איתו לרגע.';
   ch1Nodes.find(n=>n.textContent.trim()==='רק להסכים לכך שזה מה שאני מרגיש עכשיו.')?.remove();
   ch1Nodes.find(n=>n.textContent.trim()==='זה לא נעים לי. אבל אני מסוגל להיות עם זה לרגע.')?.remove();
   const normalLine=ch1Nodes.find(n=>n.textContent.trim()==='זה אנושי. מותר לי להרגיש כך. הרגש הזה מובן.');
