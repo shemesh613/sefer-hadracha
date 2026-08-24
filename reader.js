@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
   const teachers=introNodes.find(n=>n.textContent.trim()==='הרב בנימין גוטליב ומדריכת ההורים מיכל ברנהם.');
   if(teachers) teachers.innerHTML='הרב בנימין גוטליב<br>ומדריכת ההורים מיכל ברנהם.';
+  const authorityClose=introNodes.find(n=>n.textContent.includes('ככל שאנחנו בטוחים יותר בסמכות שלנו'));
+  if(authorityClose && !authorityClose.nextElementSibling?.textContent.includes('זהו סוד הסמכות'))
+    authorityClose.insertAdjacentHTML('afterend','<div class="stop">זהו סוד הסמכות.</div>');
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
