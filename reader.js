@@ -1,5 +1,20 @@
 
 document.addEventListener('DOMContentLoaded',()=>{
+  // פתיחת ההקדמה והסדר החדש של שני הדימויים.
+  const introPages=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='הקדמה');
+  const introNodes=introPages.flatMap(s=>[...s.querySelectorAll('.body > .p,.body > .q')]);
+  const introOpening=introNodes.find(n=>n.textContent.startsWith('עולם החינוך הוא עולם מופלא'));
+  if(introOpening){
+    introOpening.textContent='עולם החינוך הוא עולם מופלא, והוא מרתק אותי מכמה זוויות: כאבא לילדים, כמורה וכמחנך, וגם כאדם שמבקש להבין את עצמו.';
+    introOpening.insertAdjacentHTML('afterend','<div class="p">עם השנים למדתי שהעיסוק בחינוך אינו מפגיש אותי רק עם הילדים שאני מגדל ומחנך; הוא מפגיש אותי שוב ושוב גם עם עצמי. ככל שאני מבקש להבין אותם, אני נדרש להתבונן גם פנימה, במה שמתרחש בתוכי.</div>');
+  }
+  introNodes.find(n=>n.textContent.startsWith('בהמשך הספר מופיע גם הדימוי'))?.remove();
+  const introInfluence=introNodes.find(n=>n.textContent.startsWith('אני נזכר בביטויים האלה'));
+  if(introInfluence) introInfluence.outerHTML='<div class="p">אני נזכר בביטוי הזה משום שיש בו דבר שנוגע עמוקות לכל הורה ומורה.</div><div class="p">הילדים והתלמידים שלנו מושפעים מאיתנו עמוקות - מן המילים שאנחנו אומרים להם, מן הדרך שבה אנחנו מגיבים אליהם, מן המבט שלנו עליהם, מן האמון שאנחנו נותנים בהם וגם מן הגבולות שאנחנו מציבים.</div>';
+  const introClay=introNodes.find(n=>n.textContent.startsWith('במובן מסוים, אנחנו שותפים'));
+  if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
+
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
   const ch32=[...document.querySelectorAll('.sheet.txt')].find(s=>
