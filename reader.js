@@ -208,11 +208,20 @@ document.addEventListener('DOMContentLoaded',()=>{
   // מאחד בחזרה את כל עמודי ההמשך של פרק אחד לתוך העמוד הראשון שלו
   function mergeAfter(head){
     const to=head.querySelector('.body');
+    // סידור הכפולות מזיז לפעמים את האיור לפני העמוד האחרון של הפרק.
+    // מאז, עמוד ההמשך שאחרי האיור אינו שכן ישיר של הכותרת - ובלי לדלג
+    // עליו הוא נשאר יתום ונמחק מיד אחרי כן, יחד עם כל התוכן שבו.
+    const lbl=n=>(n.querySelector('.knum')?.textContent||'').replace(/ · המשך$/,'').trim();
+    const mine=lbl(head);
     let n=head.nextElementSibling;
-    while(n && n.classList.contains('continued')){
-      const nx=n.nextElementSibling, from=n.querySelector('.body');
-      while(from.firstChild) to.appendChild(from.firstChild);
-      n.remove(); n=nx;
+    while(n){
+      if(n.classList.contains('continued') && lbl(n)===mine){
+        const nx=n.nextElementSibling, from=n.querySelector('.body');
+        while(from.firstChild) to.appendChild(from.firstChild);
+        n.remove(); n=nx; continue;
+      }
+      if(n.classList.contains('art')||n.classList.contains('blank')){ n=n.nextElementSibling; continue; }
+      break;
     }
     to.querySelectorAll('[style*="font-size"]').forEach(e=>e.style.fontSize='');
   }
