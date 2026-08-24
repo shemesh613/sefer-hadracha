@@ -68,6 +68,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     choiceLine.textContent='היא מאפשרת לנו לפעול מתוך בחירה ולא מתוך הדחף לברוח מן הרגש.';
     choiceLine.insertAdjacentHTML('afterend','<div class="stop">ושם, בעיניי, מתחיל החינוך.</div>');
   }
+  const selfTalk=ch1Pages.flatMap(s=>[...s.querySelectorAll('.body > .q')])
+    .find(n=>n.textContent.includes('ברור שאני דואג.'));
+  if(selfTalk) selfTalk.innerHTML='״זה באמת מדאיג.״<br>״מובן שזה מכעיס אותי.״<br>״קשה לי לראות את הילד שלי במצב הזה.״';
+  const acceptanceLine=ch1Nodes.find(n=>n.textContent.trim()==='לא קבלה של התנהגות הילד, אלא קבלה של הרגש שהתנהגותו מעוררת בי.');
+  if(acceptanceLine) acceptanceLine.insertAdjacentHTML('afterend','<div class="p">קבלת הרגש אינה מעלימה את הכאב. אבל כשאני מנסה לברוח ממנו במקום להכיר בו, הוא מתגבר, הופך לסבל של ממש ומתחיל לנהל אותי. דווקא כשאני עוצר, מסכים לפגוש את הרגש הלא נעים, נותן לו שם, נושם ומבין את עצמי - משהו מתרכך. הכאב עדיין קיים, אבל משהו בו נעשה רך יותר וקל יותר לשאת אותו. כך הוא יכול לעבור בתוכי במקום להצטבר.</div>');
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
