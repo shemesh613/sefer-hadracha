@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const introInfluence=introNodes.find(n=>n.textContent.startsWith('אני נזכר בביטויים האלה'));
   if(introInfluence) introInfluence.outerHTML='<div class="p">אני נזכר בביטוי הזה משום שיש בו דבר שנוגע עמוקות לכל הורה ומורה.</div><div class="p">הילדים והתלמידים שלנו מושפעים מאיתנו עמוקות - מן המילים שאנחנו אומרים להם, מן הדרך שבה אנחנו מגיבים אליהם, מן המבט שלנו עליהם, מן האמון שאנחנו נותנים בהם וגם מן הגבולות שאנחנו מציבים.</div>';
   const introClay=introNodes.find(n=>n.textContent.startsWith('במובן מסוים, אנחנו שותפים'));
-  if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
+  if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו, כמובן בהקשר אחר. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
   const teachers=introNodes.find(n=>n.textContent.trim()==='הרב בנימין גוטליב ומדריכת ההורים מיכל ברנהם.');
   if(teachers) teachers.innerHTML='הרב בנימין גוטליב<br>ומדריכת ההורים מיכל ברנהם.';
   const authorityClose=introNodes.find(n=>n.textContent.includes('ככל שאנחנו בטוחים יותר בסמכות שלנו'));
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const identifyLine=ch1Nodes.find(n=>n.textContent.trim()==='לזהות את הרגש.');
   const nameLine=ch1Nodes.find(n=>n.textContent.trim()==='לקרוא לו בשם:');
   if(identifyLine) identifyLine.outerHTML='<div class="p">לעצור פירושו להפנות לרגע את המבט מן הילד אל עצמנו ולשאול:</div><div class="q">״מה אני מרגיש עכשיו?״</div>';
-  if(nameLine) nameLine.textContent='אני מנסה לתת לרגש שם:';
+  if(nameLine) nameLine.textContent='ולנסות לתת לרגש שם:';
   const resistLine=ch1Nodes.find(n=>n.textContent.startsWith('לא לנסות לשכנע את עצמנו שאין סיבה להרגיש כך'));
   if(resistLine) resistLine.textContent='אין צורך שאנסה לשכנע את עצמי שאין סיבה להרגיש כך, לגרש את הרגש או למהר לפתור אותו. הרגש כבר כאן, ועליי רק להסכים לפגוש אותו ולהיות איתו לרגע.';
   ch1Nodes.find(n=>n.textContent.trim()==='רק להסכים לכך שזה מה שאני מרגיש עכשיו.')?.remove();
