@@ -136,9 +136,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(ch4Order) ch4Order.textContent='האם אני פועל מתוך ערך - או מתוך צורך בשליטה, פחד לאבד סמכות ורצון שהכול ייראה ממושמע ומסודר?';
   const ch4Insight=ch4Nodes.find(n=>n.textContent.startsWith('עצרתי והבנתי שלא כל דבר'));
   if(ch4Insight){
-    ch4Insight.insertAdjacentHTML('beforebegin','<div class="p">הם הרי לא הפריעו לתפילה ולא משכו את תשומת לבם של שאר התלמידים. פשוט היה לי קשה לראות אותם יושבים אחרת מכפי שציפיתי. ההערה שעמדה לצאת ממני לא נבעה מערך חינוכי, אלא מן הצורך שלי שהכול ייראה מסודר. וברגע שהבנתי את זה, עצרתי.</div>');
-    ch4Insight.textContent='לא כל דבר שאינו מוצא חן בעיניי הוא דבר שדורש גבול או פעולה חינוכית.';
+    ch4Insight.insertAdjacentHTML('beforebegin','<div class="p">הם הרי לא הפריעו לתפילה ולא משכו את תשומת לבם של שאר התלמידים. פשוט היה לי קשה לראות אותם יושבים אחרת מכפי שציפיתי. ההערה שעמדה לצאת ממני לא נבעה מערך חינוכי, אלא מן הצורך שלי שהכול ייראה מסודר. כשהבנתי את זה, עצרתי.</div>');
+    ch4Insight.textContent='הרגע הזה הזכיר לי שלא כל דבר שאינו מוצא חן בעיניי דורש גבול או פעולה חינוכית.';
   }
+  const ch4Examine=ch4Nodes.find(n=>n.textContent.trim()==='בכל פעם שאנחנו באים לחנך, עלינו לבדוק את עצמנו:');
+  if(ch4Examine) ch4Examine.textContent='ובכל פעם שאני בא לחנך, עליי לבדוק תחילה את עצמי:';
   const ch4Personal=ch4Nodes.find(n=>n.textContent.trim()==='האם זו התנהגות שרק מפריעה לי?');
   if(ch4Personal) ch4Personal.textContent='האם זו התנהגות שרק מפריעה לי באופן אישי?';
 
