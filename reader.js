@@ -126,6 +126,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
+  // פרק 4: התאמת סיפור התפילה לקריאה בספר והעמקת הרגע האישי.
+  const ch4Pages=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='פרק 4');
+  const ch4Nodes=ch4Pages.flatMap(s=>[...s.querySelectorAll('.body > .p,.body > .q,.body > .stop')]);
+  const ch4Opening=ch4Nodes.find(n=>n.textContent.startsWith('היום, באמצע התפילה בכיתה'));
+  if(ch4Opening) ch4Opening.textContent='באחד הבקרים, באמצע התפילה בכיתה, ראיתי כמה תלמידים משחקים בידיהם זה עם זה.';
+  const ch4Order=ch4Nodes.find(n=>n.textContent.includes('רצון שהכול ייראה ממושמע ושקט'));
+  if(ch4Order) ch4Order.textContent='האם אני פועל מתוך ערך - או מתוך צורך בשליטה, פחד לאבד סמכות ורצון שהכול ייראה ממושמע ומסודר?';
+  const ch4Insight=ch4Nodes.find(n=>n.textContent.startsWith('עצרתי והבנתי שלא כל דבר'));
+  if(ch4Insight){
+    ch4Insight.insertAdjacentHTML('beforebegin','<div class="p">הם הרי לא הפריעו לתפילה ולא משכו את תשומת לבם של שאר התלמידים. פשוט היה לי קשה לראות אותם יושבים אחרת מכפי שציפיתי. ההערה שעמדה לצאת ממני לא נבעה מערך חינוכי, אלא מן הצורך שלי שהכול ייראה מסודר. וברגע שהבנתי את זה, עצרתי.</div>');
+    ch4Insight.textContent='לא כל דבר שאינו מוצא חן בעיניי הוא דבר שדורש גבול או פעולה חינוכית.';
+  }
+  const ch4Personal=ch4Nodes.find(n=>n.textContent.trim()==='האם זו התנהגות שרק מפריעה לי?');
+  if(ch4Personal) ch4Personal.textContent='האם זו התנהגות שרק מפריעה לי באופן אישי?';
+
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
   const ch32=[...document.querySelectorAll('.sheet.txt')].find(s=>
