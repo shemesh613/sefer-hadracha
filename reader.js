@@ -144,6 +144,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   const ch4Personal=ch4Nodes.find(n=>n.textContent.trim()==='האם זו התנהגות שרק מפריעה לי?');
   if(ch4Personal) ch4Personal.textContent='האם זו התנהגות שרק מפריעה לי באופן אישי?';
 
+  // פרק 5: דיוק המניע האישי שמסתתר מאחורי השפה החינוכית.
+  const ch5Pages=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='פרק 5');
+  const ch5Motive=ch5Pages.flatMap(s=>[...s.querySelectorAll('.body > .p')])
+    .find(n=>n.textContent.startsWith('אני רוצה, ככל האפשר, שהחינוך שלי יצמח מתוך ערכים'));
+  if(ch5Motive) ch5Motive.textContent='אני רוצה, ככל האפשר, שהחינוך שלי יצמח מתוך ערכים ולא מתוך מניעים אישיים שבמבט ראשון איני מבחין בהם.';
+
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
   const ch32=[...document.querySelectorAll('.sheet.txt')].find(s=>
