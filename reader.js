@@ -286,6 +286,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
+  // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
+  // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
+  const duplicatePainSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='פרק 10');
+  const lastDuplicatePainSheet=duplicatePainSheets.at(-1);
+  const painChapterArt=lastDuplicatePainSheet?.nextElementSibling?.classList.contains('art')
+    ? lastDuplicatePainSheet.nextElementSibling : null;
+  duplicatePainSheets.forEach(s=>s.remove());
+
   // פרק חדש לאחר פרק 1. מוסיפים אותו רק לאחר שכל תיקוני התוכן הקיימים
   // כבר הוחלו, ואז מזיזים את מספרי הפרקים הבאים בלי לשנות את מבנה המקור.
   const oldChapter2=[...document.querySelectorAll('.sheet.txt')].find(s=>
@@ -294,7 +303,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(oldChapter2){
     for(const label of document.querySelectorAll('.sheet.txt .knum')){
       const match=label.textContent.trim().match(/^פרק (\d+)$/);
-      if(match && Number(match[1])>=2) label.textContent='פרק '+(Number(match[1])+1);
+      if(match && Number(match[1])>=2 && Number(match[1])<=9){
+        label.textContent='פרק '+(Number(match[1])+1);
+      }
     }
 
     const newChapter=document.createElement('div');
@@ -309,6 +320,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         <div class="p">הוא מתחיל לבכות, וברגע הזה עולמו חרב עליו. אני מיד רוצה לעשות משהו. לקנות לו ארטיק חדש, להסביר לו שזה לא נורא או להסיח את דעתו.</div>
         <div class="p">קשה לי פשוט לעמוד שם מול הכאב שלו.</div>
         <div class="p">כי הכאב של הילד פוגש גם אותי, כהורה. וכשהוא פוגש אותי, אני ממהר להשתיק אותו באמצעות פתרונות, הסברים או ניסיונות לשכנע את הילד שלא קרה דבר נורא.</div>
+        <div class="p">ולרוב, אם אעצור לרגע ואתבונן באמת, אגלה שיותר משאני מנסה להציל את הילד מן הכאב שלו, אני מנסה להציל את עצמי מן הכאב שכאבו מעורר בי.</div>
         <div class="stop">אבל לא זה מה שהוא זקוק לו ממני באותו רגע.</div>
         <div class="p">ברגע הזה, הרבה יותר משהוא זקוק לפתרון, הוא זקוק לכך שאראה את הכאב שלו ואהיה איתו בתוכו.</div>
         <div class="p">כדי שאוכל לעשות זאת, עליי לפגוש תחילה את מה שכאבו מעורר בי. לעצור לרגע ולהכיר בכך שקשה לי לראות אותו כך. שכואב לי בכאבו ושאני מרגיש חסר אונים מפני שאיני יכול לתקן מיד את מה שקרה.</div>
@@ -325,6 +337,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         <div class="stop">איננו יכולים להבטיח לילד חיים ללא רגשות לא נעימים. אנחנו יכולים להיות איתו בתוכם היום, וכך לעזור לו לבנות בתוכו את היכולת לפגוש אותם, לשאת אותם ובהדרגה גם לעבור דרכם בכוחות עצמו.</div>
       </div><div class="fol"></div>`;
     oldChapter2.before(newChapter);
+    if(painChapterArt) newChapter.after(painChapterArt);
   }
 
   document.body.className='rd';
