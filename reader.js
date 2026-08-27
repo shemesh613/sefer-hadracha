@@ -307,6 +307,39 @@ document.addEventListener('DOMContentLoaded',()=>{
       n!==parentHiddenGain && n.textContent.startsWith('גם ההורה עשוי לקבל משהו מתוך הדפוס'))?.remove();
   }
 
+  const emotionEngineNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 11')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  for(const node of emotionEngineNodes){
+    node.textContent=node.textContent
+      .replace('תחושת הסיפוק והגאווה', 'תחושת הסיפוק והערך')
+      .replace('סיפוק, גאווה ומשמעות', 'סיפוק, ערך ומשמעות');
+  }
+
+  const feelGoodNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 12')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const innerFeelingIntro=feelGoodNodes.find(n=>
+    n.textContent.startsWith('כשהילד מתחשב, עוזר, מתגבר או פועל באחריות'));
+  if(innerFeelingIntro){
+    innerFeelingIntro.textContent='כשהילד מתחשב, עוזר, מתגבר או פועל באחריות, אפשר להפנות את תשומת לבו למה שהמעשה עורר בו:';
+  }
+  feelGoodNodes.find(n=>n.textContent.trim()==='״ראית כמה הוא שמח כשעזרת לו?״')?.remove();
+  feelGoodNodes.find(n=>n.textContent.startsWith('ולפעמים די בשאלה פשוטה'))?.remove();
+  feelGoodNodes.find(n=>n.textContent.trim()==='״איך אתה מרגיש עם מה שעשית?״')?.remove();
+  const overcomingQuestion=feelGoodNodes.find(n=>
+    n.textContent.trim()==='״איך אתה מרגיש עכשיו, אחרי שהצלחת להתגבר?״');
+  if(overcomingQuestion){
+    const honestQuestion=document.createElement('div');
+    honestQuestion.className='p';
+    honestQuestion.textContent='חשוב שזו תהיה שאלה אמיתית. איננו מנסים להכניס לפיו של הילד את הרגש שאנחנו מצפים שירגיש, אלא מזמינים אותו להקשיב למה שבאמת מתרחש בתוכו. ייתכן שהוא ירגיש סיפוק, וייתכן שלא. נקבל את תשובתו כפי שהיא. אחרת, במקום לחבר אותו לעצמו, לימדנו אותו רק איזו תשובה אנחנו רוצים לשמוע.';
+    overcomingQuestion.after(honestQuestion);
+  }
+  const innerCompass=feelGoodNodes.find(n=>n.textContent.startsWith('כך הילד לא רק יודע שהמעשה היה טוב'));
+  if(innerCompass){
+    innerCompass.textContent='כשהילד לומד לעצור ולהבחין במה שבאמת מתרחש בתוכו, הוא מתחיל לזהות את הקשר בין הבחירות שלו לבין התחושות שנשארות בו אחריהן.';
+  }
+
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
   const duplicatePainSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
