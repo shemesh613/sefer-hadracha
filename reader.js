@@ -157,6 +157,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   const ch5Motive=ch5Pages.flatMap(s=>[...s.querySelectorAll('.body > .p')])
     .find(n=>n.textContent.startsWith('אני רוצה, ככל האפשר, שהחינוך שלי יצמח מתוך ערכים'));
   if(ch5Motive) ch5Motive.textContent='אני רוצה, ככל האפשר, שהחינוך שלי יצמח מתוך ערכים ולא מתוך מניעים אישיים שבמבט ראשון איני מבחין בהם.';
+  const ch5SameBoundary=ch5Pages.flatMap(s=>[...s.querySelectorAll('.body > .p')])
+    .find(n=>n.textContent.startsWith('ולעיתים אפילו אותו גבול'));
+  if(ch5SameBoundary) ch5SameBoundary.outerHTML='<div class="p">הבירור הזה אינו מסתיים בשאלה אם להציב גבול או לא.</div><div class="p">לפעמים נציב בדיוק את אותו הגבול ונאמר בדיוק את אותן המילים - ובכל זאת נפעל ממקומות שונים לחלוטין.</div>';
 
   // פרק 32 נערך לאחר יצירת קובץ הספר. מחליפים כאן את הגרסה הישנה
   // לפני שהקורא מעמד את הדפים, כדי שהעימוד ייבנה מן הנוסח המעודכן.
