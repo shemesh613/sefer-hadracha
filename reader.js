@@ -75,10 +75,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(acceptanceLine) acceptanceLine.insertAdjacentHTML('afterend','<div class="p">קבלת הרגש אינה מעלימה את הכאב. אבל כשאני מנסה לברוח מן הכאב במקום להכיר בו, הוא מתגבר, הופך לסבל של ממש ומתחיל לנהל אותי. דווקא כשאני עוצר, מסכים לפגוש את הרגש הלא נעים, נותן לו שם, נושם ומבין את עצמי - משהו מתרכך. הכאב עדיין קיים, אבל משהו בו נעשה רך יותר וקל יותר לשאת אותו. כך הוא יכול לעבור בתוכי במקום להצטבר.</div>');
 
   // דיוק בפרק 4 במקור, המוצג כפרק 5 לאחר הוספת הפרק החדש.
-  const ch4Nodes=[...document.querySelectorAll('.sheet.txt')]
+  const ch4LifeWorkNodes=[...document.querySelectorAll('.sheet.txt')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 4')
     .flatMap(s=>[...s.querySelectorAll('.body > .p')]);
-  const lifeWorkLine=ch4Nodes.find(n=>n.textContent.startsWith('אני חושב שזו אחת מעבודות החיים שלנו'));
+  const lifeWorkLine=ch4LifeWorkNodes.find(n=>n.textContent.startsWith('אני חושב שזו אחת מעבודות החיים שלנו'));
   if(lifeWorkLine) lifeWorkLine.textContent='הבירור הזה הוא אחת מעבודות החיים שלנו כהורים וכמחנכים: לבדוק שוב ושוב מאיזה מקום מגיעים הגבולות שאנחנו מציבים.';
 
   // פרק 2: הסמכות אינה נשענת על הציות של הילד.
