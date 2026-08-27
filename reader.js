@@ -319,6 +319,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   const feelGoodNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 12')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  for(const node of feelGoodNodes){
+    node.textContent=node.textContent.replace('סיפוק, גאווה, קרבה', 'סיפוק, תחושת ערך, קרבה');
+  }
   const innerFeelingIntro=feelGoodNodes.find(n=>
     n.textContent.startsWith('כשהילד מתחשב, עוזר, מתגבר או פועל באחריות'));
   if(innerFeelingIntro){
