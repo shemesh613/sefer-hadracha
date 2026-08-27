@@ -351,6 +351,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const noException=homeCollapseNodes.find(n=>n.textContent.trim()==='לא תמיד קרה משהו חריג.');
   const noStrength=homeCollapseNodes.find(n=>n.textContent.trim()==='לפעמים פשוט נגמר לו הכוח.');
+  const exhaustionReflection=homeCollapseNodes.find(n=>
+    n.textContent.startsWith('״נראה שאתה ממש מותש מכל השעות'));
+  if(exhaustionReflection){
+    exhaustionReflection.textContent='״אתה בטח ממש עייף ומותש מהיום שלך בבית הספר. אני מבינה אותך.״';
+  }
   const releaseAtHome=homeCollapseNodes.find(n=>n.textContent.startsWith('כשהוא מגיע הביתה'));
   if(releaseAtHome){
     releaseAtHome.textContent=releaseAtHome.textContent.replace('ובהתפרצויות אז', 'ובהתפרצויות. אז');
