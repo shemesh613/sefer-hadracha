@@ -375,6 +375,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     noStrength?.remove();
   }
 
+  const noFearNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 15')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const worriedFather=noFearNodes.find(n=>n.textContent.startsWith('״אבא קצת מודאג ועצוב עכשיו'));
+  if(worriedFather){
+    worriedFather.textContent='״אבא קצת מודאג ועצוב עכשיו. זה לא בגללכם. אני צריך כמה דקות עם עצמי, ואחר כך אחזור.״';
+  }
+  const strongFather=noFearNodes.find(n=>n.textContent.trim()==='זהו אבא חזק.');
+  if(strongFather){
+    strongFather.textContent='זהו אבא חזק. גם כשהוא כועס, דואג או עצוב, הוא מסוגל לזהות את הרגש, לקרוא לו בשם ולא לתת לו לנהל אותו ולפגוע באחרים.';
+    noFearNodes.find(n=>n.textContent.startsWith('לא משום שהוא אינו כועס'))?.remove();
+    noFearNodes.find(n=>n.textContent.startsWith('הוא מזהה את הרגש. הוא קורא לו בשם'))?.remove();
+  }
+  const howItSounds=noFearNodes.find(n=>n.textContent.trim()==='אני יודע איך זה עלול להישמע.');
+  if(howItSounds) howItSounds.textContent='אני יודע איך כל זה עלול להישמע.';
+
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
   const duplicatePainSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
