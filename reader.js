@@ -296,6 +296,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
+  const hiddenGainNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 8')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const parentHiddenGain=hiddenGainNodes.find(n=>
+    n.textContent.startsWith('ולפעמים, הרווח הסמוי נמצא לא רק אצל הילד'));
+  if(parentHiddenGain){
+    parentHiddenGain.textContent='הרווח הסמוי עשוי להימצא גם אצל ההורה, שמקבל מתוך הדפוס תחושה שצריכים אותו, או סיפוק מכך שהוא זה שמרגיע, פותר ומחזיק את הבית.';
+    hiddenGainNodes.find(n=>
+      n!==parentHiddenGain && n.textContent.startsWith('גם ההורה עשוי לקבל משהו מתוך הדפוס'))?.remove();
+  }
+
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
   const duplicatePainSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
