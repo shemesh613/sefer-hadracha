@@ -320,7 +320,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 12')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   for(const node of feelGoodNodes){
-    node.textContent=node.textContent.replace('סיפוק, גאווה, קרבה', 'סיפוק, תחושת ערך, קרבה');
+    node.textContent=node.textContent
+      .replace('סיפוק, גאווה, קרבה', 'סיפוק, תחושת ערך, קרבה')
+      .replace('סיפוק, כוח או הקלה רגעיים', 'תחושת כוח, פורקן או הקלה רגעית');
   }
   const innerFeelingIntro=feelGoodNodes.find(n=>
     n.textContent.startsWith('כשהילד מתחשב, עוזר, מתגבר או פועל באחריות'));
@@ -330,6 +332,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   feelGoodNodes.find(n=>n.textContent.trim()==='״ראית כמה הוא שמח כשעזרת לו?״')?.remove();
   feelGoodNodes.find(n=>n.textContent.startsWith('ולפעמים די בשאלה פשוטה'))?.remove();
   feelGoodNodes.find(n=>n.textContent.trim()==='״איך אתה מרגיש עם מה שעשית?״')?.remove();
+  feelGoodNodes.find(n=>n.textContent.trim()==='״איך אתה מרגיש עכשיו עם מה שקרה?״')?.remove();
   const overcomingQuestion=feelGoodNodes.find(n=>
     n.textContent.trim()==='״איך אתה מרגיש עכשיו, אחרי שהצלחת להתגבר?״');
   if(overcomingQuestion){
@@ -341,6 +344,26 @@ document.addEventListener('DOMContentLoaded',()=>{
   const innerCompass=feelGoodNodes.find(n=>n.textContent.startsWith('כך הילד לא רק יודע שהמעשה היה טוב'));
   if(innerCompass){
     innerCompass.textContent='כשהילד לומד לעצור ולהבחין במה שבאמת מתרחש בתוכו, הוא מתחיל לזהות את הקשר בין הבחירות שלו לבין התחושות שנשארות בו אחריהן.';
+  }
+
+  const homeCollapseNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 13')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const noException=homeCollapseNodes.find(n=>n.textContent.trim()==='לא תמיד קרה משהו חריג.');
+  const noStrength=homeCollapseNodes.find(n=>n.textContent.trim()==='לפעמים פשוט נגמר לו הכוח.');
+  if(noException){
+    noException.textContent='אנחנו מיד מנסים להבין מה קרה לו. מי פגע בו? מה השתבש היום? ולפעמים אנחנו רק רוצים שההתנהגות הזאת תיפסק, ואומרים:';
+    const stopCrying=document.createElement('div');
+    stopCrying.className='q';
+    stopCrying.textContent='״די כבר לבכות מכל דבר.״';
+    const whyBehave=document.createElement('div');
+    whyBehave.className='q';
+    whyBehave.textContent='״למה אתה מתנהג ככה?״';
+    const heldTogether=document.createElement('div');
+    heldTogether.className='p';
+    heldTogether.textContent='אבל ייתכן שלא קרה שום דבר חריג. הילד פשוט החזיק את עצמו במשך שעות, ועכשיו כבר אין לו כוח להמשיך.';
+    noException.after(stopCrying, whyBehave, heldTogether);
+    noStrength?.remove();
   }
 
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
