@@ -351,6 +351,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const noException=homeCollapseNodes.find(n=>n.textContent.trim()==='לא תמיד קרה משהו חריג.');
   const noStrength=homeCollapseNodes.find(n=>n.textContent.trim()==='לפעמים פשוט נגמר לו הכוח.');
+  const releaseAtHome=homeCollapseNodes.find(n=>n.textContent.startsWith('כשהוא מגיע הביתה'));
+  if(releaseAtHome){
+    releaseAtHome.textContent=releaseAtHome.textContent.replace('ובהתפרצויות אז', 'ובהתפרצויות. אז');
+  }
   if(noException){
     noException.textContent='אנחנו מיד מנסים להבין מה קרה לו. מי פגע בו? מה השתבש היום? ולפעמים אנחנו רק רוצים שההתנהגות הזאת תיפסק, ואומרים:';
     const stopCrying=document.createElement('div');
