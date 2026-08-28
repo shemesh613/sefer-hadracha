@@ -423,6 +423,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     oldBoredomEnding.textContent='אנחנו נשארים לצדו ומשדרים לו אמון מלא: הוא מסוגל לפגוש את הרגש הלא נעים, ובהמשך גם לחשוב, להעלות רעיונות ולמצוא פתרון בעצמו.';
     boredomNodes.find(n=>n.textContent.startsWith('האם אנחנו מציעים עזרה מפני שהוא זקוק לנו'))?.remove();
   }
+  boredomNodes.find(n=>n.textContent.startsWith('הנקודה אינה להשאיר את הילד לבדו'))?.remove();
+  boredomNodes.find(n=>n.textContent.startsWith('הנקודה היא להיות לידו'))?.remove();
+  boredomNodes.find(n=>n.textContent.trim()==='לשדר לו:')?.remove();
+  boredomNodes.find(n=>n.textContent.includes('אני רואה שלא נעים לך. אני איתך'))?.remove();
 
   const chapterSeventeenNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
