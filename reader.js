@@ -431,8 +431,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   const chapterSeventeenNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const cookieExampleIntro=chapterSeventeenNodes.find(n=>n.textContent.includes('הילד מבקש עוד עוגייה'));
+  if(cookieExampleIntro) cookieExampleIntro.textContent='הילדה מבקשת עוד עוגייה. אפשר לומר:';
   const cookieReflection=chapterSeventeenNodes.find(n=>n.textContent.includes('היא באמת טעימה, וכבר בא לך עוד אחת'));
-  if(cookieReflection) cookieReflection.textContent='״וואי, אתה ממש רוצה אותה. היא כל כך טעימה, וממש בא לך עוד אחת.״';
+  if(cookieReflection) cookieReflection.textContent='״וואי, את ממש רוצה אותה. היא כל כך טעימה, וממש בא לך עוד אחת.״';
 
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
