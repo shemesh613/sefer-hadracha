@@ -404,6 +404,25 @@ document.addEventListener('DOMContentLoaded',()=>{
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   boredomNodes.find(n=>n.textContent.includes('לא כל רגש לא נעים הוא מצב שצריך לתקן'))?.remove();
   boredomNodes.find(n=>n.textContent.includes('איזה רעיון יש לך'))?.remove();
+  const boredomReflection=boredomNodes.find(n=>n.textContent.includes('כן, באמת לא נעים כשלא יודעים מה לעשות'));
+  if(boredomReflection) boredomReflection.textContent='״כן, זה באמת לא נעים כשלא יודעים מה לעשות.״';
+  const stayWithBoredom=boredomNodes.find(n=>n.textContent.startsWith('אני יכול להיות איתו לרגע בתוך התחושה'));
+  if(stayWithBoredom) stayWithBoredom.textContent='אני יכול להיות איתו לרגע בתוך התחושה, בלי למהר למצוא עבורו פתרון.';
+  boredomNodes.find(n=>n.textContent.trim()==='לא מיד, ובוודאי לא מתוך לחץ.')?.remove();
+  const possibleQuestions=boredomNodes.find(n=>n.textContent.trim()==='אפשר לשאול:');
+  if(possibleQuestions){
+    possibleQuestions.className='stop';
+    possibleQuestions.textContent='אחרי שהיינו איתו ברגש, וכבר איננו פועלים מתוך לחץ להעלים אותו, אפשר לעזור לילד לקחת בעצמו אחריות על הפתרון.';
+    const questionIntro=document.createElement('div');
+    questionIntro.className='p';
+    questionIntro.textContent='אפשר לשאול:';
+    possibleQuestions.after(questionIntro);
+  }
+  const oldBoredomEnding=boredomNodes.find(n=>n.textContent.startsWith('אין שום בעיה לעזור לילד לחשוב על פתרון'));
+  if(oldBoredomEnding){
+    oldBoredomEnding.textContent='אנחנו נשארים לצדו ומשדרים לו אמון מלא: הוא מסוגל לפגוש את הרגש הלא נעים, ובהמשך גם לחשוב, להעלות רעיונות ולמצוא פתרון בעצמו.';
+    boredomNodes.find(n=>n.textContent.startsWith('האם אנחנו מציעים עזרה מפני שהוא זקוק לנו'))?.remove();
+  }
 
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
