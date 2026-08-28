@@ -396,6 +396,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     noFearNodes.find(n=>n.textContent.trim()==='עם הזמן, התרגול הזה הפך עבורי לדרך חיים.')?.remove();
     noFearNodes.find(n=>n.textContent.startsWith('לא מפני שאני תמיד רגוע'))?.remove();
   }
+  const naturalFeeling=noFearNodes.find(n=>n.textContent.includes('זה בסדר שאני מרגיש כך'));
+  if(naturalFeeling) naturalFeeling.textContent='״זה טבעי שאני מרגיש כך.״';
+
+  const boredomNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 16')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  boredomNodes.find(n=>n.textContent.includes('לא כל רגש לא נעים הוא מצב שצריך לתקן'))?.remove();
+  boredomNodes.find(n=>n.textContent.includes('איזה רעיון יש לך'))?.remove();
 
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
