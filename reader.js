@@ -424,6 +424,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     boredomNodes.find(n=>n.textContent.startsWith('האם אנחנו מציעים עזרה מפני שהוא זקוק לנו'))?.remove();
   }
 
+  const chapterSeventeenNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const cookieReflection=chapterSeventeenNodes.find(n=>n.textContent.includes('היא באמת טעימה, וכבר בא לך עוד אחת'));
+  if(cookieReflection) cookieReflection.textContent='״וואי, אתה ממש רוצה אותה. היא כל כך טעימה, וממש בא לך עוד אחת.״';
+
   // פרק 10 במקור חזר כמעט במלואו על הפרק החדש. מסירים את הטקסט הכפול,
   // אך שומרים את האיור שלו ומעבירים אותו אל הפרק החדש.
   const duplicatePainSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
