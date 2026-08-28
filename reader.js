@@ -296,6 +296,84 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
+  // תיקונים נקודתיים בפרקים 17-19 ושכתוב פרק 20 בקול טבעי ואישי יותר.
+  const chapter17Nodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const computerReflection=chapter17Nodes.find(n=>
+    n.textContent.includes('אני רואה כמה קשה לך לעצור עכשיו'));
+  if(computerReflection) computerReflection.textContent='״וואו, כל כך מתחשק לך להמשיך עוד. ממש קשה לעצור עכשיו.״';
+  const boundaryFeeling=chapter17Nodes.find(n=>
+    n.textContent.includes('אני לא משנה את הגבול כדי להעלים את האכזבה'));
+  if(boundaryFeeling) boundaryFeeling.textContent='אבל אני לא משנה את הגבול רק כדי שלא יפגוש את הרגש הלא נעים.';
+  const steadyAuthority=chapter17Nodes.find(n=>
+    n.textContent.includes('לפעמים היא בדיוק מה שהופך, את הסמכות'));
+  if(steadyAuthority) steadyAuthority.textContent=steadyAuthority.textContent.replace('שהופך, את','שהופך את');
+
+  const chapter18Nodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 18')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const punishmentTransition=chapter18Nodes.find(n=>
+    n.textContent.startsWith('אז מה אני עושה כשהילד'));
+  if(punishmentTransition) punishmentTransition.textContent='ובכל זאת, כשהילד עובר על כלל שחשוב לי, אני צריך להגיב. אז מה אני עושה?';
+  const pauseBeforeBoundary=chapter18Nodes.find(n=>
+    n.textContent.startsWith('אם אני פועל ממקום אישי ונסער'));
+  if(pauseBeforeBoundary){
+    pauseBeforeBoundary.textContent='אם אני נסער, כדאי שאעצור קודם. אחרת הגבול עלול להפוך לדרך לפרוק על הילד את מה שאני מרגיש.';
+    const aiBoundary=chapter18Nodes.find(n=>n.textContent.startsWith('לא מפני שהגבול אינו חשוב'));
+    aiBoundary?.remove();
+  }
+  const treatExample=chapter18Nodes.find(n=>n.textContent.includes('אם בדיוק מחלקים ארטיקים'));
+  if(treatExample) treatExample.textContent=treatExample.textContent
+    .replace('אם בדיוק מחלקים ארטיקים, נשמור לו את הארטיק לאחרי השיחה. הוא אינו מפסיד אותו.',
+      'אם בדיוק מחלקים ממתק, נשמור לו אותו לאחרי השיחה. הוא אינו מפסיד אותו.');
+  const deeperAnswer=chapter18Nodes.find(n=>n.textContent.startsWith('לא כדי להתיש את הילד'));
+  if(deeperAnswer) deeperAnswer.textContent='השאלה הנוספת מזמינה אותו להעמיק עוד מעט, ולא להסתפק בתשובה הראשונה רק כדי לסיים את השיחה.';
+  const anotherTalk=chapter18Nodes.find(n=>n.textContent.includes('נקיים שיחה נוספ'));
+  if(anotherTalk) anotherTalk.textContent=anotherTalk.textContent
+    .replace('נקיים שיחה נוספ.', 'נקיים שיחה נוספת.')
+    .replace('אי אפשר להאמין לך..', 'אי אפשר להאמין לך.״');
+
+  const chapter19Nodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 19')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const slogan19=chapter19Nodes.find(n=>n.textContent.trim()==='חינוך אינו הניסיון לתקן הכול בבת אחת.');
+  if(slogan19){
+    slogan19.textContent='למדתי שאם אנסה לתקן הכול בבת אחת, כנראה שלא אצליח להתמיד בשום דבר.';
+    const final19=chapter19Nodes.find(n=>n.textContent.startsWith('חינוך הוא היכולת לזהות'));
+    if(final19) final19.textContent='עדיף לבחור את הדבר החשוב עכשיו, להשקיע בו את הכוחות ולהישאר איתו עד שמתחיל להתרחש שינוי.';
+  }
+
+  const chapter20=[...document.querySelectorAll('.sheet.txt')].find(s=>
+    !s.classList.contains('continued') &&
+    s.querySelector('.knum')?.textContent.trim()==='פרק 20');
+  if(chapter20){
+    chapter20.querySelector('.body').innerHTML=`
+      <div class="p">לפעמים אני רואה ילד מתאמץ לעשות משהו, וכבר ברור לי איך אפשר לסיים אותו מהר יותר.</div>
+      <div class="p">הוא מנסה לסדר, להרכיב, לתקן או למצוא פתרון. זה לוקח זמן, הדרך שלו מסורבלת, ואני כמעט בלי לשים לב אומר:</div>
+      <div class="q">״עזוב, אני אעשה.״</div>
+      <div class="p">ברגע אחד חסכתי זמן, בלגן ואולי גם מעט תסכול.</div>
+      <div class="p">אבל חסכתי מן הילד גם את ההזדמנות לגלות שהוא מסוגל.</div>
+      <div class="p">כי ילד אינו מגלה את הכוחות שלו מכך שאנחנו אומרים לו שוב ושוב:</div>
+      <div class="q">״אני מאמין בך.״</div>
+      <div class="p">הוא מגלה אותם כשהוא מנסה בעצמו.</div>
+      <div class="p">כשהדרך הראשונה אינה מצליחה והוא מחפש דרך אחרת. כשהוא טועה, מתקן ומנסה שוב. ולבסוף, כשהוא מביט במה שעשה ויודע:</div>
+      <div class="q">״אני עשיתי את זה.״</div>
+      <div class="p">ברגעים האלה אני משתדל לעצור את הידיים שלי ולא למהר להיכנס במקומו.</div>
+      <div class="p">זה לא תמיד קל. אני יודע שאעשה זאת מהר יותר, ולפעמים גם טוב יותר. אבל המטרה שלי אינה רק שהחדר יסתדר, שהמשימה תושלם או שהבעיה תיפתר. חשוב לי שהילד ילמד לסדר, להשלים ולפתור.</div>
+      <div class="p">אני גם לא חייב להיעלם ולהשאיר אותו לבד. אפשר לשבת לידו, להקשיב, לשאול שאלה או לתת רמז קטן.</div>
+      <div class="q">״מה עוד אפשר לנסות?״<br>״איפה לדעתך כדאי להתחיל?״<br>״אני כאן אם תצטרך אותי.״</div>
+      <div class="p">העזרה צריכה להשאיר את ההתמודדות בידיים שלו.</div>
+      <div class="p">הוא כנראה יעשה זאת לאט יותר, יטעה, ואולי גם ישאיר מעט בלגן בדרך. זה חלק מן הלמידה.</div>
+      <div class="p">כשאנחנו עושים שוב ושוב במקומו את מה שהוא כבר מסוגל לנסות בעצמו, הוא עלול להתרגל לחכות לנו. אבל כשאנחנו נשארים לידו ומאפשרים לו להתמודד, הוא צובר עוד חוויה שאומרת לו: אני יכול.</div>
+      <div class="stop">את הבלגן אפשר לסדר אחר כך. את הרגע שבו הילד מגלה את הכוחות שלו אי אפשר לעשות במקומו.</div>`;
+    let chapter20Next=chapter20.nextElementSibling;
+    while(chapter20Next?.classList.contains('continued') &&
+          chapter20Next.querySelector('.knum')?.textContent.trim()==='פרק 20'){
+      const remove=chapter20Next; chapter20Next=chapter20Next.nextElementSibling; remove.remove();
+    }
+  }
+
   const hiddenGainNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 8')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
