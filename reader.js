@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     noFearNodes.find(n=>n.textContent.startsWith('הוא מזהה את הרגש. הוא קורא לו בשם'))?.remove();
   }
   const howItSounds=noFearNodes.find(n=>n.textContent.trim()==='אני יודע איך זה עלול להישמע.');
-  if(howItSounds) howItSounds.textContent='אני יודע איך כל זה עלול להישמע.';
+  if(howItSounds) howItSounds.textContent='אבל אני יודע איך כל זה עלול להישמע.';
   const personalPractice=noFearNodes.find(n=>n.textContent.trim().startsWith('אני כותב את זה גם מניסיון אישי.'));
   if(personalPractice){
     personalPractice.textContent='אני מכיר את התהליך הזה גם מעצמי. התרגול הזה מלווה אותי כבר שנים, וגם היום אני לא תמיד מצליח לעצור בזמן. אבל עם השנים למדתי לזהות מהר יותר מה קורה בתוכי. כשאני מזהה את הרגש ונותן לו מקום, הוא פחות מנהל אותי.';
