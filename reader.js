@@ -369,10 +369,42 @@ document.addEventListener('DOMContentLoaded',()=>{
           chapter20Next.querySelector('.knum')?.textContent.trim()==='פרק 20'){
       const remove=chapter20Next; chapter20Next=chapter20Next.nextElementSibling; remove.remove();
     }
+
+    // פרק חדש על מתן הזדמנות נוספת לאחר כישלון. האיור שאחרי פרק 20
+    // נשאר אחריו ברצף, וכך משמש כעת כאיור של הפרק החדש.
+    [...document.querySelectorAll('.knum')].forEach(label=>{
+      const match=label.textContent.trim().match(/^פרק (\d+)$/);
+      if(match && Number(match[1])>=21) label.textContent=`פרק ${Number(match[1])+1}`;
+    });
+
+    const chapter21=document.createElement('div');
+    chapter21.className='sheet txt';
+    chapter21.innerHTML=`
+      <div class="head"><div class="knum">פרק 21</div><h2>האם אני מרשה לילד שלי להיכשל?</h2><div class="deco"></div></div>
+      <div class="body">
+        <div class="p">כשהבת שלי הייתה קטנה, היא עזרה לערוך את השולחן.</div>
+        <div class="p">היא לקחה כוס, ובדרך לשולחן הכוס נשמטה מידיה ונשברה.</div>
+        <div class="p">לרגע היא קפאה במקום והסתכלה עליי.</div>
+        <div class="p">יכולתי לומר:</div>
+        <div class="q">״עזבי, אני כבר אביא את שאר הכוסות.״</div>
+        <div class="p">כך הייתי מונע אולי מכוס נוספת להישבר, מסיים את עריכת השולחן במהירות וגם חוסך מעצמי מעט מתח.</div>
+        <div class="p">אספתי בעצמי את השברים כדי שלא תיפגע, ואמרתי לה:</div>
+        <div class="q">״זה קורה. חכי רגע שאאסוף, ואז תביאי את הכוס הבאה.״</div>
+        <div class="p">היא היססה מעט, לקחה כוס נוספת והניחה אותה על השולחן.</div>
+        <div class="p">עצם זה שנתתי לה להביא את הכוס הבאה העביר לה בלי מילים מסר ברור:</div>
+        <div class="q">״אני עדיין מאמין בך.״</div>
+        <div class="p">ברגע הזה היא למדה כיצד להחזיק כוס בזהירות, וגם גילתה שטעות אחת אינה לוקחת ממנה את ההזדמנות לנסות שוב.</div>
+        <div class="p">כשילד נכשל, הוא עשוי להיבהל, להתבייש או לחשוש לנסות שוב. אם אנחנו ממהרים לקחת ממנו את המשימה, הוא עלול לשמוע מתחת לעזרה שלנו:</div>
+        <div class="q">״אולי זה גדול עליך.״</div>
+        <div class="p">את השברים נאסוף בעצמנו. את הבהלה ואת הצער נפגוש יחד איתו. וכשהמקום שוב בטוח, ניתן לו לחזור ולנסות.</div>
+        <div class="p">כך מצטברות בילד חוויות שבהן משהו השתבש, והוא התאושש, למד וניסה שוב.</div>
+        <div class="stop">בהמשך נקרא לחוויות האלה ״אסימונים״. כל ניסיון כזה מוסיף לקופה הפנימית של הילד עוד מעט ביטחון בעצמו.</div>
+      </div><div class="fol"></div>`;
+    chapter20.parentElement.insertBefore(chapter21, chapter20Next);
   }
 
   const chapter23Nodes=[...document.querySelectorAll('.sheet')]
-    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 23')
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 24')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const criticism23=chapter23Nodes.find(n=>
     n.textContent.includes('אולי הוא שומע בעיקר מה אינו עושה נכון'));
