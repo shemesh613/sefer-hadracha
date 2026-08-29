@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const punishmentTransition=chapter18Nodes.find(n=>
     n.textContent.startsWith('אז מה אני עושה כשהילד'));
-  if(punishmentTransition) punishmentTransition.textContent='ובכל זאת, כשהילד עובר על כלל שחשוב לי, אני צריך להגיב. אז מה אני עושה?';
+  if(punishmentTransition) punishmentTransition.textContent='ובכל זאת, הילד לא תמיד מקשיב. לפעמים הוא עובר על כלל או על ערך שחשוב לי. אז מה אני עושה?';
   const pauseBeforeBoundary=chapter18Nodes.find(n=>
     n.textContent.startsWith('אם אני פועל ממקום אישי ונסער'));
   if(pauseBeforeBoundary){
@@ -354,10 +354,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       <div class="q">״עזוב, אני אעשה.״</div>
       <div class="p">ברגע אחד חסכתי זמן, בלגן ואולי גם מעט תסכול.</div>
       <div class="p">אבל חסכתי מן הילד גם את ההזדמנות לגלות שהוא מסוגל.</div>
-      <div class="p">כי ילד אינו מגלה את הכוחות שלו מכך שאנחנו אומרים לו שוב ושוב:</div>
-      <div class="q">״אני מאמין בך.״</div>
-      <div class="p">הוא מגלה אותם כשהוא מנסה בעצמו.</div>
-      <div class="p">כשהדרך הראשונה אינה מצליחה והוא מחפש דרך אחרת. כשהוא טועה, מתקן ומנסה שוב. ולבסוף, כשהוא מביט במה שעשה ויודע:</div>
+      <div class="p">אחר כך, כשהוא חושש לנסות בעצמו, אנחנו עלולים להתפלא:</div>
+      <div class="q">״נו, למה אתה לא מנסה?״<br>״ממה אתה מפחד?״<br>״למה אתה מוותר כל כך מהר?״</div>
+      <div class="p">אבל כדי שיעז לנסות, הוא זקוק לחוויות שבהן התמודד בכוחות עצמו וגילה שהוא מסוגל.</div>
+      <div class="p">כשהדרך הראשונה אינה מצליחה, הוא מחפש דרך אחרת. הוא טועה, מתקן ומנסה שוב. ולבסוף הוא מביט במה שעשה ויודע:</div>
       <div class="q">״אני עשיתי את זה.״</div>
       <div class="p">ברגעים האלה אני משתדל לעצור את הידיים שלי ולא למהר להיכנס במקומו.</div>
       <div class="p">זה לא תמיד קל. אני יודע שאעשה זאת מהר יותר, ולפעמים גם טוב יותר. אבל המטרה שלי אינה רק שהחדר יסתדר, שהמשימה תושלם או שהבעיה תיפתר. חשוב לי שהילד ילמד לסדר, להשלים ולפתור.</div>
