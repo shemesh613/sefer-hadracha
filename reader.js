@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     s.querySelector('.knum')?.textContent.trim()==='פרק 20');
   if(chapter20){
     chapter20.querySelector('.body').innerHTML=`
-      <div class="p">לפעמים אני רואה ילד מתאמץ לעשות משהו, וכבר ברור לי איך אפשר לסיים אותו מהר יותר.</div>
+      <div class="p">לפעמים אני רואה את הילד שלי מתאמץ לעשות משהו, וכבר ברור לי איך אפשר לסיים אותו מהר יותר.</div>
       <div class="p">הוא מנסה לסדר, להרכיב, לתקן או למצוא פתרון. זה לוקח זמן, הדרך שלו מסורבלת, ואני כמעט בלי לשים לב אומר:</div>
       <div class="q">״עזוב, אני אעשה.״</div>
       <div class="p">ברגע אחד חסכתי זמן, בלגן ואולי גם מעט תסכול.</div>
@@ -372,6 +372,20 @@ document.addEventListener('DOMContentLoaded',()=>{
           chapter20Next.querySelector('.knum')?.textContent.trim()==='פרק 20'){
       const remove=chapter20Next; chapter20Next=chapter20Next.nextElementSibling; remove.remove();
     }
+  }
+
+  const chapter23Nodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 23')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const criticism23=chapter23Nodes.find(n=>
+    n.textContent.includes('אולי הוא שומע בעיקר מה אינו עושה נכון'));
+  if(criticism23 && !chapter23Nodes.some(n=>n.textContent.includes('אוי, אתה משהו אתה'))){
+    criticism23.insertAdjacentHTML('afterend', `
+      <div class="p">לפעמים אלה אינן רק הערות על מה שהילד עשה, אלא עקיצות, הכללות וכינויים:</div>
+      <div class="q">״אוי, אתה משהו אתה.״<br>״נו באמת, אתה לא רואה מה אתה עושה?״<br>״זה תמיד קורה לך.״<br>״שקרן.״<br>״חצוף.״</div>
+      <div class="p">המשפטים האלה אולי נפלטים ברגע של כעס, אבל הילד שומע בהם הרבה יותר מביקורת על מעשה מסוים. הוא עלול לשמוע שכך אנחנו רואים אותו.</div>
+      <div class="p">יש הבדל גדול בין לומר לילד ששיקר לבין לקרוא לו שקרן, ובין לעצור דיבור שאינו מכבד לבין לקרוא לו חצוף. המעשה זקוק לתיקון. הכינוי נדבק לילד עצמו.</div>
+      <div class="p">וכשהקופה שלו ממילא כמעט ריקה, כל עקיצה כזאת לוקחת ממנה עוד אסימון.</div>`);
   }
 
   const hiddenGainNodes=[...document.querySelectorAll('.sheet')]
