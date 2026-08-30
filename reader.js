@@ -636,6 +636,25 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(painChapterArt) newChapter.after(painChapterArt);
   }
 
+  // פרק 25: ממחישים כיצד אנשים שונים בסביבת הילד מוסיפים לקופה שלו
+  // או לוקחים ממנה, ומדברים על תיקון המעשה בלי להגדיר את הילד.
+  const environmentChapterNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 25')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const environmentIntro=environmentChapterNodes.find(n=>
+    n.textContent.startsWith('לכל אדם שפוגש את הילד יש השפעה גדולה'));
+  if(environmentIntro){
+    environmentIntro.textContent='כל אדם שפוגש את הילד יכול להוסיף לקופה שלו או לקחת ממנה. הורה שנותן לו אחריות וסומך עליו, מורה שמבחין בהתקדמות שלו, חבר שבוחר בו למשחק, ואפילו נהג אוטובוס שמקבל את פניו בחיוך ומתייחס אליו באדיבות - כל אחד מהם יכול להוסיף לקופה שלו אסימון.';
+    environmentChapterNodes.find(n=>
+      n.textContent.startsWith('אנחנו מוסיפים אסימונים כשאנו נותנים לילד אחריות'))?.remove();
+    const environmentCost=environmentChapterNodes.find(n=>
+      n.textContent.startsWith('לעומת זאת, השפלות'));
+    if(environmentCost) environmentCost.textContent='גם בכיוון ההפוך הסביבה משפיעה. לעג של חבר, השוואה בין אחים, הערה עוקצנית של מבוגר או תיוג שחוזר שוב ושוב עלולים לקחת מן הקופה. ילד ששומע שהוא עצלן, בעייתי או מאכזב עלול להתחיל לראות בכל ניסיון סכנה נוספת להוכיח שהמילים האלה נכונות.';
+  }
+  const boundariesParagraph=environmentChapterNodes.find(n=>
+    n.textContent.startsWith('אין פירוש הדבר שאסור להעיר לילד'));
+  if(boundariesParagraph) boundariesParagraph.textContent='כשמעשה דורש תיקון, אפשר לדבר על המעשה בלי להפוך את הטעות להגדרה של הילד. במקום לומר: ״אתה לא מסוגל״, אפשר לומר: ״כאן עדיין לא הצלחת. בוא נראה מה יעזור לך לפעול אחרת״. כך גם המפגש עם הטעות יכול להפוך לחוויה שמוסיפה לו כוח במקום לרוקן אותו.';
+
   // פרק חדש לאחר "עקרון הנדנדה". הוא נוסף רק אחרי שכל תיקוני התוכן
   // הקיימים כבר הוחלו, כדי שלא לשנות את מספרי הפרקים שאליהם הם פונים.
   const seesawSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
