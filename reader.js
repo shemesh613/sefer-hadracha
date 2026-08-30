@@ -661,6 +661,26 @@ document.addEventListener('DOMContentLoaded',()=>{
     environmentClosing.textContent='זו האחריות שלנו כהורים: לדאוג שבכל ערב הילד שלנו ילך לישון עם יותר אסימונים מכפי שהיו לו כשקם בבוקר.';
   }
 
+  // פרק 26: פתיחה ישירה וטבעית יותר, בלי לחזור בעמוד הבא על מסקנתה.
+  const illuminatedChapter=[...document.querySelectorAll('.sheet.txt')].find(s=>
+    !s.classList.contains('continued') &&
+    s.querySelector('.knum')?.textContent.trim()==='פרק 26');
+  if(illuminatedChapter){
+    illuminatedChapter.querySelector('.body').innerHTML=`
+      <div class="p">בלי לשים לב, אנחנו עלולים לדבר עם הילדים לאורך היום בעיקר על מה שלא היה בסדר.</div>
+      <div class="q">״כמה פעמים צריך לבקש?״<br>״למה אתה שוב מציק לו?״<br>״אי אפשר לדבר כאן בצורה מכבדת?״</div>
+      <div class="p">אנחנו שמים לב מיד כשהילד אינו מקשיב, כשהאחים מציקים זה לזה, כשהחדר נשאר מבולגן או כשהדיבור בבית נעשה לא מכבד. על כל אלה אנחנו מעירים.</div>
+      <div class="p">אבל באותו יום ממש קרו בבית גם הרבה דברים אחרים.</div>
+      <div class="p">אחד הילדים ויתר לאחיו, ילד אחר פינה את הצלחת בלי שהתבקש, אחות הבחינה שקשה לאחיה ועזרה לו, ובמשך זמן ארוך הם אפילו שיחקו יחד בנעימות.</div>
+      <div class="p">הדברים האלה התרחשו בשקט. הכול היה בסדר, ולכן גם אנחנו לא אמרנו דבר.</div>
+      <div class="stop">וכך ייתכן שבמהלך היום התרחש בבית הרבה יותר טוב מרע, אבל רוב המילים שלנו ניתנו דווקא למה שלא היה בסדר.</div>`;
+    const illuminatedNodes=[...document.querySelectorAll('.sheet.txt')]
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 26')
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    illuminatedNodes.find(n=>
+      n.textContent.startsWith('דווקא המעשים שאיננו רוצים מקבלים מאיתנו'))?.remove();
+  }
+
   // פרק חדש לאחר "עקרון הנדנדה". הוא נוסף רק אחרי שכל תיקוני התוכן
   // הקיימים כבר הוחלו, כדי שלא לשנות את מספרי הפרקים שאליהם הם פונים.
   const seesawSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
