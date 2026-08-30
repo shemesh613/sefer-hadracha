@@ -402,6 +402,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     chapter20.parentElement.insertBefore(chapter21, chapter20Next);
   }
 
+  const chapter22Nodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 22')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const stickerAlbum=chapter22Nodes.find(n=>n.textContent.includes('נניח שאני רואה אלבום שיקר לו זרוק על הרצפה'));
+  if(stickerAlbum) stickerAlbum.textContent=stickerAlbum.textContent.replace(
+    'נניח שאני רואה אלבום שיקר לו זרוק על הרצפה',
+    'נניח שאני רואה אלבום מדבקות שיקר לו זרוק על הרצפה'
+  );
+
   const chapter23Nodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 24')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
