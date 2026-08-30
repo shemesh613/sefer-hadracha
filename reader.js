@@ -412,15 +412,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   );
   chapter22Nodes.find(n=>n.textContent.trim()==='זו אינה נטישה.')?.remove();
 
-  const chapter23Nodes=[...document.querySelectorAll('.sheet')]
+  const tokenTheoryNodes=[...document.querySelectorAll('.sheet')]
+    .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 23')
+    .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  const confidenceFromExperience=tokenTheoryNodes.find(n=>n.textContent.startsWith('ביטחון עצמי אינו נבנה רק מכך'));
+  if(confidenceFromExperience) confidenceFromExperience.textContent='לא די לומר לילד: ״תאמין בעצמך״. הביטחון שלו נבנה מן האסימונים הממשיים שהוא צובר לאורך הדרך - מחוויות שבהן התאמץ, התקדם, הצליח וגילה שהוא מסוגל.';
+
+  const chapter24Nodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 24')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
-  const criticism23=chapter23Nodes.find(n=>
+  const criticism23=chapter24Nodes.find(n=>
     n.textContent.includes('אולי הוא שומע בעיקר מה אינו עושה נכון'));
-  if(criticism23 && !chapter23Nodes.some(n=>n.textContent.includes('אוי, אתה משהו אתה'))){
+  if(criticism23 && !chapter24Nodes.some(n=>n.textContent.includes('אוי, אתה משהו אתה'))){
+    criticism23.textContent='עכשיו דמיינו ילד שבקופה שלו נשארו מעט מאוד אסימונים. אולי הוא חווה שוב ושוב כישלונות ושומע בעיקר מה אינו עושה נכון. עם הזמן הוא כבר מצפה שגם הניסיון הבא יסתיים באכזבה.';
     criticism23.insertAdjacentHTML('afterend', `
-      <div class="p">לפעמים אלה אינן רק הערות על מה שהילד עשה, אלא עקיצות, הכללות וכינויים:</div>
-      <div class="q">״אוי, אתה משהו אתה.״<br>״נו באמת, אתה לא רואה מה אתה עושה?״<br>״זה תמיד קורה לך.״<br>״שקרן.״<br>״חצוף.״</div>
+      <div class="p">לפעמים אלה אינן רק הערות על מה שהילד עשה, אלא עקיצות והכללות:</div>
+      <div class="q">״אוי, אתה משהו אתה.״<br>״נו באמת, אתה לא רואה מה אתה עושה?״<br>״זה תמיד קורה לך.״</div>
+      <div class="p">ולפעמים אנחנו ממש מתייגים אותו:</div>
+      <div class="q">״אתה ילד שקרן.״<br>״אתה ילד חצוף.״</div>
       <div class="p">המשפטים האלה אולי נפלטים ברגע של כעס, אבל הילד שומע בהם הרבה יותר מביקורת על מעשה מסוים. הוא עלול לשמוע שכך אנחנו רואים אותו.</div>
       <div class="p">יש הבדל גדול בין לומר לילד ששיקר לבין לקרוא לו שקרן, ובין לעצור דיבור שאינו מכבד לבין לקרוא לו חצוף. המעשה זקוק לתיקון. הכינוי נדבק לילד עצמו.</div>
       <div class="p">וכשהקופה שלו ממילא כמעט ריקה, כל עקיצה כזאת לוקחת ממנה עוד אסימון.</div>`);
