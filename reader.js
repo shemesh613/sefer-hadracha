@@ -679,6 +679,17 @@ document.addEventListener('DOMContentLoaded',()=>{
       .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
     illuminatedNodes.find(n=>
       n.textContent.startsWith('דווקא המעשים שאיננו רוצים מקבלים מאיתנו'))?.remove();
+    const illuminatedStatement=illuminatedNodes.find(n=>
+      n.textContent.trim()==='אבל מה שאנחנו מאירים - צומח.');
+    const positiveAttention=illuminatedNodes.find(n=>
+      n.textContent.startsWith('כשילד שומע אותנו מבחינים במאמץ שלו'));
+    illuminatedStatement?.remove();
+    positiveAttention?.remove();
+    const negativeAttention=illuminatedNodes.find(n=>
+      n.textContent.startsWith('לעומת זאת, כשהילד מקבל מאיתנו'));
+    negativeAttention?.insertAdjacentHTML('beforebegin', `
+      <div class="stop">אבל מה שאנחנו מאירים - צומח.</div>
+      <div class="p">כשילד שומע אותנו מבחינים במאמץ שלו, בהתחשבות, בהתגברות ובאחריות, תשומת הלב שלו מופנית אליהם. הוא מתחיל לראות את הטוב בעצמו ולהבין שזהו דבר שמבחינים בו ומעריכים אותו בבית. כך גדל הסיכוי שהוא ירצה לבחור בו שוב.</div>`);
   }
 
   // פרק חדש לאחר "עקרון הנדנדה". הוא נוסף רק אחרי שכל תיקוני התוכן
