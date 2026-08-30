@@ -636,6 +636,54 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(painChapterArt) newChapter.after(painChapterArt);
   }
 
+  // פרק חדש לאחר "עקרון הנדנדה". הוא נוסף רק אחרי שכל תיקוני התוכן
+  // הקיימים כבר הוחלו, כדי שלא לשנות את מספרי הפרקים שאליהם הם פונים.
+  const seesawSheets=[...document.querySelectorAll('.sheet.txt')].filter(s=>
+    s.querySelector('.knum')?.textContent.trim()==='פרק 29');
+  const lastSeesawSheet=seesawSheets.at(-1);
+  if(lastSeesawSheet){
+    for(const label of document.querySelectorAll('.sheet.txt .knum')){
+      const match=label.textContent.trim().match(/^פרק (\d+)$/);
+      if(match && Number(match[1])>=30){
+        label.textContent='פרק '+(Number(match[1])+1);
+      }
+    }
+
+    const bodyAutonomyChapter=document.createElement('div');
+    bodyAutonomyChapter.className='sheet txt';
+    bodyAutonomyChapter.innerHTML=`
+      <div class="head"><div class="knum">פרק 30</div><h2>מתאים לי או לא מתאים לי?</h2><div class="deco"></div></div>
+      <div class="body">
+        <div class="p">מוגנות מתחילה בבית.</div>
+        <div class="p">אנחנו רוצים שהילדים שלנו ידעו לשמור על עצמם גם כשאיננו לידם. אנחנו מלמדים אותם כללי מוגנות ואומרים להם מתי להתרחק, לומר לא ולפנות לעזרה.</div>
+        <div class="p">אבל יש עוד יכולת חשובה, שנבנית הרבה לפני המפגש עם מצב מסוכן: היכולת של הילד להרגיש מה מתאים לו ומה אינו מתאים לו, ולדעת שיש משמעות למה שהוא מרגיש.</div>
+        <div class="p">היכולת הזאת נבנית מתוך החוויות היומיומיות בבית ומתוך התחושה של הילד שגופו שייך לו, שמקשיבים לו כשהוא אומר שכואב או שלא נעים לו, ושיש לו שליטה על גופו.</div>
+        <div class="p">זה קורה ברגעים הפשוטים ביותר. כשמסרקים אותו במסרק כינים, כשגוזזים לו ציפורניים ואפילו כשהולכים להסתפר.</div>
+        <div class="p">גם כשברור שהפעולה תיעשה, אפשר לתת לילד תחושה שהוא שותף למה שקורה בגופו. להסביר לו מראש מה אנחנו עומדים לעשות, לשאול מה יעזור לו ולאפשר לו לבחור בתוך המצב:</div>
+        <div class="q">״באיזו יד נתחיל?״<br>״תגיד לי אם זה מושך לך בשיער.״<br>״נעשה רגע הפסקה ואז נמשיך.״</div>
+        <div class="p">ובתספורת, לשמוע איך הילד היה רוצה להסתפר ולהתחשב בבחירה שלו.</div>
+        <div class="p">כך הוא מתרגל לכך שהתחושות שלו חשובות, שמותר לו לדבר עליהן ושיש לו שליטה על גופו. הוא לומד לזהות מתי משהו נעים לו, מתי הוא אינו נעים ומתי הוא רוצה שיפסיק.</div>
+        <div class="p">את המיומנות הזאת אני מפתח גם באמצעות משחק פשוט שאני עושה עם ילדים: ״מתאים או לא מתאים?״</div>
+        <div class="q">מתאים שאמא תחבק אותי?<br>מתאים שנהג האוטובוס ייתן לי כיף?<br>מתאים שהמורה יניח לי יד על הכתף?<br>מתאים שחבר ידגדג אותי?<br>מתאים שהרופא יבדוק אותי?<br>מתאים שאדם שאיני מכיר יציע לי ממתק ויבקש שאלך איתו?</div>
+        <div class="p">לא תמיד יש במשחק תשובה אחת נכונה, וזה גם לא העיקר. את המצבים הבעייתיים הילדים מזהים בדרך כלל מיד. אני רוצה פשוט לחדד מדי פעם את יכולת הזיהוי הזאת ולתרגל איתם את עצם העצירה וההתבוננות:</div>
+        <div class="stop">האם זה מתאים לי או לא מתאים לי?</div>
+        <div class="p">אפשר להמחיש זאת גם באמצעות שלושה מעגלים.</div>
+        <div class="p">במרכז נמצא הילד עצמו.</div>
+        <div class="p">במעגל הראשון נמצאים האנשים הקרובים אליו: אבא, אמא, אחים ואנשים נוספים שהוא מרגיש איתם קרוב.</div>
+        <div class="p">במעגל השני נמצאים אנשים שהוא מכיר ופוגש במסגרות שונות: מורה, מדריך, נהג הסעה, שכן או רופא.</div>
+        <div class="p">במעגל השלישי נמצאים אנשים שאינו מכיר.</div>
+        <div class="p">בכל מעגל אפשר לשאול יחד: איזו קרבה מתאימה כאן? איזה מגע מתאים? על מה מתאים לדבר? ועד כמה מתאים לסמוך על האדם שמולי?</div>
+        <div class="p">עם הזמן השאלות שאנחנו שואלים במשחק יכולות להפוך לשאלות שהילד מפנה לעצמו:</div>
+        <div class="q">האם זה מתאים לי?<br>האם זה נעים לי?<br>האם אני רוצה שזה ימשיך?</div>
+        <div class="p">ואם משהו אינו מתאים, הוא יכול להתרחק, לומר ״לא״ או ״תפסיק״ ולספר למבוגר בטוח.</div>
+        <div class="stop">כללי המוגנות נותנים לילד הוראות חשובות. התרגול הזה בונה בו גם יכולת פנימית להכיר את התחושות שלו, להקשיב להן ולדעת שיש לו קול בכל מה שנוגע לגופו.</div>
+      </div><div class="fol"></div>`;
+
+    const seesawArt=lastSeesawSheet.nextElementSibling?.classList.contains('art')
+      ? lastSeesawSheet.nextElementSibling : null;
+    (seesawArt||lastSeesawSheet).after(bodyAutonomyChapter);
+  }
+
   document.body.className='rd';
   const pages=[...document.querySelectorAll('.sheet')];
   const stage=document.createElement('div'); stage.className='rd-stage';
