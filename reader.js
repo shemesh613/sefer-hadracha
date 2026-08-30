@@ -642,7 +642,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 25')
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const environmentIntro=environmentChapterNodes.find(n=>
-    n.textContent.startsWith('לכל אדם שפוגש את הילד יש השפעה גדולה'));
+    n.textContent.startsWith('גם לסביבתו של הילד יש השפעה גדולה'));
   if(environmentIntro){
     environmentIntro.textContent='כל אדם שפוגש את הילד יכול להוסיף לקופה שלו או לקחת ממנה. הורה שנותן לו אחריות וסומך עליו, מורה שמבחין בהתקדמות שלו, חבר שבוחר בו למשחק, ואפילו נהג אוטובוס שמקבל את פניו בחיוך ומתייחס אליו באדיבות - כל אחד מהם יכול להוסיף לקופה שלו אסימון.';
     environmentChapterNodes.find(n=>
