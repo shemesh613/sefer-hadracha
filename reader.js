@@ -673,12 +673,14 @@ document.addEventListener('DOMContentLoaded',()=>{
       <div class="p">אבל באותו יום ממש קרו בבית גם הרבה דברים אחרים.</div>
       <div class="p">אחד הילדים ויתר לאחיו, ילד אחר פינה את הצלחת בלי שהתבקש, אחות הבחינה שקשה לאחיה ועזרה לו, ובמשך זמן ארוך הם אפילו שיחקו יחד בנעימות.</div>
       <div class="p">הדברים האלה התרחשו בשקט. הכול היה בסדר, ולכן גם אנחנו לא אמרנו דבר.</div>
-      <div class="stop">וכך ייתכן שבמהלך היום התרחש בבית הרבה יותר טוב מרע, אבל רוב המילים שלנו ניתנו דווקא למה שלא היה בסדר.</div>`;
+      <div class="stop">וכך ייתכן שבמהלך היום התרחשו בבית הרבה דברים טובים, ובכל זאת רוב המילים שלנו ניתנו דווקא למה שלא היה בסדר.</div>`;
     const illuminatedNodes=[...document.querySelectorAll('.sheet.txt')]
       .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 26')
       .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
     illuminatedNodes.find(n=>
       n.textContent.startsWith('דווקא המעשים שאיננו רוצים מקבלים מאיתנו'))?.remove();
+    illuminatedNodes.find(n=>
+      n.textContent.startsWith('לעומת זאת, הדברים הטובים מתרחשים בדרך כלל בשקט'))?.remove();
     const illuminatedStatement=illuminatedNodes.find(n=>
       n.textContent.trim()==='אבל מה שאנחנו מאירים - צומח.');
     const positiveAttention=illuminatedNodes.find(n=>
