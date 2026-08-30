@@ -410,6 +410,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     'נניח שאני רואה אלבום שיקר לו זרוק על הרצפה',
     'נניח שאני רואה אלבום מדבקות שיקר לו זרוק על הרצפה'
   );
+  chapter22Nodes.find(n=>n.textContent.trim()==='זו אינה נטישה.')?.remove();
 
   const chapter23Nodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 24')
