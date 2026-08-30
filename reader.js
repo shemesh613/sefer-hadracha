@@ -329,6 +329,19 @@ document.addEventListener('DOMContentLoaded',()=>{
       'אם בדיוק מחלקים ממתק, נשמור לו אותו לאחרי השיחה. הוא אינו מפסיד אותו.');
   const deeperAnswer=chapter18Nodes.find(n=>n.textContent.startsWith('לא כדי להתיש את הילד'));
   if(deeperAnswer) deeperAnswer.textContent='השאלה הנוספת מזמינה אותו להעמיק עוד מעט, ולא להסתפק בתשובה הראשונה רק כדי לסיים את השיחה.';
+  const thinkingQuestion=chapter18Nodes.find(n=>
+    n.classList.contains('q') && n.textContent.includes('אני רוצה שתחשוב ותגיד לי'));
+  if(thinkingQuestion){
+    const quietIntro=document.createElement('div');
+    quietIntro.className='p';
+    quietIntro.textContent='ואז אני שותק.';
+    const quietThinking=document.createElement('div');
+    quietThinking.className='p';
+    quietThinking.textContent='לא נואם, לא מסביר ולא מציע לו תשובות. אני פשוט יושב איתו בשקט ונותן לו לחשוב. עכשיו זה הזמן שלו.';
+    thinkingQuestion.after(quietIntro, quietThinking);
+    const childrenStruggle=chapter18Nodes.find(n=>n.textContent.startsWith('יש ילדים שמתקשים לעצור ולפגוש את עצמם'));
+    if(childrenStruggle) childrenStruggle.textContent='יש ילדים שהשקט הזה קשה להם. הם ינסו להסביר, להאשים או להתרחק מן השאלה. אנחנו לא מתווכחים איתם. אנחנו מחזירים אותם אל השאלה, ושוב נותנים להם לחשוב בשקט. ילדים אחרים יציעו רעיון במהירות.';
+  }
   const anotherTalk=chapter18Nodes.find(n=>n.textContent.includes('נקיים שיחה נוספ'));
   if(anotherTalk) anotherTalk.textContent=anotherTalk.textContent
     .replace('נקיים שיחה נוספ.', 'נקיים שיחה נוספת.')
