@@ -654,6 +654,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   const boundariesParagraph=environmentChapterNodes.find(n=>
     n.textContent.startsWith('אין פירוש הדבר שאסור להעיר לילד'));
   if(boundariesParagraph) boundariesParagraph.textContent='כשמעשה דורש תיקון, אפשר לדבר על המעשה בלי להפוך את הטעות להגדרה של הילד. במקום לומר: ״אתה לא מסוגל״, אפשר לומר: ״כאן עדיין לא הצלחת. בוא נראה מה יעזור לך לפעול אחרת״. כך גם המפגש עם הטעות יכול להפוך לחוויה שמוסיפה לו כוח במקום לרוקן אותו.';
+  const environmentClosing=environmentChapterNodes.find(n=>
+    n.textContent.startsWith('כל אסימון קטן שאנחנו עוזרים לו לצבור היום'));
+  if(environmentClosing){
+    environmentClosing.className='stop';
+    environmentClosing.textContent='זו האחריות שלנו כהורים: לדאוג שבכל ערב הילד שלנו ילך לישון עם יותר אסימונים מכפי שהיו לו כשקם בבוקר.';
+  }
 
   // פרק חדש לאחר "עקרון הנדנדה". הוא נוסף רק אחרי שכל תיקוני התוכן
   // הקיימים כבר הוחלו, כדי שלא לשנות את מספרי הפרקים שאליהם הם פונים.
