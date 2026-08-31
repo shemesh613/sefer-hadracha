@@ -329,6 +329,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       'אם בדיוק מחלקים ממתק, נשמור לו אותו לאחרי השיחה. הוא אינו מפסיד אותו.');
   const deeperAnswer=chapter18Nodes.find(n=>n.textContent.startsWith('לא כדי להתיש את הילד'));
   if(deeperAnswer) deeperAnswer.textContent='השאלה הנוספת מזמינה אותו להעמיק עוד מעט, ולא להסתפק בתשובה הראשונה רק כדי לסיים את השיחה.';
+  const regretAndRepair=chapter18Nodes.find(n=>n.textContent.includes('המטרה אינה לגרום לו לבכות על העבר'));
+  if(regretAndRepair) regretAndRepair.textContent=regretAndRepair.textContent.replace(
+    'המטרה אינה לגרום לו לבכות על העבר, אלא ללמד אותו כיצד מתקנים לקראת העתיד.',
+    'יש מקום גם לצער ולחרטה על מה שהיה, אבל מטרת השיחה היא בעיקר לעזור לו לחשוב כיצד יתקן ויפעל אחרת להבא.');
   const thinkingQuestion=chapter18Nodes.find(n=>
     n.classList.contains('q') && n.textContent.includes('אני רוצה שתחשוב ותגיד לי'));
   if(thinkingQuestion){
