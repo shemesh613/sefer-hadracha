@@ -682,8 +682,67 @@ document.addEventListener('DOMContentLoaded',()=>{
       .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
     const sameForChildren=sleepNodes.find(n=>n.textContent.trim()==='ומה שנכון לגבינו נכון גם לגבי הילדים.');
     if(sameForChildren) sameForChildren.textContent='גם הילדים, ממש כמונו, מתקשים יותר לווסת את עצמם כשהם עייפים או רעבים.';
-    sleepNodes.find(n=>n.textContent.trim()==='וזה נכון גם לגבינו.')?.remove();
+    const sleepReturn=sleepNodes.find(n=>n.textContent.trim()==='וזה נכון גם לגבינו.');
+    if(sleepReturn) sleepReturn.textContent='כשם שאנחנו מתאימים את הציפיות לכוחות של הילד, כך עלינו לזכור שגם הכוחות שלנו מושפעים משינה ומאכילה.';
   }
+
+  // תיקוני עריכה לפרקי האמון, המניפולציה, התפקידים, הרצון והוויסות.
+  const chapterNodesByTitle=title=>{
+    const allSheets=[...document.querySelectorAll('.rd-book .sheet.txt')];
+    const first=allSheets.find(s=>
+      !s.classList.contains('continued') && s.querySelector('h2')?.textContent.trim()===title);
+    if(!first) return [];
+    const label=first.querySelector('.knum')?.textContent.trim();
+    return allSheets
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()===label)
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+  };
+
+  const applyFinalEditorialCorrections=()=>{
+  const manipulationNodes=chapterNodesByTitle('האם אני מפעיל מניפולציה רגשית על הילד שלי?');
+  const guiltSentence=manipulationNodes.find(n=>n.textContent.startsWith('במקום לומר לילד מה אנחנו מבקשים ממנו'));
+  if(guiltSentence) guiltSentence.textContent='אנחנו אומרים לילד מה אנחנו מבקשים ממנו, אבל מלבישים על הבקשה גם תחושת אשמה. במקום לבקש או להציב גבול בפשטות, אנחנו מפעילים את הרגש של הילד כדי שיעשה את רצוננו.';
+
+  const doingNodes=chapterNodesByTitle('לא לעשות במקומו');
+  const enterImmediately=doingNodes.find(n=>
+    n.textContent.includes('אני באמת מתכוון לעזור') || n.textContent.includes('ומיד נכנסים'));
+  if(enterImmediately && !doingNodes.some(n=>n.textContent.includes('לעלות על המגלשה הפוך'))){
+    const story=document.createElement('div');
+    story.className='p';
+    story.textContent='אני נזכר בפעם שבני, שהיה אז כבן שלוש או אולי אפילו פחות, רצה לעלות על המגלשה הפוך. כבר באתי לומר לו שלא ינסה, כי היה נראה לי שזה קשה מדי ושהכישלון רק יאכזב אותו. ותוך כדי שאני חושב איך לעצור אותו, ראיתי שהוא כבר למעלה. הרגע הזה תפס אותי: לפעמים אין לנו מושג לאן הילד יכול להגיע. אם רק נאמין בו, או לפחות לא נעצור אותו מפני שאנחנו פוחדים מהאכזבה שהוא עלול לחוות, הוא עשוי להגיע גבוה ורחוק יותר ממה שדמיינו.';
+    enterImmediately.after(story);
+  }
+
+  const rolesNodes=chapterNodesByTitle('צריכים אותך בבית');
+  const inventedTask=rolesNodes.find(n=>n.textContent.includes('לא משימה שהמצאנו רק כדי להעסיק את הילד'));
+  if(inventedTask) inventedTask.textContent='התפקיד אינו צריך להיות גדול. הוא צריך להתאים לגילו וליכולתו ולאפשר לו להשתתף באמת בחיי הבית.';
+  const fakeWork=rolesNodes.find(n=>n.textContent.startsWith('המטרה אינה לתת לו עבודה מדומה'));
+  if(fakeWork) fakeWork.textContent='גם כשהתרומה של ילד קטן עדיין אינה חוסכת לנו עבודה, ההשתתפות עצמה מעניקה לו חוויה של יכולת, תרומה ושייכות.';
+  rolesNodes.find(n=>n.textContent.startsWith('מובן שלא תמיד הוא יזכור'))?.remove();
+
+  const buyWarmNodes=chapterNodesByTitle('״אבא, תקנה לי…״');
+  const photoPrompt=buyWarmNodes.find(n=>n.textContent.startsWith('לפעמים אפשר פשוט לומר'));
+  if(photoPrompt) photoPrompt.textContent='אפשר פשוט להצטרף להתלהבות שלו ולומר:';
+  const photoQuote=buyWarmNodes.find(n=>n.textContent.includes('בוא נצלם, כדי שנזכור'));
+  if(photoQuote) photoQuote.textContent='״וואו, אני רואה כמה אתה רוצה את זה. בוא נצלם אותך איתו.״';
+
+  const dynamicsEndingNodes=chapterNodesByTitle('לא כל דינמיקה דורשת התערבות');
+  const dynamicsEnding=dynamicsEndingNodes.find(n=>n.textContent.startsWith('לפעמים דווקא כשאיני נכנס'));
+  if(dynamicsEnding) dynamicsEnding.textContent=dynamicsEnding.textContent.replace(/^לפעמים /,'');
+
+  const sleepBridgeNodes=chapterNodesByTitle('לישון בשביל הילדים');
+  const backToParents=sleepBridgeNodes.find(n=>n.textContent.trim()==='וזה נכון גם לגבינו.');
+  if(backToParents) backToParents.textContent='כשם שאנחנו מתאימים את הציפיות לכוחות של הילד, כך עלינו לזכור שגם הכוחות שלנו מושפעים משינה ומאכילה.';
+
+  const belongsNodesForFriends=chapterNodesByTitle('הילד שלי אינו שייך לי');
+  const notOnlyClothes=belongsNodesForFriends.find(n=>n.textContent.trim()==='השאלה הזאת אינה נוגעת רק לבגדים.');
+  if(notOnlyClothes && !belongsNodesForFriends.some(n=>n.textContent.includes('במי הוא בוחר להיות חבר'))){
+    const friends=document.createElement('div');
+    friends.className='p';
+    friends.textContent='היא נוגעת גם לאחד הדברים שהכי קשה לנו לשחרר: במי הוא בוחר להיות חבר. אני יכול להכיר את החברים, לשים לב להשפעה של הקשר ולהתערב כשיש סכנה או פגיעה. אבל איני יכול לבחור עבורו אל מי לבו יימשך, ואיני יכול לנהל עבורו את כל קשריו.';
+    notOnlyClothes.after(friends);
+  }
+  };
 
   const chapterSeventeenNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
@@ -1026,6 +1085,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   let tightened=0;
+  applyFinalEditorialCorrections();
+
   function reflow(){
     tightened=0;
     // א. כל פרק חוזר להיות עמוד אחד ארוך
