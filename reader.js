@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
   const slogan19=chapter19Nodes.find(n=>n.textContent.trim()==='חינוך אינו הניסיון לתקן הכול בבת אחת.');
   if(slogan19){
-    slogan19.textContent='למדתי שאם אנסה לתקן הכול בבת אחת, כנראה שלא אצליח להתמיד בשום דבר.';
+    slogan19.textContent='כשאנחנו מנסים לתקן הכול בבת אחת, הכוחות מתפזרים וקשה להתמיד בשינוי לאורך זמן.';
     const final19=chapter19Nodes.find(n=>n.textContent.startsWith('חינוך הוא היכולת לזהות'));
     if(final19) final19.textContent='עדיף לבחור את הדבר החשוב עכשיו, להשקיע בו את הכוחות ולהישאר איתו עד שמתחיל להתרחש שינוי.';
   }
