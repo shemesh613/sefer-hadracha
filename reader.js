@@ -760,7 +760,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   const boundariesParagraph=environmentChapterNodes.find(n=>
     n.textContent.startsWith('אין פירוש הדבר שאסור להעיר לילד'));
-  if(boundariesParagraph) boundariesParagraph.textContent='כשמעשה דורש תיקון, אפשר לדבר על המעשה בלי להפוך את הטעות להגדרה של הילד. במקום לומר: ״אתה לא מסוגל״, אפשר לומר: ״כאן עדיין לא הצלחת. בוא נראה מה יעזור לך לפעול אחרת״. כך גם המפגש עם הטעות יכול להפוך לחוויה שמוסיפה לו כוח במקום לרוקן אותו.';
+  if(boundariesParagraph){
+    boundariesParagraph.textContent='כשמעשה דורש תיקון, אפשר לדבר על המעשה בלי להפוך את הטעות להגדרה של הילד. במקום לומר: ״אתה לא מסוגל״, אפשר לומר: ״כאן עדיין לא הצלחת. בוא נראה מה יעזור לך לפעול אחרת״. כך גם המפגש עם הטעות יכול להפוך לחוויה שמוסיפה לו כוח במקום לרוקן אותו.';
+    if(!environmentChapterNodes.some(n=>n.textContent.startsWith('ומכאן נובעת אחריות נוספת שלנו כהורים')))
+      boundariesParagraph.insertAdjacentHTML('afterend','<div class="p">ומכאן נובעת אחריות נוספת שלנו כהורים: לשים לב לאילו מסגרות הילד שלנו נכנס, מי המבוגרים שפוגשים אותו ואיזה מבט הוא מקבל שם. ככל שהדבר בידינו, עלינו לדאוג שיגדל בסביבה שרואה את כוחותיו, מאמינה בו ומוסיפה לקופה שלו כמה שיותר אסימונים.</div>');
+  }
   const environmentClosing=environmentChapterNodes.find(n=>
     n.textContent.startsWith('כל אסימון קטן שאנחנו עוזרים לו לצבור היום'));
   if(environmentClosing){
