@@ -704,13 +704,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(guiltSentence) guiltSentence.textContent='אנחנו אומרים לילד מה אנחנו מבקשים ממנו, אבל מלבישים על הבקשה גם תחושת אשמה. במקום לבקש או להציב גבול בפשטות, אנחנו מפעילים את הרגש של הילד כדי שיעשה את רצוננו.';
 
   const doingNodes=chapterNodesByTitle('לא לעשות במקומו');
-  const enterImmediately=doingNodes.find(n=>
-    n.textContent.includes('אני באמת מתכוון לעזור') || n.textContent.includes('ומיד נכנסים'));
-  if(enterImmediately && !doingNodes.some(n=>n.textContent.includes('לעלות על המגלשה הפוך'))){
+  const storyEnding=doingNodes.at(-1);
+  if(storyEnding && !doingNodes.some(n=>n.textContent.includes('לעלות על המגלשה הפוך'))){
     const story=document.createElement('div');
     story.className='p';
     story.textContent='אני נזכר בפעם שבני, שהיה אז כבן שלוש או אולי אפילו פחות, רצה לעלות על המגלשה הפוך. כבר באתי לומר לו שלא ינסה, כי היה נראה לי שזה קשה מדי ושהכישלון רק יאכזב אותו. ותוך כדי שאני חושב איך לעצור אותו, ראיתי שהוא כבר למעלה. הרגע הזה תפס אותי: לפעמים אין לנו מושג לאן הילד יכול להגיע. אם רק נאמין בו, או לפחות לא נעצור אותו מפני שאנחנו פוחדים מהאכזבה שהוא עלול לחוות, הוא עשוי להגיע גבוה ורחוק יותר ממה שדמיינו.';
-    enterImmediately.after(story);
+    storyEnding.after(story);
   }
 
   const rolesNodes=chapterNodesByTitle('צריכים אותך בבית');
@@ -735,12 +734,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(backToParents) backToParents.textContent='כשם שאנחנו מתאימים את הציפיות לכוחות של הילד, כך עלינו לזכור שגם הכוחות שלנו מושפעים משינה ומאכילה.';
 
   const belongsNodesForFriends=chapterNodesByTitle('הילד שלי אינו שייך לי');
-  const notOnlyClothes=belongsNodesForFriends.find(n=>n.textContent.trim()==='השאלה הזאת אינה נוגעת רק לבגדים.');
-  if(notOnlyClothes && !belongsNodesForFriends.some(n=>n.textContent.includes('במי הוא בוחר להיות חבר'))){
+  const openingPace=belongsNodesForFriends.find(n=>n.textContent.trim()==='בקצב שבו הוא נפתח.');
+  if(openingPace && !belongsNodesForFriends.some(n=>n.textContent.trim()==='בחברים שאליהם הוא נמשך.')){
     const friends=document.createElement('div');
     friends.className='p';
-    friends.textContent='היא נוגעת גם לאחד הדברים שהכי קשה לנו לשחרר: במי הוא בוחר להיות חבר. אני יכול להכיר את החברים, לשים לב להשפעה של הקשר ולהתערב כשיש סכנה או פגיעה. אבל איני יכול לבחור עבורו אל מי לבו יימשך, ואיני יכול לנהל עבורו את כל קשריו.';
-    notOnlyClothes.after(friends);
+    friends.textContent='בחברים שאליהם הוא נמשך.';
+    openingPace.before(friends);
   }
   };
 
