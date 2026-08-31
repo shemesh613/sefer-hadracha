@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   const introInfluence=introNodes.find(n=>n.textContent.startsWith('אני נזכר בביטויים האלה'));
   if(introInfluence) introInfluence.outerHTML='<div class="p">אני נזכר בביטוי הזה משום שיש בו דבר שנוגע עמוקות לכל הורה ומורה.</div><div class="p">הילדים והתלמידים שלנו מושפעים מאיתנו עמוקות - מן המילים שאנחנו אומרים להם, מן הדרך שבה אנחנו מגיבים אליהם, מן המבט שלנו עליהם, מן האמון שאנחנו נותנים בהם וגם מן הגבולות שאנחנו מציבים.</div>';
   const introClay=introNodes.find(n=>n.textContent.startsWith('במובן מסוים, אנחנו שותפים'));
-  if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו, כמובן בהקשר אחר. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
+  if(introClay) introClay.textContent='במובן מסוים, הם ממש ״כחומר ביד היוצר״ - ביטוי המופיע אף הוא בהמשך ספר ירמיהו. אנחנו שותפים בעיצוב הדרך שבה הם יראו את עצמם ואת העולם שסביבם, לעיתים למשך כל חייהם.';
+  const jeremiahIntro=introNodes.find(n=>n.textContent.startsWith('הקב״ה אומר לירמיהו'));
+  if(jeremiahIntro && !jeremiahIntro.previousElementSibling?.classList.contains('ornament'))
+    jeremiahIntro.insertAdjacentHTML('beforebegin','<div class="ornament"><span></span><i></i><span></span></div>');
   const teachers=introNodes.find(n=>n.textContent.trim()==='הרב בנימין גוטליב ומדריכת ההורים מיכל ברנהם.');
   if(teachers) teachers.innerHTML='הרב בנימין גוטליב<br>ומדריכת ההורים מיכל ברנהם.';
   const authorityClose=introNodes.find(n=>n.textContent.includes('ככל שאנחנו בטוחים יותר בסמכות שלנו'));
@@ -590,6 +593,93 @@ document.addEventListener('DOMContentLoaded',()=>{
   boredomNodes.find(n=>n.textContent.startsWith('הנקודה היא להיות לידו'))?.remove();
   boredomNodes.find(n=>n.textContent.trim()==='לשדר לו:')?.remove();
   boredomNodes.find(n=>n.textContent.includes('אני רואה שלא נעים לך. אני איתך'))?.remove();
+  const boredomLead=boredomNodes.find(n=>n.textContent.startsWith('כשהילד אומר לי ״משעמם לי״'));
+  if(boredomLead) boredomLead.className='p';
+
+  const chapterByTitle=title=>[...document.querySelectorAll('.sheet.txt')].find(s=>
+    !s.classList.contains('continued') && s.querySelector('h2')?.textContent.trim()===title);
+
+  const fromWithinChapter=chapterByTitle('אני רוצה שזה יבוא ממנו');
+  if(fromWithinChapter){
+    const fromWithinNodes=[fromWithinChapter,...(() => {
+      const continuations=[];
+      let next=fromWithinChapter.nextElementSibling;
+      const label=fromWithinChapter.querySelector('.knum')?.textContent.trim();
+      while(next?.classList.contains('continued') && next.querySelector('.knum')?.textContent.trim()===label){
+        continuations.push(next); next=next.nextElementSibling;
+      }
+      return continuations;
+    })()].flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    fromWithinNodes.find(n=>n.textContent.trim()==='״מה עזר לך להצליח הפעם?״')?.remove();
+  }
+
+  const belongsChapter=chapterByTitle('הילד שלי אינו שייך לי');
+  if(belongsChapter){
+    const belongsNodes=[...document.querySelectorAll('.sheet.txt')]
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()===belongsChapter.querySelector('.knum')?.textContent.trim())
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    const clothesCondition=belongsNodes.find(n=>n.textContent.startsWith('אם הבגד נקי, מתאים למזג האוויר'));
+    if(clothesCondition) clothesCondition.textContent='מי אמור להחליט מה הוא ילבש?';
+  }
+
+  const neededAtHomeChapter=chapterByTitle('צריכים אותך בבית');
+  if(neededAtHomeChapter){
+    const neededLabel=neededAtHomeChapter.querySelector('.knum')?.textContent.trim();
+    const neededNodes=[...document.querySelectorAll('.sheet.txt')]
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()===neededLabel)
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    neededNodes.find(n=>n.textContent.startsWith('מובן שלא תמיד הוא יזכור'))?.remove();
+    const rushInstead=neededNodes.find(n=>n.textContent.startsWith('אבל אם נמהר לעשות במקומו'));
+    if(rushInstead) rushInstead.textContent=rushInstead.textContent.replace(/^אבל /,'');
+  }
+
+  const buyMeChapter=chapterByTitle('״אבא, תקנה לי…״');
+  if(buyMeChapter){
+    const buyLabel=buyMeChapter.querySelector('.knum')?.textContent.trim();
+    const buyNodes=[...document.querySelectorAll('.sheet.txt')]
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()===buyLabel)
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    const specialOccasions=buyNodes.find(n=>n.textContent.includes('ובהזדמנויות מיוחדות אכן קניתי להם לפעמים'));
+    if(specialOccasions) specialOccasions.textContent=specialOccasions.textContent.replace(
+      'השתדלתי לזכור את הבקשות שלהם, ובהזדמנויות מיוחדות אכן קניתי להם לפעמים אחד מן המשחקים שבחרו',
+      'השתדלתי לזכור את הבקשות שלהם, והיו גם הזדמנויות מיוחדות שבהן אכן קניתי להם אחד מן המשחקים שבחרו');
+  }
+
+  const dynamicsChapter=chapterByTitle('לא כל דינמיקה דורשת התערבות');
+  if(dynamicsChapter){
+    const dynamicsLabel=dynamicsChapter.querySelector('.knum')?.textContent.trim();
+    dynamicsChapter.querySelector('.body').innerHTML=`
+      <div class="p">האחות הקטנה נותנת שוב לאחיה הגדול לשחק במקומה.</div>
+      <div class="p">אני רואה שהיא רגועה, ממשיכה להיות חלק מן המשחק ואפילו נהנית. ובכל זאת, משהו בי מתכווץ.</div>
+      <div class="p">למה היא נותנת לו? למה היא אינה עומדת על שלה? בעיניי, עכשיו תורה לשחק.</div>
+      <div class="p">מתעורר בי רצון להתערב מיד:</div>
+      <div class="q">״עכשיו תורה. תחזיר לה.״</div>
+      <div class="p">אבל זו הדינמיקה שלהם כרגע. היא אינה מבקשת ממני עזרה, אינה נראית פגועה ואולי בכלל נעים לה לתת לו.</div>
+      <div class="stop">לא כל דבר שמפריע לי כהורה דורש ממני לעצור אותו.</div>
+      <div class="p">ילדים מנהלים ביניהם עולם שלם. הם נותנים ולוקחים, מתעקשים ומוותרים, מובילים ומצטרפים. לא תמיד הדברים מתנהלים כפי שאני הייתי מנהל אותם, וזה בסדר.</div>
+      <div class="p">אם אכנס מיד ואסדר עבורם כל מצב, לא אתן להם לנהל את הקשר שלהם בעצמם. אני עלול גם להכניס לתוכו פירוש שכלל לא היה שם: שהיא הייתה אמורה להיפגע, שהוא השתלט עליה ושהיא זקוקה לי כדי שאגן עליה.</div>
+      <div class="p">לכן אני יכול פשוט להתבונן ולתת למשחק להימשך.</div>
+      <div class="p">ואם ארצה להבין טוב יותר, אוכל לשאול אותה אחר כך, ברוגע:</div>
+      <div class="q">״ראיתי שנתת לאחיך לשחק במקומך. איך זה היה בשבילך?״</div>
+      <div class="p">זו שאלה שמשאירה את החוויה בידיה. אולי היא תאמר שזה כלל לא הפריע לה. אולי אגלה שהיא רצתה להמשיך, אבל לא ידעה כיצד לומר לו. רק לאחר שאשמע אותה אדע אם היא זקוקה לעזרה.</div>
+      <div class="p">התפקיד שלי אינו לנהל עבור הילד כל דינמיקה שמתרחשת סביבו. אני נשאר קרוב, שם לב וזמין לו, אבל מאפשר לו לנהל את הקשרים שלו, לחוש מה מתאים לו ולגלות בעצמו מתי הוא רוצה להמשיך ומתי הוא זקוק לעזרה.</div>
+      <div class="stop">לפעמים דווקא כשאיני נכנס מיד לתמונה, הילד מקבל מקום לנהל את הדינמיקה שלו, לפגוש את הכוחות שלו ולהסתדר בדרכו.</div>`;
+    let dynamicsNext=dynamicsChapter.nextElementSibling;
+    while(dynamicsNext?.classList.contains('continued') && dynamicsNext.querySelector('.knum')?.textContent.trim()===dynamicsLabel){
+      const remove=dynamicsNext; dynamicsNext=dynamicsNext.nextElementSibling; remove.remove();
+    }
+  }
+
+  const sleepChapter=chapterByTitle('לישון בשביל הילדים');
+  if(sleepChapter){
+    const sleepLabel=sleepChapter.querySelector('.knum')?.textContent.trim();
+    const sleepNodes=[...document.querySelectorAll('.sheet.txt')]
+      .filter(s=>s.querySelector('.knum')?.textContent.trim()===sleepLabel)
+      .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
+    const sameForChildren=sleepNodes.find(n=>n.textContent.trim()==='ומה שנכון לגבינו נכון גם לגבי הילדים.');
+    if(sameForChildren) sameForChildren.textContent='גם הילדים, ממש כמונו, מתקשים יותר לווסת את עצמם כשהם עייפים או רעבים.';
+    sleepNodes.find(n=>n.textContent.trim()==='וזה נכון גם לגבינו.')?.remove();
+  }
 
   const chapterSeventeenNodes=[...document.querySelectorAll('.sheet')]
     .filter(s=>s.querySelector('.knum')?.textContent.trim()==='פרק 17')
