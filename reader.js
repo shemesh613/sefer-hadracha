@@ -715,12 +715,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(fakeWork) fakeWork.textContent='גם כשהתרומה של ילד קטן עדיין אינה חוסכת לנו עבודה, ההשתתפות עצמה מעניקה לו חוויה של יכולת, תרומה ושייכות.';
   rolesNodes.find(n=>n.textContent.startsWith('מובן שלא תמיד הוא יזכור'))?.remove();
 
-  const buyWarmNodes=chapterNodesByTitle('״אבא, תקנה לי…״');
-  const photoPrompt=buyWarmNodes.find(n=>n.textContent.startsWith('לפעמים אפשר פשוט לומר'));
-  if(photoPrompt) photoPrompt.textContent='אפשר פשוט להצטרף להתלהבות שלו ולומר:';
-  const photoQuote=buyWarmNodes.find(n=>n.textContent.includes('בוא נצלם, כדי שנזכור'));
-  if(photoQuote) photoQuote.textContent='״וואו, אני רואה כמה אתה רוצה את זה. בוא נצלם אותך איתו.״';
-
   const dynamicsEndingNodes=chapterNodesByTitle('לא כל דינמיקה דורשת התערבות');
   const dynamicsEnding=dynamicsEndingNodes.find(n=>n.textContent.startsWith('לפעמים דווקא כשאיני נכנס'));
   if(dynamicsEnding) dynamicsEnding.textContent=dynamicsEnding.textContent.replace(/^לפעמים /,'');
