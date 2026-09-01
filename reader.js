@@ -633,8 +633,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       .filter(s=>s.querySelector('.knum')?.textContent.trim()===neededLabel)
       .flatMap(s=>[...s.querySelectorAll('.p,.q,.stop')]);
     neededNodes.find(n=>n.textContent.startsWith('מובן שלא תמיד הוא יזכור'))?.remove();
-    const rushInstead=neededNodes.find(n=>n.textContent.startsWith('אבל אם נמהר לעשות במקומו'));
-    if(rushInstead) rushInstead.textContent=rushInstead.textContent.replace(/^אבל /,'');
   }
 
   const buyMeChapter=chapterByTitle('״אבא, תקנה לי…״');
