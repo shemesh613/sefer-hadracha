@@ -713,8 +713,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   const rolesNodes=chapterNodesByTitle('צריכים אותך בבית');
-  const inventedTask=rolesNodes.find(n=>n.textContent.includes('לא משימה שהמצאנו רק כדי להעסיק את הילד'));
-  if(inventedTask) inventedTask.textContent='התפקיד אינו צריך להיות גדול. הוא צריך להתאים לגילו וליכולתו ולאפשר לו להשתתף באמת בחיי הבית.';
   const fakeWork=rolesNodes.find(n=>n.textContent.startsWith('המטרה אינה לתת לו עבודה מדומה'));
   if(fakeWork) fakeWork.textContent='גם כשהתרומה של ילד קטן עדיין אינה חוסכת לנו עבודה, ההשתתפות עצמה מעניקה לו חוויה של יכולת, תרומה ושייכות.';
   rolesNodes.find(n=>n.textContent.startsWith('מובן שלא תמיד הוא יזכור'))?.remove();
