@@ -6,32 +6,43 @@
   <meta name="description" content="לפני שמתקנים את הילד - חלק ב׳ - שמשון ג׳יקוב">
   <title>לפני שמתקנים את הילד - חלק ב׳</title>
   <style>
-    :root{--ink:#292620;--soft:#756e64;--accent:#526f73;--accent-soft:rgba(82,111,115,.12);--paper:#fcf8f1;--gold:#b79257;--line:#ded3c4}
+    :root{--ink:#292620;--soft:#756e64;--accent:#3f5a7a;--accent-soft:rgba(63,90,122,.12);--paper:#fcf8f1;--gold:#b79257;--line:#ded3c4}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;overflow:hidden}
     body{direction:rtl;background:radial-gradient(ellipse at 50% 28%,#4a5059,#14161b 74%);font-family:"Noto Sans Hebrew","Assistant","Segoe UI",Arial,sans-serif;color:var(--ink)}
     .stage{position:fixed;left:50%;top:50%;width:520px;height:693px;transform-origin:center center}
-    .sheet{position:absolute;inset:0;width:520px;height:693px;padding:46px 52px 30px;overflow:hidden;display:none;flex-direction:column;background:linear-gradient(90deg,rgba(82,111,115,.042),transparent 18%),var(--paper);box-shadow:0 18px 48px rgba(0,0,0,.5)}
+    .sheet{position:absolute;inset:0;width:520px;height:693px;padding:46px 52px 30px;overflow:hidden;display:none;flex-direction:column;background:linear-gradient(90deg,rgba(63,90,122,.045),transparent 18%),var(--paper);box-shadow:0 18px 48px rgba(0,0,0,.5)}
     .sheet.active{display:flex}
-    .part-tag{position:absolute;top:0;left:0;width:7px;height:100%;background:linear-gradient(180deg,var(--accent),rgba(82,111,115,.2))}
+    .part-tag{position:absolute;top:0;left:0;width:7px;height:100%;background:linear-gradient(180deg,var(--accent),rgba(63,90,122,.2))}
     .head{flex:0 0 auto}.body{flex:1;overflow:hidden}
     .knum{margin-bottom:10px;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:4.5px}
-    h1{max-width:94%;margin:0 0 11px;color:#343b3b;font:500 30px/1.22 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
+    h1{max-width:94%;margin:0 0 11px;color:#2b3a4d;font:500 30px/1.22 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
     .deco{width:58px;height:1px;margin-bottom:22px;background:linear-gradient(90deg,var(--gold),transparent)}
     p{margin:0 0 9px;font-size:14.2px;line-height:1.62}
     .continued .knum{color:var(--soft);font-size:9px}.continued h1,.continued .deco{display:none}
-    .q{position:relative;margin:13px 0;padding:12px 18px 11px 11px;color:#496166;background:linear-gradient(90deg,rgba(82,111,115,.035),var(--accent-soft))}
-    .q:before{content:"“";position:absolute;top:-19px;right:-3px;color:rgba(82,111,115,.34);font:56px Georgia,serif}
+    .q{position:relative;margin:13px 0;padding:12px 18px 11px 11px;color:#3f5a7a;background:linear-gradient(90deg,rgba(63,90,122,.04),var(--accent-soft))}
+    .q:before{content:"“";position:absolute;top:-19px;right:-3px;color:rgba(63,90,122,.34);font:56px Georgia,serif}
     .stop{margin:15px 0 16px;padding:4px 18px 5px 10px;border-right:1px solid var(--gold);color:var(--accent);font:500 18px/1.58 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
     .ornament{height:34px;margin:15px 11% 18px;display:flex;align-items:center;justify-content:center;gap:12px}
     .ornament span{flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold))}.ornament span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
     .ornament i{width:9px;height:9px;border:1.5px solid var(--gold);background:rgba(183,146,87,.08);transform:rotate(45deg)}
-    .end{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);color:#3f5559;font:500 18px/1.55 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
+    .end{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);color:#3f5a7a;font:500 18px/1.55 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
     .fol{flex:0 0 auto;padding-top:8px;color:#9b9286;font-size:10px;letter-spacing:2px;text-align:center}
     .ui{position:fixed;right:0;bottom:0;left:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 14px;background:linear-gradient(0deg,rgba(10,12,16,.94),rgba(10,12,16,0));color:#c6cad3;font:13px "Segoe UI",Arial}
     .ui button{min-width:92px;padding:8px 15px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.08);color:#f0f2f5;font:13px inherit;cursor:pointer}
     .ui button:disabled{opacity:.3;cursor:default}.count{min-width:92px;text-align:center}
     @media print{html,body{overflow:visible;background:#fff}.stage{position:static;width:auto;height:auto;transform:none!important}.sheet{position:relative;display:flex;margin:0;box-shadow:none;break-after:page}.ui{display:none}}
+
+    /* חלק ב׳ - הכרך בנייבי, הזהב בחזית */
+    .part-tag{width:14px;background:linear-gradient(180deg,var(--accent),rgba(63,90,122,.22))}
+    .head{position:relative;margin:-46px -52px 20px;padding:40px 52px 18px;background:linear-gradient(180deg,rgba(63,90,122,.10),rgba(63,90,122,0))}
+    .knum{color:var(--accent);font-size:11px;letter-spacing:5px;margin-bottom:12px}
+    .knum:before{content:"";display:inline-block;width:26px;height:2px;background:var(--gold);vertical-align:4px;margin-left:10px}
+    .deco{width:96px;height:2.5px;background:linear-gradient(90deg,var(--gold),rgba(183,146,87,0))}
+    .q{border-right:3px solid rgba(63,90,122,.45)}
+    .stop{border-right:3px solid var(--gold)}
+    .end{border-top:1px solid var(--gold)}
+    .continued .head{background:none;padding-bottom:6px;margin-bottom:12px}
   </style>
 </head>
 <body>
