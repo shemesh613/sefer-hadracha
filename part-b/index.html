@@ -11,7 +11,7 @@
     html,body{margin:0;min-height:100%;overflow:hidden}
     body{direction:rtl;background:radial-gradient(ellipse at 50% 28%,#4a5059,#14161b 74%);font-family:"Noto Sans Hebrew","Assistant","Segoe UI",Arial,sans-serif;color:var(--ink)}
     .stage{position:fixed;left:50%;top:50%;width:520px;height:693px;transform-origin:center center}
-    .sheet{position:absolute;inset:0;width:520px;height:693px;padding:46px 52px 30px;overflow:hidden;display:none;flex-direction:column;background:linear-gradient(90deg,rgba(63,90,122,.045),transparent 18%),var(--paper);box-shadow:0 18px 48px rgba(0,0,0,.5)}
+    .sheet{position:absolute;inset:0;width:520px;height:693px;padding:46px 52px 30px;overflow:hidden;display:none;flex-direction:column;background:var(--paper);box-shadow:0 18px 48px rgba(0,0,0,.5)}
     .sheet.active{display:flex}
     .part-tag{position:absolute;top:0;left:0;width:7px;height:100%;background:linear-gradient(180deg,var(--accent),rgba(63,90,122,.2))}
     .head{flex:0 0 auto}.body{flex:1;overflow:hidden}
@@ -34,7 +34,7 @@
     @media print{html,body{overflow:visible;background:#fff}.stage{position:static;width:auto;height:auto;transform:none!important}.sheet{position:relative;display:flex;margin:0;box-shadow:none;break-after:page}.ui{display:none}}
 
     /* חלק ב׳ - הכרך בנייבי, הזהב בחזית */
-    .part-tag{width:14px;background:linear-gradient(180deg,var(--accent),rgba(63,90,122,.22))}
+    .part-tag{display:none}
     .head{position:relative;margin:-46px -52px 20px;padding:40px 52px 18px;background:linear-gradient(180deg,rgba(63,90,122,.10),rgba(63,90,122,0))}
     .knum{color:var(--accent);font-size:11px;letter-spacing:5px;margin-bottom:12px}
     .knum:before{content:"";display:inline-block;width:26px;height:2px;background:var(--gold);vertical-align:4px;margin-left:10px}
