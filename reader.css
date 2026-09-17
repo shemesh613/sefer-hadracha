@@ -84,6 +84,9 @@ body.rd{min-height:100vh;margin:0;padding:0;display:grid;place-items:center;over
 .split-tail{margin-top:0!important;text-indent:0!important}
 
 /* ====== הכריכה ====== */
+.sheet.cover{padding:0;background:#efe7d9;align-items:stretch;justify-content:stretch}
+.cover .cv-img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;display:block}
+
 .sheet.cover{padding:0;background:
   radial-gradient(ellipse at 50% 28%,rgba(255,255,255,.82),transparent 58%),
   linear-gradient(165deg,#f7f1e7 0%,#e9dfcf 48%,#d9cbb6 100%);
