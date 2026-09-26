@@ -43,6 +43,8 @@
     .ornament span{flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold))}.ornament span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
     .ornament i{width:9px;height:9px;border:1.5px solid var(--gold);background:rgba(183,146,87,.08);transform:rotate(45deg)}
     .end{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);color:var(--accent);font:500 18px/1.55 "Frank Ruhl Libre","Noto Serif Hebrew","David Libre",David,serif}
+    .sheet.art{padding:0;background:#f3dfe3}
+    .sheet.art img{width:100%;height:100%;object-fit:contain}
     .fol{flex:0 0 auto;padding-top:8px;color:#9b9286;font-size:10px;letter-spacing:2px;text-align:center}
     .ui{position:fixed;right:0;bottom:0;left:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 14px;background:linear-gradient(0deg,rgba(10,12,16,.94),rgba(10,12,16,0));color:#c6cad3;font:13px "Segoe UI",Arial}
     .ui button{min-width:92px;padding:8px 15px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.08);color:#f0f2f5;font:13px inherit;cursor:pointer}
@@ -189,6 +191,7 @@
         <div class="stop">אני לא צריך להוציא ממנו הודאה כדי להרגיש בטוח במקומי כהורה.</div>
         <p>אני יכול לומר לו: ״אני סומך עליך. תחשוב רגע ותספר לי מה קרה.״</p>
         <p>ואז להקשיב לתשובה.</p>
+        <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
       </div>
       <div class="fol">10</div>
     </section>
@@ -202,6 +205,7 @@
         <p>אם אמרתי לו שאני מאמין לו, לא אגש אחר כך לשאול את אחיו מה ראה. לא אחפש ראיות מאחורי גבו. אני רוצה שהילד ירגיש שקיבלתי את דבריו.</p>
         <div class="stop">כך אני משדר לו דבר חשוב: אני רואה בך ילד שאפשר לסמוך על מה שהוא אומר. למילה שלך יש משקל בבית שלנו.</div>
         <p>אני רוצה שיכיר את עצמו גם כך. שירגיש שהאמון שלי בו אמיתי, ושיהיה לו חשוב לשמור עליו. ככל שהמילה שלו מתקבלת ברצינות, כך יש לו סיבה לקחת אחריות על הדברים שהוא אומר.</p>
+        <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
       </div>
       <div class="fol">11</div>
     </section>
@@ -229,10 +233,13 @@
       </div>
       <div class="fol">13</div>
     </section>
+    <section class="sheet art" data-page="14" aria-label="איור לפרק אני מאמין לך">
+      <img src="art-ch03-trust.png" alt="אב מקשיב לבנו ליד כדור בסלון, בתוך כיפת זכוכית">
+    </section>
   </main>
   <nav class="ui" aria-label="ניווט בין העמודים">
     <button id="prev">העמוד הקודם</button>
-    <span class="count" id="count">1 מתוך 13</span>
+    <span class="count" id="count">1 מתוך 14</span>
     <button id="next">העמוד הבא</button>
   </nav>
   <script>
