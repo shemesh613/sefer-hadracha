@@ -727,34 +727,8 @@ body:not(:has(.sheet[data-page="1"].active)) .a11y-stmt{display:none}
     <span class="count" id="count">1 מתוך 53</span>
     <button id="next">העמוד הבא</button>
   </nav>
-  <script>
-    const pages=[...document.querySelectorAll('.sheet')];
-    const stage=document.getElementById('stage');
-    const prev=document.getElementById('prev');
-    const next=document.getElementById('next');
-    const count=document.getElementById('count');
-    let current=Math.max(0,Math.min(pages.length-1,(Number((location.hash.match(/page-(\d+)/)||[])[1])||1)-1));
-    function fit(){
-      const roomW=innerWidth-18,roomH=innerHeight-74;
-      const scale=Math.min(1,roomW/520,roomH/693);
-      stage.style.transform=`translate(-50%,-50%) scale(${scale})`;
-      stage.style.marginTop='-18px';
-    }
-    function show(index){
-      current=Math.max(0,Math.min(pages.length-1,index));
-      pages.forEach((page,i)=>page.classList.toggle('active',i===current));
-      prev.disabled=current===0;next.disabled=current===pages.length-1;
-      count.textContent=`${current+1} מתוך ${pages.length}`;
-      history.replaceState(null,'',`#page-${current+1}`);
-    }
-    prev.addEventListener('click',()=>show(current-1));
-    next.addEventListener('click',()=>show(current+1));
-    addEventListener('keydown',event=>{if(event.key==='ArrowLeft')show(current+1);if(event.key==='ArrowRight')show(current-1)});
-    let startX=0;
-    stage.addEventListener('touchstart',event=>startX=event.touches[0].clientX,{passive:true});
-    stage.addEventListener('touchend',event=>{const dx=event.changedTouches[0].clientX-startX;if(Math.abs(dx)>42)show(current+(dx<0?1:-1))},{passive:true});
-    addEventListener('resize',fit);fit();show(current);
-  </script>
+  <link rel="stylesheet" href="reader.css?v=1">
+  <script src="reader.js?v=1" defer></script>
 <a class="a11y-stmt" href="../accessibility.html">מידע ונגישות</a>
 <script id="a11y-base-v1-js">
 /* accessibility layer: keyboard + screen-reader names for clickable non-button elements */
