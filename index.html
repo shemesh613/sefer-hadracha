@@ -1526,6 +1526,7 @@ try{
   else if(/[?&]edit\b/.test(location.search)) localStorage.setItem('bookEdit','1');
   EDIT=localStorage.getItem('bookEdit')==='1';
   MARKS=JSON.parse(localStorage.getItem('bookMarks')||'[]');
+  if(MARKS.some(m=>!m.v)){MARKS=MARKS.filter(m=>m.v);localStorage.setItem('bookMarks',JSON.stringify(MARKS));}
 }catch(e){}
 function saveMarks(){try{localStorage.setItem('bookMarks',JSON.stringify(MARKS));return true}catch(e){return false}}
 function drawLayer(h){
@@ -1559,7 +1560,7 @@ function newMark(pdf,b,dr){
   const p=mkPanel('סימון חדש · '+pageLabel(pdf));
   const t=document.createElement('textarea');t.placeholder='מה כדאי לשנות כאן? (לא חובה)';p.appendChild(t);
   const row=document.createElement('div');row.className='row';p.appendChild(row);
-  mkBtn(row,'שמור',()=>{MARKS.push({pdf,x:+b.x.toFixed(4),y:+b.y.toFixed(4),w:+b.w.toFixed(4),h:+b.h.toFixed(4),note:t.value.trim(),t:new Date().toISOString()});
+  mkBtn(row,'שמור',()=>{MARKS.push({pdf,x:+b.x.toFixed(4),y:+b.y.toFixed(4),w:+b.w.toFixed(4),h:+b.h.toFixed(4),note:t.value.trim(),t:new Date().toISOString(),v:V});
     saveMarks();closePanel();refreshMarks();},'pri');
   mkBtn(row,'ביטול',closePanel);
   setTimeout(()=>t.focus(),30);
@@ -1584,6 +1585,7 @@ function openList(){
   s.forEach(([m,i])=>{const it=document.createElement('div');it.className='it';const b=document.createElement('b');b.textContent=pageLabel(m.pdf);const sp=document.createElement('span');sp.textContent=m.note||'(בלי הערה)';it.append(b,sp);
     it.onclick=()=>{closePanel();show(toPdfIdx(m.pdf))};p.appendChild(it)});
   const row=document.createElement('div');row.className='row';p.appendChild(row);
+  const clr=mkBtn(row,'מחק הכול',()=>{if(clr.dataset.s!=='1'){clr.dataset.s='1';clr.textContent='בטוח? לחץ שוב';return}MARKS=[];saveMarks();closePanel();refreshMarks()});
   mkBtn(row,'שלח בווטסאפ',()=>{window.open('https://wa.me/?text='+encodeURIComponent(exportText()),'_blank')},'pri');
   const cp=mkBtn(row,'העתק',()=>{const txt=exportText();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{cp.textContent='הועתק ✓'}).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;p.appendChild(ta);ta.select();cp.textContent='סמן והעתק'})});
   mkBtn(row,'סגור',closePanel);
