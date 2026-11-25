@@ -46,6 +46,26 @@ body.single .half.L::after{display:none}
 .top a{pointer-events:auto;color:var(--soft);text-decoration:none;border:1px solid #3a3d45;border-radius:12px;padding:3px 10px;font-size:12px}
 .top a:hover,.top a:focus{color:var(--ink)}
 @media (max-width:640px){#info{display:none}#bar select{max-width:150px}.top span{display:none}#bar label span{display:none}}
+
+/* editing marks (only with ?edit) */
+.mkl{position:absolute;inset:0;z-index:3}
+body.marking .mkl{cursor:crosshair;touch-action:none}
+body.marking #book{cursor:crosshair}
+.mk{position:absolute;border:2px solid #e02424;background:rgba(224,36,36,.14);border-radius:3px;cursor:pointer;z-index:4}
+.mk i{position:absolute;top:-10px;right:-10px;width:20px;height:20px;border-radius:50%;background:#e02424;color:#fff;font:700 11px/20px Arial,sans-serif;text-align:center;font-style:normal}
+.mdraft{position:absolute;border:2px dashed #e02424;background:rgba(224,36,36,.12);pointer-events:none;z-index:5}
+#bMark.on{background:#e02424;border-color:#e02424;color:#fff}
+#bMarks .c{display:inline-block;min-width:18px;padding:0 5px;margin-inline-start:4px;border-radius:9px;background:#e02424;color:#fff;font-size:11px;line-height:18px}
+.mpanel{position:fixed;z-index:60;left:0;right:0;bottom:56px;margin:0 auto;max-width:520px;background:#2a2d34;color:var(--ink);border:1px solid #3a3d45;border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.5);padding:14px 16px;line-height:1.5;direction:rtl;max-height:70vh;overflow:auto;user-select:text}
+.mpanel h3{margin:0 0 8px;font-size:15px}
+.mpanel textarea{width:100%;min-height:80px;border:1px solid #3a3d45;border-radius:8px;background:#1f2228;color:var(--ink);padding:8px;font:inherit;resize:vertical}
+.mpanel .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mpanel button{background:none;border:1px solid #3a3d45;color:var(--ink);border-radius:8px;height:34px;padding:0 12px;cursor:pointer;font:inherit}
+.mpanel button.pri{background:#e02424;border-color:#e02424;color:#fff}
+.mpanel .it{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;border:1px solid #3a3d45;border-radius:10px;padding:7px 10px;margin-bottom:6px;cursor:pointer}
+.mpanel .it b{color:#ff6b6b;white-space:nowrap}
+.mpanel .it span{min-width:0;overflow-wrap:anywhere}
+.mpanel .muted{color:var(--soft);font-size:13px}
 </style>
 </head>
 <body>
@@ -115,6 +135,8 @@ body.single .half.L::after{display:none}
 <option value="237">&nbsp;&nbsp;פרק 43 · האם אני אוהב את הילד שלי, או את הילד שאני מקווה שהוא יהיה?</option>
   </select>
   <button id="bFull" aria-label="מסך מלא" title="מסך מלא (F)">⛶</button>
+  <button id="bMark" hidden aria-pressed="false" title="סימון באדום (M)">✎ סמן</button>
+  <button id="bMarks" hidden title="רשימת הסימונים">סימונים<span class="c" id="mCount">0</span></button>
   <label><span>עמוד </span><input id="jump" type="number" min="1" max="240" inputmode="numeric" aria-label="מעבר לעמוד"></label>
 </nav>
 <section id="text" class="sr" tabindex="-1" aria-label="הטקסט המלא של הספר">
@@ -1499,6 +1521,75 @@ body.single .half.L::after{display:none}
 const N=240, V='2511-0929';
 const src=i=>i===-1?'cover.jpg?v='+V:'pages/'+String(i).padStart(3,'0')+'.jpg?v='+V;
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// --- marks for later editing: shown only on a device that opened the site with ?edit (kept in this browser)
+let EDIT=false, marking=false, MARKS=[];
+try{
+  if(/[?&]noedit\b/.test(location.search)) localStorage.removeItem('bookEdit');
+  else if(/[?&]edit\b/.test(location.search)) localStorage.setItem('bookEdit','1');
+  EDIT=localStorage.getItem('bookEdit')==='1';
+  MARKS=JSON.parse(localStorage.getItem('bookMarks')||'[]');
+}catch(e){}
+function saveMarks(){try{localStorage.setItem('bookMarks',JSON.stringify(MARKS));return true}catch(e){return false}}
+function drawLayer(h){
+  h.querySelectorAll('.mkl').forEach(n=>n.remove());
+  const item=+h.dataset.item; if(!item)return;
+  const lay=document.createElement('div');lay.className='mkl';h.appendChild(lay);
+  MARKS.forEach((m,i)=>{ if(m.pdf!==item)return;
+    const d=document.createElement('div');d.className='mk';place(d,m);
+    d.title=m.note||'סימון';const n=document.createElement('i');n.textContent=i+1;d.appendChild(n);
+    d.addEventListener('click',ev=>{ev.stopPropagation();openMark(i)});lay.appendChild(d);});
+  let st=null,dr=null;
+  const rel=e=>{const r=lay.getBoundingClientRect();return{x:Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),y:Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))}};
+  lay.addEventListener('pointerdown',e=>{ if(!marking||e.target.closest('.mk'))return; e.preventDefault();e.stopPropagation();
+    lay.setPointerCapture(e.pointerId);st=rel(e);dr=document.createElement('div');dr.className='mdraft';lay.appendChild(dr);place(dr,{x:st.x,y:st.y,w:0,h:0});});
+  lay.addEventListener('pointermove',e=>{if(!st)return;const p=rel(e);place(dr,{x:Math.min(st.x,p.x),y:Math.min(st.y,p.y),w:Math.abs(p.x-st.x),h:Math.abs(p.y-st.y)})});
+  lay.addEventListener('pointerup',e=>{ if(!st)return; e.stopPropagation(); const p=rel(e);
+    let b={x:Math.min(st.x,p.x),y:Math.min(st.y,p.y),w:Math.abs(p.x-st.x),h:Math.abs(p.y-st.y)};
+    if(b.w<0.02&&b.h<0.02){b={w:0.8,h:0.045,x:0.1,y:Math.max(0,Math.min(0.955,st.y-0.0225))};}
+    st=null; newMark(item,b,dr); });
+  lay.addEventListener('click',e=>{if(marking)e.stopPropagation()});
+}
+function place(el,m){el.style.left=m.x*100+'%';el.style.top=m.y*100+'%';el.style.width=m.w*100+'%';el.style.height=m.h*100+'%'}
+function refreshMarks(){document.querySelectorAll('.half[data-item]').forEach(drawLayer);const c=document.getElementById('mCount');if(c)c.textContent=MARKS.length}
+function setMarking(on){marking=!!on&&EDIT;document.body.classList.toggle('marking',marking);const b=document.getElementById('bMark');if(b){b.classList.toggle('on',marking);b.setAttribute('aria-pressed',marking);b.textContent=marking?'✓ סיום':'✎ סמן'}}
+let panel=null;
+function closePanel(){if(panel){panel.remove();panel=null}document.querySelectorAll('.mdraft').forEach(n=>n.remove())}
+function mkPanel(title){closePanel();panel=document.createElement('div');panel.className='mpanel';const h=document.createElement('h3');h.textContent=title;panel.appendChild(h);document.body.appendChild(panel);return panel}
+function mkBtn(row,t,fn,cls){const b=document.createElement('button');b.textContent=t;if(cls)b.className=cls;b.onclick=fn;row.appendChild(b);return b}
+function pageLabel(pdf){return pdf<=1?'עמוד השער':'עמוד '+(pdf-1)}
+function newMark(pdf,b,dr){
+  const p=mkPanel('סימון חדש · '+pageLabel(pdf));
+  const t=document.createElement('textarea');t.placeholder='מה כדאי לשנות כאן? (לא חובה)';p.appendChild(t);
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שמור',()=>{MARKS.push({pdf,x:+b.x.toFixed(4),y:+b.y.toFixed(4),w:+b.w.toFixed(4),h:+b.h.toFixed(4),note:t.value.trim(),t:new Date().toISOString()});
+    saveMarks();closePanel();refreshMarks();},'pri');
+  mkBtn(row,'ביטול',closePanel);
+  setTimeout(()=>t.focus(),30);
+}
+function openMark(i){
+  const m=MARKS[i];const p=mkPanel('סימון '+(i+1)+' · '+pageLabel(m.pdf));
+  const t=document.createElement('textarea');t.value=m.note||'';p.appendChild(t);
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שמור הערה',()=>{m.note=t.value.trim();saveMarks();closePanel();refreshMarks()},'pri');
+  const del=mkBtn(row,'מחק',()=>{if(del.dataset.s!=='1'){del.dataset.s='1';del.textContent='בטוח? לחץ שוב';return}MARKS.splice(i,1);saveMarks();closePanel();refreshMarks()});
+  mkBtn(row,'סגור',closePanel);
+}
+function exportText(){
+  const s=[...MARKS].sort((a,b)=>a.pdf-b.pdf||a.y-b.y);
+  return 'סימונים בספר «לפני שמתקנים את הילד» ('+s.length+')\n'+s.map(m=>'• '+pageLabel(m.pdf)+': '+(m.note||'(בלי הערה)')+'  [pdf '+m.pdf+' x'+m.x+' y'+m.y+' w'+m.w+' h'+m.h+']').join('\n');
+}
+function openList(){
+  const p=mkPanel('הסימונים שלי ('+MARKS.length+')');
+  const info=document.createElement('p');info.className='muted';info.textContent='הסימונים נשמרים בדפדפן הזה בלבד. כדי שקלוד יטפל בהם, שלח אותם לעצמך בווטסאפ או העתק והדבק בשיחה.';p.appendChild(info);
+  const s=MARKS.map((m,i)=>[m,i]).sort((a,b)=>a[0].pdf-b[0].pdf||a[0].y-b[0].y);
+  if(!s.length){const e=document.createElement('p');e.className='muted';e.textContent='אין עדיין סימונים. לחץ "סמן" וגרור מלבן על הדף.';p.appendChild(e)}
+  s.forEach(([m,i])=>{const it=document.createElement('div');it.className='it';const b=document.createElement('b');b.textContent=pageLabel(m.pdf);const sp=document.createElement('span');sp.textContent=m.note||'(בלי הערה)';it.append(b,sp);
+    it.onclick=()=>{closePanel();show(toPdfIdx(m.pdf))};p.appendChild(it)});
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שלח בווטסאפ',()=>{window.open('https://wa.me/?text='+encodeURIComponent(exportText()),'_blank')},'pri');
+  const cp=mkBtn(row,'העתק',()=>{const txt=exportText();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{cp.textContent='הועתק ✓'}).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;p.appendChild(ta);ta.select();cp.textContent='סמן והעתק'})});
+  mkBtn(row,'סגור',closePanel);
+}
 let single=false, idx=0, busy=false;
 const spreadsCount=()=>single?N+1:Math.ceil((N+1)/2)+1;
 function spread(k){
@@ -1512,6 +1603,7 @@ function fill(el,item){
   if(item===null||item===undefined){el.classList.add('none');return}
   if(item===0){el.classList.add('blank');return}
   const im=new Image();im.src=src(item);im.alt='';im.draggable=false;el.appendChild(im);
+  if(EDIT&&item>0){el.dataset.item=item;drawLayer(el);}
 }
 function faceFill(el,item){el.innerHTML='';if(item>0||item===-1){const im=new Image();im.src=src(item);im.alt='';im.draggable=false;el.appendChild(im)}}
 const R=document.getElementById('R'),L=document.getElementById('L'),flip=document.getElementById('flip');
@@ -1571,24 +1663,27 @@ if(!(document.fullscreenEnabled||document.webkitFullscreenEnabled)) bFull.style.
 bFull.onclick=toggleFull;
 const fsSync=()=>{const on=!!fsOn();bFull.textContent=on?'✕':'⛶';bFull.setAttribute('aria-label',on?'יציאה ממסך מלא':'מסך מלא');bFull.title=on?'יציאה ממסך מלא (F)':'מסך מלא (F)'};
 document.addEventListener('fullscreenchange',fsSync);document.addEventListener('webkitfullscreenchange',fsSync);
-document.getElementById('book').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();go(e.clientX<r.left+r.width/2?1:-1)});
+document.getElementById('book').addEventListener('click',e=>{if(marking||e.target.closest('.mk'))return;const r=e.currentTarget.getBoundingClientRect();go(e.clientX<r.left+r.width/2?1:-1)});
 const jump=document.getElementById('jump');
 jump.addEventListener('change',()=>{const v=parseInt(jump.value);if(v)show(toPdfIdx(v+1));jump.blur()});
 const toc=document.getElementById('toc');
 toc.addEventListener('change',()=>{const v=parseInt(toc.value);if(v)show(toPdfIdx(v));toc.value='';toc.blur()});
 addEventListener('keydown',e=>{
-  if(e.target.closest('input,select,#text'))return;
+  if(e.target.closest('input,select,textarea,#text'))return;
   if(e.key==='ArrowLeft'||e.key==='PageDown')go(1);
   else if(e.key==='ArrowRight'||e.key==='PageUp')go(-1);
   else if(e.key==='Home')show(0);
   else if(e.key==='End')show(spreadsCount()-1);
   else if(e.key==='f'||e.key==='F'||e.key==='כ')toggleFull();
+  else if(EDIT&&(e.key==='m'||e.key==='M'||e.key==='צ'))setMarking(!marking);
+  else if(e.key==='Escape'){closePanel();setMarking(false);}
 });
 let tx=null;
-addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+addEventListener('touchstart',e=>{tx=marking||e.target.closest('.mpanel')?null:e.touches[0].clientX},{passive:true});
 addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx>0?1:-1);tx=null});
 function curPdf(){const s=spread(idx);return single?s.S:(s.L>0?s.L:s.R)}
 addEventListener('resize',()=>{const p=curPdf(),was=single;layout();if(was!==single)idx=(p>0)?toPdfIdx(p):0;render()});
+if(EDIT){const bm=document.getElementById('bMark'),bl=document.getElementById('bMarks');bm.hidden=false;bl.hidden=false;bm.onclick=()=>setMarking(!marking);bl.onclick=()=>panel?closePanel():openList();document.getElementById('mCount').textContent=MARKS.length;}
 layout();
 const h=location.hash.match(/^#(\d+)(s?)$/);
 if(h){const k=+h[1];idx=(h[2]==='s')===single?Math.min(k,spreadsCount()-1):0}
