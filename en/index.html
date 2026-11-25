@@ -59,6 +59,31 @@ body.single .half.L::after{display:none}
 .gl .para.he{font-size:16px;color:var(--ink);line-height:1.7}
 .gl .lab{font-size:12px;color:var(--soft);margin-top:10px}
 @media (max-width:640px){#info{display:none}#bar select{max-width:140px}.top .tip,.top span{display:none}#bar label span{display:none}}
+
+/* editing marks (only with ?edit) */
+.mkl{position:absolute;inset:0;z-index:3}
+body.marking .mkl{cursor:crosshair;touch-action:none}
+body.marking #book{cursor:crosshair}
+.mk{position:absolute;border:2px solid #e02424;background:rgba(224,36,36,.14);border-radius:3px;cursor:pointer;z-index:4}
+.mk i{position:absolute;top:-10px;right:-10px;width:20px;height:20px;border-radius:50%;background:#e02424;color:#fff;font:700 11px/20px Arial,sans-serif;text-align:center;font-style:normal}
+.mdraft{position:absolute;border:2px dashed #e02424;background:rgba(224,36,36,.12);pointer-events:none;z-index:5}
+#bMark.on{background:#e02424;border-color:#e02424;color:#fff}
+#bMarks .c{display:inline-block;min-width:18px;padding:0 5px;margin-inline-start:4px;border-radius:9px;background:#e02424;color:#fff;font-size:11px;line-height:18px}
+.mpanel{position:fixed;z-index:60;left:0;right:0;bottom:56px;margin:0 auto;max-width:520px;background:#2a2d34;color:var(--ink);border:1px solid #3a3d45;border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.5);padding:14px 16px;line-height:1.5;direction:rtl;max-height:70vh;overflow:auto;user-select:text}
+.mpanel h3{margin:0 0 8px;font-size:15px}
+.mpanel textarea{width:100%;min-height:80px;border:1px solid #3a3d45;border-radius:8px;background:#1f2228;color:var(--ink);padding:8px;font:inherit;resize:vertical}
+.mpanel .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mpanel button{background:none;border:1px solid #3a3d45;color:var(--ink);border-radius:8px;height:34px;padding:0 12px;cursor:pointer;font:inherit}
+.mpanel button.pri{background:#e02424;border-color:#e02424;color:#fff}
+.mpanel .it{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;border:1px solid #3a3d45;border-radius:10px;padding:7px 10px;margin-bottom:6px;cursor:pointer}
+.mpanel .it b{color:#ff6b6b;white-space:nowrap}
+.mpanel .it span{min-width:0;overflow-wrap:anywhere}
+.mpanel .muted{color:var(--soft);font-size:13px}
+
+.mkl{z-index:4;pointer-events:none}
+body.marking .mkl{pointer-events:auto}
+.mk{pointer-events:auto}
+body.marking .wd{pointer-events:none}
 </style>
 </head>
 <body>
@@ -94,14 +119,14 @@ body.single .half.L::after{display:none}
 <option value="97">&nbsp;&nbsp;Chapter 14 · Give Him a Moment to Get Home</option>
 <option value="103">&nbsp;&nbsp;Chapter 15 · Not Being Afraid of Feelings</option>
 <option value="109">&nbsp;&nbsp;Chapter 16 · Ima, I&#x27;m Bored</option>
-<option value="114">&nbsp;&nbsp;Chapter 17 · I Understand You - and Still, No</option>
-<option value="120" class="g">Part III · Instead of Punishment</option>
-<option value="122">&nbsp;&nbsp;Chapter 18 · I Don&#x27;t Usually Punish</option>
-<option value="137">&nbsp;&nbsp;Chapter 19 · One Thing, Two at Most</option>
-<option value="142" class="g">Part IV · Raising Independence and Confidence</option>
-<option value="144">&nbsp;&nbsp;Chapter 20 · Not Doing It for Him</option>
-<option value="149">&nbsp;&nbsp;Chapter 21 · Do I Allow My Child to Fail?</option>
-<option value="153">&nbsp;&nbsp;Chapter 22 · Can I Watch Him Pay a Price?</option>
+<option value="113">&nbsp;&nbsp;Chapter 17 · I Understand You - and Still, No</option>
+<option value="119" class="g">Part III · Instead of Punishment</option>
+<option value="121">&nbsp;&nbsp;Chapter 18 · I Don&#x27;t Usually Punish</option>
+<option value="136">&nbsp;&nbsp;Chapter 19 · One Thing, Two at Most</option>
+<option value="141" class="g">Part IV · Raising Independence and Confidence</option>
+<option value="143">&nbsp;&nbsp;Chapter 20 · Not Doing It for Him</option>
+<option value="148">&nbsp;&nbsp;Chapter 21 · Do I Allow My Child to Fail?</option>
+<option value="152">&nbsp;&nbsp;Chapter 22 · Can I Watch Him Pay a Price?</option>
 <option value="159">&nbsp;&nbsp;Chapter 23 · The Poker Chip Theory</option>
 <option value="163">&nbsp;&nbsp;Chapter 24 · What Happens When a Child Doesn&#x27;t Have Enough Chips?</option>
 <option value="169">&nbsp;&nbsp;Chapter 25 · Filling the Child&#x27;s Store</option>
@@ -128,6 +153,8 @@ body.single .half.L::after{display:none}
 <option value="284">&nbsp;&nbsp;Chapter 43 · Do I Love My Child, or the Child I Hope He Will Be?</option>
   </select>
   <button id="bFull" aria-label="Full screen" title="Full screen (F)">⛶</button>
+  <button id="bMark" hidden aria-pressed="false" title="סימון באדום (M)">✎ סמן</button>
+  <button id="bMarks" hidden title="רשימת הסימונים">סימונים<span class="c" id="mCount">0</span></button>
   <label><span>Page </span><input id="jump" type="number" min="1" max="288" inputmode="numeric" aria-label="Go to page"></label>
 </nav>
 <section id="text" class="sr" tabindex="-1" aria-label="Full text of the book">
@@ -227,7 +254,7 @@ body.single .half.L::after{display:none}
 <p>Over the course of his life there will be more things he wants, waits for and loves, and still they will get lost, break, or not work out the way he hoped. We will not always be able to fix it, and we will not always be next to him.</p>
 <p>This moment is not just a glitch that needs to be solved quickly. It is a chance to be with him and help him discover that it is possible to meet disappointment, carry it and come through it.</p>
 <p>So more than he needs a solution right now, he needs me to see his pain and be with him inside it.</p>
-<p>To be able to do that, I first need to meet what his pain stirs up in me. To stop for a moment and acknowledge that it is hard for me to see him like this. That his pain hurts me, and that I feel helpless because I cannot fix what happened right away.</p>
+<p>To be able to do that, I first need to meet what his pain stirs up in me. To stop for a moment and acknowledge that it is hard for me to see him like this. That his pain hurts me, and that it is hard for me not to rush to fix what happened right away.</p>
 <p>When I am able to meet my own pain as a parent, I am more available to meet the child&#x27;s pain as well.</p>
 <p>Instead of immediately buying another popsicle or explaining that it is only a popsicle, I can look at him and say:</p>
 <p>“Wow, you wanted it so much, and now it fell. That is so disappointing.”</p>
@@ -322,7 +349,6 @@ body.single .half.L::after{display:none}
 <p>But in this case, when I checked myself honestly, I understood that it was not the value that was moving me.</p>
 <p>It was my embarrassment.</p>
 <p>And as I already wrote, this is a thin line. Very thin.</p>
-<p>It changes from parent to parent, and even from case to case.</p>
 <p>In another case, the very same behavior might call for a boundary, because it really does hurt others or goes against a value I want to educate toward.</p>
 <p>But in this case I felt that what was moving me was not the educational value, but the personal, triggered place inside me.</p>
 <p>And when that is the place I am acting from, I am in no position to educate.</p>
@@ -374,7 +400,7 @@ body.single .half.L::after{display:none}
 <p>After she felt that I was with her, I told her it was worth trying to be flexible and not get stuck. But I also made peace with the possibility that this is what she was feeling right now, and that maybe this is how the party would end.</p>
 <p>In the end, by the way, she enjoyed it very much.</p>
 <p>But it does not always end that way.</p>
-<p>We can plan a birthday for the child down to the last detail, invest in a family trip or prepare a festive meal. We do all of this with love and out of a wish for him to be happy, but we cannot manage what will rise in his heart. He may be disappointed, get annoyed, or simply not be in the mood to enjoy it.</p>
+<p>We can plan a birthday for the child down to the last detail, invest in a family trip or prepare a festive meal. We do all of this with love and out of a wish for him to be happy, but we cannot manage what will rise in his heart. He may be disappointed, feel frustrated, or simply not be in the mood to enjoy it.</p>
 <p>Even when his response disappoints us, and even when we wanted so much for him to be happy and satisfied, we need to remember that the child&#x27;s inner world remains his own, and he does not have to feel differently in order to fit our expectations.</p>
 <p>Chapter 8: Not Becoming One More Child in the Fight</p>
 <p>Before the vacation, I prepare myself with one sentence that I say to myself:</p>
@@ -462,7 +488,7 @@ body.single .half.L::after{display:none}
 <p>And sometimes it is exactly this thing that is part of what keeps us in the same place.</p>
 <p>So when there is a situation that comes back again and again, and we say:</p>
 <p>“Enough, I have to change this,”</p>
-<p>maybe it is worth stopping to ask:</p>
+<p>it is worth stopping to ask:</p>
 <p>What am I getting out of this situation?</p>
 <p>What does it give me?</p>
 <p>And what will I have to give up, if I really want it to change?</p>
@@ -532,7 +558,7 @@ body.single .half.L::after{display:none}
 <p>“How was today?”<br>“What did you learn?”<br>“Who did you play with?”<br>“Did anything happen?”<br>“Come on, tell me!”</p>
 <p>We are excited to see him and try to stir the same excitement in him, but he answers weakly:</p>
 <p>“Fine.”</p>
-<p>Maybe this is simply not what he needs right now.</p>
+<p>But maybe this is simply not what he needs right now.</p>
 <p>After a day full of experiences, challenges, wants, encounters and effort, he may need a little quiet. A calm place where he can put down his bag, breathe and arrive home, not only in his body but also in his feelings.</p>
 <p>And this is true not only of questions. Sometimes we are waiting for a hug. We missed him all day, and now we want to feel him close to us.</p>
 <p>But sometimes the hug we want so much does not suit the child in that moment. He is tired, overwhelmed, or simply not open to touch. And still we hug a little longer, even when his body is already signaling to us that it does not feel good to him.</p>
@@ -544,12 +570,12 @@ body.single .half.L::after{display:none}
 <p>Sometimes he will want to talk and hug.</p>
 <p>And sometimes he will only need us to welcome him happily and give him the space he needs.</p>
 <p>The fact that he is our child does not mean that his body, his time and his closeness are at our disposal at every moment.</p>
-<p>Even within the closest relationship, our role is to listen to what suits him and adjust ourselves to his pace, and not to demand that he fill our need for closeness.</p>
+<p>Even within the closest relationship, our role is to listen to what suits him and adjust ourselves to his pace, and not to demand that he fill our need for closeness when it does not suit him.</p>
 <p>Is it allowed to be unpleasant?</p>
 <p>Chapter 15: Not Being Afraid of Feelings</p>
 <p>Sometimes the child manages to throw us off balance.</p>
 <p>He behaves in a way that shakes our calm and even makes us angry. The anger starts to build up, and we feel that in another moment it will come out on the child.</p>
-<p>And it is not always the child who caused the feeling.</p>
+<p>And it is not always only because of the child.</p>
 <p>Maybe we came home tired, worried or frustrated about something else. But our patience is already short, and any little thing may make us unload what we are feeling onto the children of all people.</p>
 <p>This is exactly the place to practice accepting the feeling, as we saw in the first chapter.</p>
 <p>When an unpleasant feeling shows up, trying to push it away or to act as if it is not there usually does not make it disappear. It keeps building up inside us, until it finds a way out.</p>
@@ -590,7 +616,7 @@ body.single .half.L::after{display:none}
 <p>They see that it is possible to feel anger, worry or sadness, give them room, and know that they will change and pass.</p>
 <p>And so, little by little, both we and the children learn to meet the next unpleasant feeling without running from it and without taking it out on the people around us.</p>
 <p>Chapter 16: Ima, I&#x27;m Bored</p>
-<p>Especially during vacation, this sentence can immediately make our heart tighten a little.</p>
+<p>This sentence can immediately make our heart tighten a little.</p>
 <p>The child does not feel good. He is restless. He does not know what to do with himself.</p>
 <p>And within a moment, we start looking for solutions:</p>
 <p>“Here, take a game.”<br>“Why don&#x27;t you draw?”<br>“Maybe invite a friend?”<br>“You have so many things to do.”</p>
@@ -604,8 +630,7 @@ body.single .half.L::after{display:none}
 <p>I can be with him inside the feeling for a moment, without rushing to find a solution for him.</p>
 <p>After we have been with him in the feeling, and we are no longer acting out of pressure to make it disappear, we can help the child take responsibility for the solution himself.</p>
 <p>We can ask:</p>
-<p>“Do you want me to help you think, or do you want to try to find an idea on your own?”</p>
-<p>“What would you like to do now?”</p>
+<p>“What do you say, what could we do?”</p>
 <p>Sometimes he will have an idea.</p>
 <p>Sometimes he will need a little help to get started.</p>
 <p>And sometimes he will simply stay a while longer inside the boredom.</p>
@@ -623,7 +648,7 @@ body.single .half.L::after{display:none}
 <p>The girl asks for another cookie. We can say:</p>
 <p>“Wow, you really want it. It is so tasty, and you really feel like having another one.”</p>
 <p>The boy wants to keep going on the computer. We can say:</p>
-<p>“Wow, you feel like going on so much. It is really hard to stop now.”</p>
+<p>“Wow, you feel like going on so much. I know, it&#x27;s tempting. It is really hard to stop now.”</p>
 <p>Not to say it just with our lips. To really stop. To really see him. To really feel, for a moment, how much he wants it.</p>
 <p>And then to say:</p>
 <p>“And still, no.”</p>
@@ -633,7 +658,7 @@ body.single .half.L::after{display:none}
 <p>This way the boundary no longer stands between us like a wall. I am not on one side with the child on the other. I am next to him, facing the difficulty.</p>
 <p>What I am really telling him is:</p>
 <p>“I see how much you want it. I understand that it is hard. I am staying with you. And the answer is still no.”</p>
-<p>The words themselves matter less. What matters is that the child feels I am not fighting his feeling. I am not trying to convince him that he does not really want it, that it is not so terrible, or that he is exaggerating. I agree that he wants it, and I agree that it is hard for him.</p>
+<p>The words themselves matter less. What matters is that the child feels I am not fighting his feeling. I am not trying to convince him that he does not really want it, that it is not so terrible, or that he is exaggerating. I understand how much he wants it, and I agree that it may be hard.</p>
 <p>A child can be angry at the boundary, be disappointed by it and even cry, and still feel that his parent is on his side.</p>
 <p>The boundary stays, but it no longer separates us. I am really with his strong wish, really identifying with it. And instead of distance and struggle, connection forms.</p>
 <p>Acknowledging the feeling is not giving up the boundary. Sometimes it is exactly what makes it steadier, closer and safer.</p>
@@ -665,20 +690,20 @@ body.single .half.L::after{display:none}
 <p>On the face of it, it sounds very logical:</p>
 <p>If the child knows he is going to pay a price for his actions, he will be wary of repeating them. But is that really what we see?</p>
 <p>In homes where there is a lot of punishment, do children stop breaking the rules? Does everything become quiet and calm? Not necessarily.</p>
-<p>Punishment may stop the child in that moment or make him wary of getting caught next time, but it does not always help him face what he did, take responsibility, and learn how to act differently.</p>
+<p>Punishment may stop the child in that moment, and may teach him to be careful not to get caught next time. But it will not necessarily help him understand what he did, take responsibility and learn to act differently.</p>
 <p>That is why my main path is not punishment, but authority and a process.</p>
 <p>When the boundary is not kept</p>
 <p>And still, the child does not always listen. Sometimes he breaks a rule, or goes against a value that is important to me. So what do I do?</p>
 <p>First of all, I check myself.</p>
 <p>Where am I acting from right now?</p>
-<p>Am I acting out of educational responsibility and out of the importance of the boundary, or because I was hurt, alarmed or angry?</p>
+<p>Am I acting out of educational responsibility and out of the importance of the boundary, or because I am hurt, alarmed or angry?</p>
 <p>If I am upset, it is better for me to stop first. Otherwise the boundary may become a way to unload onto the child what I am feeling.</p>
 <p>But if it is clear to me that I am acting out of educational responsibility, I can use my authority.</p>
 <p>I say, in a calm but firm tone:</p>
 <p>“Akiva, I asked you not to do that.”</p>
 <p>If he keeps going, I repeat it in the same tone.</p>
 <p>There is no need to shout. There is no need to threaten. There is no need to launch into a speech.</p>
-<p>Sometimes there is no need to say anything. A signal with my hand is enough, as part of my authority.</p>
+<p>Sometimes there is no need to say anything. A clear gesture of the hand, or a look, is enough.</p>
 <p>Akiva keeps going?</p>
 <p>I wait a little and remind him again.</p>
 <p>I am not alarmed that the boundary was not accepted right away, and I do not try to shorten the process with a shout or a threat. I have the patience to stay in my place and require that the boundary be kept.</p>
@@ -1400,9 +1425,78 @@ body.single .half.L::after{display:none}
 <p>It was the simplest moment there is, just like that, in the middle of a drive. But it was also a great and pure moment. A moment of pure, true love, flowing from a father&#x27;s heart to a son&#x27;s heart. A moment that comes once in several years. And maybe... maybe a moment that comes once in a lifetime.</p>
 </section>
 <script>
-const N=288, V='2511-0953';
+const N=288, V='2511-1236';
 const src=i=>i===-1?'../cover.jpg?v='+V:'pages/'+String(i).padStart(3,'0')+'.jpg?v='+V;
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// --- marks for later editing: shown only on a device that opened the site with ?edit (kept in this browser)
+let EDIT=false, marking=false, MARKS=[];
+try{
+  if(/[?&]noedit\b/.test(location.search)) localStorage.removeItem('bookEdit');
+  else if(/[?&]edit\b/.test(location.search)) localStorage.setItem('bookEdit','1');
+  EDIT=localStorage.getItem('bookEdit')==='1';
+  MARKS=JSON.parse(localStorage.getItem('bookMarksEn')||'[]');
+}catch(e){}
+function saveMarks(){try{localStorage.setItem('bookMarksEn',JSON.stringify(MARKS));return true}catch(e){return false}}
+function drawLayer(h){
+  h.querySelectorAll('.mkl').forEach(n=>n.remove());
+  const item=+h.dataset.item; if(!item)return;
+  const lay=document.createElement('div');lay.className='mkl';h.appendChild(lay);
+  MARKS.forEach((m,i)=>{ if(m.pdf!==item)return;
+    const d=document.createElement('div');d.className='mk';place(d,m);
+    d.title=m.note||'סימון';const n=document.createElement('i');n.textContent=i+1;d.appendChild(n);
+    d.addEventListener('click',ev=>{ev.stopPropagation();openMark(i)});lay.appendChild(d);});
+  let st=null,dr=null;
+  const rel=e=>{const r=lay.getBoundingClientRect();return{x:Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),y:Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))}};
+  lay.addEventListener('pointerdown',e=>{ if(!marking||e.target.closest('.mk'))return; e.preventDefault();e.stopPropagation();
+    lay.setPointerCapture(e.pointerId);st=rel(e);dr=document.createElement('div');dr.className='mdraft';lay.appendChild(dr);place(dr,{x:st.x,y:st.y,w:0,h:0});});
+  lay.addEventListener('pointermove',e=>{if(!st)return;const p=rel(e);place(dr,{x:Math.min(st.x,p.x),y:Math.min(st.y,p.y),w:Math.abs(p.x-st.x),h:Math.abs(p.y-st.y)})});
+  lay.addEventListener('pointerup',e=>{ if(!st)return; e.stopPropagation(); const p=rel(e);
+    let b={x:Math.min(st.x,p.x),y:Math.min(st.y,p.y),w:Math.abs(p.x-st.x),h:Math.abs(p.y-st.y)};
+    if(b.w<0.02&&b.h<0.02){b={w:0.8,h:0.045,x:0.1,y:Math.max(0,Math.min(0.955,st.y-0.0225))};}
+    st=null; newMark(item,b,dr); });
+  lay.addEventListener('click',e=>{if(marking)e.stopPropagation()});
+}
+function place(el,m){el.style.left=m.x*100+'%';el.style.top=m.y*100+'%';el.style.width=m.w*100+'%';el.style.height=m.h*100+'%'}
+function refreshMarks(){document.querySelectorAll('.half[data-item]').forEach(drawLayer);const c=document.getElementById('mCount');if(c)c.textContent=MARKS.length}
+function setMarking(on){marking=!!on&&EDIT;document.body.classList.toggle('marking',marking);const b=document.getElementById('bMark');if(b){b.classList.toggle('on',marking);b.setAttribute('aria-pressed',marking);b.textContent=marking?'✓ סיום':'✎ סמן'}}
+let panel=null;
+function closePanel(){if(panel){panel.remove();panel=null}document.querySelectorAll('.mdraft').forEach(n=>n.remove())}
+function mkPanel(title){closePanel();panel=document.createElement('div');panel.className='mpanel';const h=document.createElement('h3');h.textContent=title;panel.appendChild(h);document.body.appendChild(panel);return panel}
+function mkBtn(row,t,fn,cls){const b=document.createElement('button');b.textContent=t;if(cls)b.className=cls;b.onclick=fn;row.appendChild(b);return b}
+function pageLabel(pdf){return pdf<=1?'עמוד השער באנגלית':'עמוד '+(pdf-1)+' באנגלית'}
+function newMark(pdf,b,dr){
+  const p=mkPanel('סימון חדש · '+pageLabel(pdf));
+  const t=document.createElement('textarea');t.placeholder='מה כדאי לשנות כאן? (לא חובה)';p.appendChild(t);
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שמור',()=>{MARKS.push({pdf,x:+b.x.toFixed(4),y:+b.y.toFixed(4),w:+b.w.toFixed(4),h:+b.h.toFixed(4),note:t.value.trim(),t:new Date().toISOString()});
+    saveMarks();closePanel();refreshMarks();},'pri');
+  mkBtn(row,'ביטול',closePanel);
+  setTimeout(()=>t.focus(),30);
+}
+function openMark(i){
+  const m=MARKS[i];const p=mkPanel('סימון '+(i+1)+' · '+pageLabel(m.pdf));
+  const t=document.createElement('textarea');t.value=m.note||'';p.appendChild(t);
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שמור הערה',()=>{m.note=t.value.trim();saveMarks();closePanel();refreshMarks()},'pri');
+  const del=mkBtn(row,'מחק',()=>{if(del.dataset.s!=='1'){del.dataset.s='1';del.textContent='בטוח? לחץ שוב';return}MARKS.splice(i,1);saveMarks();closePanel();refreshMarks()});
+  mkBtn(row,'סגור',closePanel);
+}
+function exportText(){
+  const s=[...MARKS].sort((a,b)=>a.pdf-b.pdf||a.y-b.y);
+  return 'סימונים במהדורה האנגלית «Before We Fix the Child» ('+s.length+')\n'+s.map(m=>'• '+pageLabel(m.pdf)+': '+(m.note||'(בלי הערה)')+'  [pdf '+m.pdf+' x'+m.x+' y'+m.y+' w'+m.w+' h'+m.h+']').join('\n');
+}
+function openList(){
+  const p=mkPanel('הסימונים שלי ('+MARKS.length+')');
+  const info=document.createElement('p');info.className='muted';info.textContent='הסימונים נשמרים בדפדפן הזה בלבד. כדי שקלוד יטפל בהם, שלח אותם לעצמך בווטסאפ או העתק והדבק בשיחה.';p.appendChild(info);
+  const s=MARKS.map((m,i)=>[m,i]).sort((a,b)=>a[0].pdf-b[0].pdf||a[0].y-b[0].y);
+  if(!s.length){const e=document.createElement('p');e.className='muted';e.textContent='אין עדיין סימונים. לחץ "סמן" וגרור מלבן על הדף.';p.appendChild(e)}
+  s.forEach(([m,i])=>{const it=document.createElement('div');it.className='it';const b=document.createElement('b');b.textContent=pageLabel(m.pdf);const sp=document.createElement('span');sp.textContent=m.note||'(בלי הערה)';it.append(b,sp);
+    it.onclick=()=>{closePanel();show(toPdfIdx(m.pdf))};p.appendChild(it)});
+  const row=document.createElement('div');row.className='row';p.appendChild(row);
+  mkBtn(row,'שלח בווטסאפ',()=>{window.open('https://wa.me/?text='+encodeURIComponent(exportText()),'_blank')},'pri');
+  const cp=mkBtn(row,'העתק',()=>{const txt=exportText();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{cp.textContent='הועתק ✓'}).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;p.appendChild(ta);ta.select();cp.textContent='סמן והעתק'})});
+  mkBtn(row,'סגור',closePanel);
+}
 let single=false, idx=0, busy=false;
 const spreadsCount=()=>single?N+1:Math.ceil((N+1)/2)+1;
 // left-to-right book: R is the left page (even), L the right page (odd); the cover sits on the right
@@ -1429,7 +1523,7 @@ function fill(el,item){
   if(item===null||item===undefined){el.classList.add('none');return}
   if(item===0){el.classList.add('blank');return}
   const im=new Image();im.src=src(item);im.alt='';im.draggable=false;el.appendChild(im);
-  if(item>0){el.dataset.item=item;wordLayer(el,item);}
+  if(item>0){el.dataset.item=item;wordLayer(el,item);if(EDIT)drawLayer(el);}
 }
 function faceFill(el,item){el.innerHTML='';if(item>0||item===-1){const im=new Image();im.src=src(item);im.alt='';im.draggable=false;el.appendChild(im)}}
 const R=document.getElementById('R'),L=document.getElementById('L'),flip=document.getElementById('flip');
@@ -1486,6 +1580,7 @@ document.getElementById('bFirst').onclick=()=>show(0);
 // tap a word: translation; tap elsewhere on the page: turn the page
 let selEl=null;
 document.getElementById('book').addEventListener('click',e=>{
+  if(marking||e.target.closest('.mk'))return;
   const w=e.target.closest('.wd');
   if(w){openGloss(w);return}
   if(gl){closeGloss();return}
@@ -1527,19 +1622,21 @@ bFull.onclick=toggleFull;
 const fsSync=()=>{const on=!!fsOn();bFull.textContent=on?'✕':'⛶';bFull.setAttribute('aria-label',on?'Exit full screen':'Full screen')};
 document.addEventListener('fullscreenchange',fsSync);document.addEventListener('webkitfullscreenchange',fsSync);
 addEventListener('keydown',e=>{
-  if(e.target.closest('input,select,#text,.gl'))return;
+  if(e.target.closest('input,select,textarea,#text,.gl,.mpanel'))return;
   if(e.key==='ArrowRight'||e.key==='PageDown')go(1);
   else if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
   else if(e.key==='Home')show(0);
   else if(e.key==='End')show(spreadsCount()-1);
   else if(e.key==='f'||e.key==='F')toggleFull();
-  else if(e.key==='Escape')closeGloss();
+  else if(EDIT&&(e.key==='m'||e.key==='M'))setMarking(!marking);
+  else if(e.key==='Escape'){closeGloss();closePanel();setMarking(false);}
 });
 let tx=null;
-addEventListener('touchstart',e=>{tx=e.target.closest('.gl')?null:e.touches[0].clientX},{passive:true});
+addEventListener('touchstart',e=>{tx=marking||e.target.closest('.gl,.mpanel')?null:e.touches[0].clientX},{passive:true});
 addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);tx=null});
 function curPdf(){const s=spread(idx);return single?s.S:(s.L>0?s.L:s.R)}
 addEventListener('resize',()=>{const p=curPdf(),was=single;layout();if(was!==single)idx=(p>0)?toPdfIdx(p):0;render()});
+if(EDIT){const bm=document.getElementById('bMark'),bl=document.getElementById('bMarks');bm.hidden=false;bl.hidden=false;bm.onclick=()=>setMarking(!marking);bl.onclick=()=>panel?closePanel():openList();document.getElementById('mCount').textContent=MARKS.length;}
 layout();
 const hm=location.hash.match(/^#(\d+)(s?)$/);
 if(hm){const k=+hm[1];idx=(hm[2]==='s')===single?Math.min(k,spreadsCount()-1):0}
