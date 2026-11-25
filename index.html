@@ -114,6 +114,7 @@ body.single .half.L::after{display:none}
 <option value="231">&nbsp;&nbsp;פרק 42 · גם הורים טועים</option>
 <option value="237">&nbsp;&nbsp;פרק 43 · האם אני אוהב את הילד שלי, או את הילד שאני מקווה שהוא יהיה?</option>
   </select>
+  <button id="bFull" aria-label="מסך מלא" title="מסך מלא (F)">⛶</button>
   <label><span>עמוד </span><input id="jump" type="number" min="1" max="240" inputmode="numeric" aria-label="מעבר לעמוד"></label>
 </nav>
 <section id="text" class="sr" tabindex="-1" aria-label="הטקסט המלא של הספר">
@@ -1560,6 +1561,16 @@ function show(k){idx=k;render()}
 document.getElementById('bNext').onclick=()=>go(1);
 document.getElementById('bPrev').onclick=()=>go(-1);
 document.getElementById('bFirst').onclick=()=>show(0);
+const bFull=document.getElementById('bFull'), de=document.documentElement;
+const fsOn=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function toggleFull(){
+  if(fsOn()) (document.exitFullscreen||document.webkitExitFullscreen).call(document);
+  else (de.requestFullscreen||de.webkitRequestFullscreen).call(de);
+}
+if(!(document.fullscreenEnabled||document.webkitFullscreenEnabled)) bFull.style.display='none';
+bFull.onclick=toggleFull;
+const fsSync=()=>{const on=!!fsOn();bFull.textContent=on?'✕':'⛶';bFull.setAttribute('aria-label',on?'יציאה ממסך מלא':'מסך מלא');bFull.title=on?'יציאה ממסך מלא (F)':'מסך מלא (F)'};
+document.addEventListener('fullscreenchange',fsSync);document.addEventListener('webkitfullscreenchange',fsSync);
 document.getElementById('book').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();go(e.clientX<r.left+r.width/2?1:-1)});
 const jump=document.getElementById('jump');
 jump.addEventListener('change',()=>{const v=parseInt(jump.value);if(v)show(toPdfIdx(v+1));jump.blur()});
@@ -1571,6 +1582,7 @@ addEventListener('keydown',e=>{
   else if(e.key==='ArrowRight'||e.key==='PageUp')go(-1);
   else if(e.key==='Home')show(0);
   else if(e.key==='End')show(spreadsCount()-1);
+  else if(e.key==='f'||e.key==='F'||e.key==='כ')toggleFull();
 });
 let tx=null;
 addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
