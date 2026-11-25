@@ -1541,15 +1541,18 @@ function go(d){
   const front=flip.querySelector('.front'),back=flip.querySelector('.back');
   flip.style.transition='none';
   if(d>0){faceFill(front,cur.L);faceFill(back,nxt.R);fill(L,nxt.L);
-    flip.style.left=getComputedStyle(R).width;flip.style.transformOrigin='right center';
+    flip.style.left='0px';flip.style.transformOrigin='right center';
   }else{faceFill(front,cur.R);faceFill(back,nxt.L);fill(R,nxt.R);
-    flip.style.left='0px';flip.style.transformOrigin='left center';}
+    flip.style.left=getComputedStyle(L).width;flip.style.transformOrigin='left center';}
   front.style.background=(d>0?cur.L:cur.R)==null?'transparent':'';
   back.style.background=(d>0?nxt.R:nxt.L)==null?'transparent':'';
   flip.style.transform='rotateY(0deg)';flip.style.display='block';
   flip.getBoundingClientRect();
   flip.style.transition='transform '+DUR+'ms cubic-bezier(.45,.05,.35,1)';
   flip.style.transform=d>0?'rotateY(180deg)':'rotateY(-180deg)';
+  const ease={duration:DUR,easing:'cubic-bezier(.45,.05,.35,1)'};
+  front.animate([{filter:'brightness(1)'},{filter:'brightness(.78)'}],{...ease,duration:DUR/2,fill:'forwards'});
+  back.animate([{filter:'brightness(.78)'},{filter:'brightness(.78)',offset:.5},{filter:'brightness(1)'}],ease);
   setTimeout(()=>{idx=k;render();flip.style.display='none';busy=false},DUR+20);
 }
 function toPdfIdx(pdf){pdf=Math.max(1,Math.min(N,pdf));return single?pdf:(pdf%2===1?(pdf+1)/2:pdf/2+1)}
