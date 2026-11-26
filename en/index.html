@@ -155,6 +155,7 @@ body.marking .wd{pointer-events:none}
   <button id="bFull" aria-label="Full screen" title="Full screen (F)">⛶</button>
   <button id="bMark" hidden aria-pressed="false" title="סימון באדום (M)">✎ סמן</button>
   <button id="bMarks" hidden title="רשימת הסימונים">סימונים<span class="c" id="mCount">0</span></button>
+  <button id="bClr" hidden title="מחיקת כל הסימונים">מחק סימונים</button>
   <label><span>Page </span><input id="jump" type="number" min="1" max="288" inputmode="numeric" aria-label="Go to page"></label>
 </nav>
 <section id="text" class="sr" tabindex="-1" aria-label="Full text of the book">
@@ -1641,7 +1642,7 @@ addEventListener('touchstart',e=>{tx=marking||e.target.closest('.gl,.mpanel')?nu
 addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);tx=null});
 function curPdf(){const s=spread(idx);return single?s.S:(s.L>0?s.L:s.R)}
 addEventListener('resize',()=>{const p=curPdf(),was=single;layout();if(was!==single)idx=(p>0)?toPdfIdx(p):0;render()});
-if(EDIT){const bm=document.getElementById('bMark'),bl=document.getElementById('bMarks');bm.hidden=false;bl.hidden=false;bm.onclick=()=>setMarking(!marking);bl.onclick=()=>panel?closePanel():openList();document.getElementById('mCount').textContent=MARKS.length;}
+if(EDIT){const bm=document.getElementById('bMark'),bl=document.getElementById('bMarks');bm.hidden=false;bl.hidden=false;bm.onclick=()=>setMarking(!marking);bl.onclick=()=>panel?closePanel():openList();const bc=document.getElementById('bClr');bc.hidden=false;let bcT=0;bc.onclick=()=>{if(!MARKS.length)return;if(bc.dataset.s!=='1'){bc.dataset.s='1';bc.textContent='בטוח? לחץ שוב';clearTimeout(bcT);bcT=setTimeout(()=>{bc.dataset.s='';bc.textContent='מחק סימונים'},3000);return}clearTimeout(bcT);bc.dataset.s='';bc.textContent='מחק סימונים';MARKS=[];saveMarks();closePanel();refreshMarks()};document.getElementById('mCount').textContent=MARKS.length;}
 layout();
 const hm=location.hash.match(/^#(\d+)(s?)$/);
 if(hm){const k=+hm[1];idx=(hm[2]==='s')===single?Math.min(k,spreadsCount()-1):0}
