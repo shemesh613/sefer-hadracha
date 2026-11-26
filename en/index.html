@@ -1496,6 +1496,7 @@ function openList(){
   const s=MARKS.map((m,i)=>[m,i]).sort((a,b)=>a[0].pdf-b[0].pdf||a[0].y-b[0].y);
   if(!s.length){const e=document.createElement('p');e.className='muted';e.textContent='אין עדיין סימונים. לחץ "סמן" וגרור מלבן על הדף.';p.appendChild(e)}
   s.forEach(([m,i])=>{const it=document.createElement('div');it.className='it';const b=document.createElement('b');b.textContent=pageLabel(m.pdf);const sp=document.createElement('span');sp.textContent=m.note||'(בלי הערה)';it.append(b,sp);
+    const x=document.createElement('button');x.type='button';x.textContent='מחק';x.title='מחק את הסימון הזה';x.style.cssText='margin-inline-start:auto;flex:none;font:inherit;font-size:12px;padding:2px 10px;border:1px solid #e02424;color:#e02424;background:transparent;border-radius:12px;cursor:pointer';x.onclick=e=>{e.stopPropagation();MARKS=MARKS.filter(q=>q!==m);saveMarks();refreshMarks();closePanel();openList()};it.style.display='flex';it.style.alignItems='center';it.style.gap='8px';it.appendChild(x);
     it.onclick=()=>{closePanel();show(toPdfIdx(m.pdf))};p.appendChild(it)});
   const row=document.createElement('div');row.className='row';p.appendChild(row);
   const clr=mkBtn(row,'מחק הכול',()=>{if(clr.dataset.s!=='1'){clr.dataset.s='1';clr.textContent='בטוח? לחץ שוב';return}MARKS=[];saveMarks();closePanel();refreshMarks()});
